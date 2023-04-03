@@ -1,0 +1,153 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/bg_dangnhap"
+    android:focusableInTouchMode="true"
+    android:clickable="true"
+    android:focusable="true">
+
+    <androidx.cardview.widget.CardView
+        android:layout_width="@dimen/_270sdp"
+        android:layout_height="@dimen/_480sdp"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="@dimen/_40sdp"
+        app:cardBackgroundColor="#FFFFFF"
+        app:cardCornerRadius="25dp">
+
+        <TextView
+            android:id="@+id/textView1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/_10sdp"
+            android:layout_marginTop="@dimen/_60sdp"
+            android:text="Đăng ký"
+            android:textColor="#000000"
+            android:textSize="@dimen/_35sdp"
+            android:textStyle="bold" />
+
+        <RelativeLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/_150sdp">
+
+            <com.google.android.material.textview.MaterialTextView
+                android:id="@+id/tvdangnhap"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/_10sdp"
+                android:hint="Tên đăng nhập"
+                android:textColorHint="#808080"
+                android:textSize="@dimen/_15sdp" />
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/edt_username"
+                android:layout_width="@dimen/_260sdp"
+                android:layout_height="@dimen/_30sdp"
+                android:layout_below="@+id/tvdangnhap"
+                android:layout_marginLeft="@dimen/_10sdp"
+                android:layout_marginTop="@dimen/_3sdp"
+                android:layout_marginRight="@dimen/_10sdp"
+                android:layout_marginBottom="@dimen/_10sdp"
+                android:inputType="textVisiblePassword"
+                android:background="@drawable/bg_edittext"
+                android:hint="Nhập tài khoản"
+                android:paddingLeft="@dimen/_5sdp"
+                android:singleLine="true"
+                android:textColor="@color/black"
+                android:textColorHint="#808080"
+                android:textSize="@dimen/_16sdp" />
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/_230sdp">
+
+            <com.google.android.material.textview.MaterialTextView
+                android:id="@+id/tvmatkhau"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/_10sdp"
+                android:hint="Mật khẩu"
+                android:textColorHint="#808080"
+                android:textSize="@dimen/_15sdp" />
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:layout_width="@dimen/_260sdp"
+                android:layout_height="@dimen/_30sdp"
+                android:layout_below="@+id/tvmatkhau"
+                android:layout_marginLeft="@dimen/_10sdp"
+                android:layout_marginRight="@dimen/_10sdp"
+                android:layout_marginTop="@dimen/_3sdp"
+                android:background="@drawable/bg_edittext"
+                android:hint="Nhập mật khẩu"
+                android:password="true"
+                android:paddingLeft="@dimen/_5sdp"
+
+                android:singleLine="true"
+                android:textColor="@color/black"
+                android:textColorHint="#808080"
+                android:textSize="@dimen/_16sdp" />
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/_310sdp">
+
+            <com.google.android.material.textview.MaterialTextView
+                android:id="@+id/tvxacnhanmatkhau"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/_10sdp"
+                android:hint="Xác nhận mật khẩu"
+                android:textColorHint="#808080"
+                android:textSize="@dimen/_15sdp" />
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:layout_width="@dimen/_260sdp"
+                android:layout_height="@dimen/_30sdp"
+                android:layout_below="@+id/tvxacnhanmatkhau"
+                android:layout_marginLeft="@dimen/_10sdp"
+                android:layout_marginRight="@dimen/_10sdp"
+                android:layout_marginTop="@dimen/_3sdp"
+                android:background="@drawable/bg_edittext"
+                android:hint="Nhập lại mật khẩu"
+                android:password="true"
+                android:paddingLeft="@dimen/_5sdp"
+
+                android:singleLine="true"
+                android:textColor="@color/black"
+                android:textColorHint="#808080"
+                android:textSize="@dimen/_16sdp" />
+        </RelativeLayout>
+
+
+        <Button
+            android:id="@+id/btn_dangky"
+            android:layout_width="@dimen/_260sdp"
+            android:layout_height="wrap_content"
+            android:text="Đăng ký"
+            android:background="@drawable/bg_button"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginTop="@dimen/_400sdp"
+            />
+
+        <TextView
+            android:id="@+id/dacotaikhoan"
+            android:layout_gravity="center_horizontal|bottom"
+            android:layout_marginBottom="@dimen/_10sdp"
+            android:layout_marginRight="@dimen/_10sdp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/_10sdp"
+            android:layout_marginTop="@dimen/_290sdp"
+            android:text="Đã có tài khoản?"
+            android:textColor="@color/grey"
+            android:textSize="@dimen/_12sdp" />
+
+
+    </androidx.cardview.widget.CardView>
+</RelativeLayout>
