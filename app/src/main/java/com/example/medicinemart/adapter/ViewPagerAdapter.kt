@@ -7,14 +7,15 @@ import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.RelativeLayout
 import androidx.viewpager.widget.PagerAdapter
+import com.bumptech.glide.Glide
 import com.example.medicinemart.R
 import java.util.*
 
-class ViewPagerAdapter (val context: Context, val imageList: List<Int>) : PagerAdapter() {
+class ViewPagerAdapter (val context: Context, val imageURLList: List<String>) : PagerAdapter() {
     // on below line we are creating a method
     // as get count to return the size of the list.
     override fun getCount(): Int {
-        return imageList.size
+        return imageURLList.size
     }
 
     // on below line we are returning the object
@@ -40,7 +41,11 @@ class ViewPagerAdapter (val context: Context, val imageList: List<Int>) : PagerA
 
         // on below line we are setting
         // image resource for image view.
-        imageView.setImageResource(imageList.get(position))
+//        imageView.setImageResource(imageList.get(position))
+        Glide
+            .with(context)
+            .load(imageURLList.get(position))
+            .into(imageView)
 
         // on the below line we are adding this
         // item view to the container.

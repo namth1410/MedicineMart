@@ -1,3 +1,12 @@
 package com.example.medicinemart.models
 
-data class Sanpham(var ma:Int, var ten:String, var gia:Double, var mota: String, var hinhanh: Int)
+import java.io.Serializable
+
+data class Sanpham(
+    var id: Int,
+    var name: String,
+    var type: String,
+    var price: Int,
+    var describe: String,
+    var image: String,
+) : Serializable

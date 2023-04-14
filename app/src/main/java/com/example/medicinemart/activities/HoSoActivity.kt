@@ -22,7 +22,10 @@ class HoSoActivity : AppCompatActivity() {
                 R.id.thongbao -> {
                     // put your code here
                     val intent = Intent(this@HoSoActivity, ThongBaoActivity::class.java)
+//                    intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
+                    finishAffinity()
                     startActivity(intent)
+
                     overridePendingTransition(R.anim.no_animation,  R.anim.no_animation)
                     return@OnNavigationItemSelectedListener true
                 }
@@ -46,6 +49,13 @@ class HoSoActivity : AppCompatActivity() {
         }
 
         binding_ho_so.bottomNavigationView.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener)
+
+
+        binding_ho_so.tvTaikhoan.setOnClickListener() {
+            val intent = Intent(this@HoSoActivity, ThongTinTaiKhoanActivity::class.java)
+            startActivity(intent)
+            overridePendingTransition(R.anim.no_animation,  R.anim.no_animation)
+        }
 
     }
 

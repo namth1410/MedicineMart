@@ -1,0 +1,194 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:weightSum="1">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_marginBottom="@dimen/_10sdp"
+        android:layout_weight="0.05"
+        android:weightSum="2"
+        android:orientation="horizontal">
+
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/btn_back"
+            android:layout_weight="0.2"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:background="@color/white"
+            android:paddingLeft="@dimen/_10sdp"
+            android:drawableStart="@drawable/baseline_arrow_back_ios_24"/>
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1.6"
+            android:alpha="0"/>
+
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/btn_cart"
+            android:layout_weight="0.2"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:background="@color/white"
+            android:drawableEnd="@drawable/baseline_shopping_cart_24"
+            android:paddingRight="@dimen/_10sdp" />
+
+
+    </LinearLayout>
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="0.9"
+        android:fillViewport="true">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <ImageView
+                android:id="@+id/imageView"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/_200sdp"
+                android:src="@drawable/berberin" />
+
+            <!--        <View-->
+            <!--            android:id="@+id/line"-->
+            <!--            android:layout_width="match_parent"-->
+            <!--            android:layout_height="@dimen/_1sdp"-->
+            <!--            android:layout_marginTop="@dimen/_20sdp"-->
+            <!--            android:alpha="1"-->
+            <!--            android:background="@android:color/black"-->
+            <!--            />-->
+            <TextView
+                android:id="@+id/name"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:paddingLeft="@dimen/_10sdp"
+                android:paddingTop="@dimen/_10sdp"
+                android:paddingRight="@dimen/_10sdp"
+                android:text="Thuốc Ho Astemix"
+                android:textColor="@color/black"
+                android:textSize="@dimen/_20sdp" />
+
+            <TextView
+                android:id="@+id/price"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:paddingLeft="@dimen/_10sdp"
+                android:paddingTop="@dimen/_10sdp"
+                android:paddingRight="@dimen/_10sdp"
+                android:text="55,000đ"
+                android:textColor="@color/red"
+                android:textSize="@dimen/_16sdp" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:paddingLeft="@dimen/_10sdp"
+                android:paddingTop="@dimen/_10sdp"
+                android:paddingRight="@dimen/_10sdp">
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Thành phần"
+                    android:textSize="@dimen/_12sdp"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Mỗi 5 ml cao lỏng chứa các chất chiết được từ dược liệu tương đương: Hoạt chất: Húng chanh (Folium Plectranthi) ……… 2500 mg; Núc nac (Cortex Oroxyfum indicum) 625 mg; Cineol …… 4,415 mg\nTá dược: Vừa đủ. (Cremophor RH40, tween 80, đường trắng, natri benzoat, màu caramen, vanillin, nước tinh khiết)."
+                    android:textSize="@dimen/_10sdp" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:paddingLeft="@dimen/_10sdp"
+                android:paddingTop="@dimen/_10sdp"
+                android:paddingRight="@dimen/_10sdp">
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Liều dùng"
+                    android:textSize="@dimen/_12sdp"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Trẻ sơ sinh đến dưới 2 tuổi: Uống mỗi lần 2 ml – 5 ml, ngày uống 3 lần.\nTrẻ từ 2 tuổi đến 6 tuổi: Uống mỗi lần 5 ml – 10 ml, ngày uống 3 lần.\nTrẻ trên 6 tuổi: Uống mỗi lần 15 ml, ngày uống 3 lần.\nThuốc ho Astemix có sẵn các quy cách đóng gói: Ông (hoặc gói) 5 ml, 10 ml. Chai 30 ml, 60 ml, 90 ml, 100 ml, 120 ml, dong thuốc bằng cốc đong kèm theo.\nTùy theo độ tuổi của người bệnh và liều chỉ định của bác sĩ để lựa chọn sử dụng quy cách đóng gói phù hợp."
+                    android:textSize="@dimen/_10sdp" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:paddingLeft="@dimen/_10sdp"
+                android:paddingTop="@dimen/_10sdp"
+                android:paddingRight="@dimen/_10sdp">
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Liều dùng"
+                    android:textSize="@dimen/_12sdp"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Trẻ sơ sinh đến dưới 2 tuổi: Uống mỗi lần 2 ml – 5 ml, ngày uống 3 lần.\nTrẻ từ 2 tuổi đến 6 tuổi: Uống mỗi lần 5 ml – 10 ml, ngày uống 3 lần.\nTrẻ trên 6 tuổi: Uống mỗi lần 15 ml, ngày uống 3 lần.\nThuốc ho Astemix có sẵn các quy cách đóng gói: Ông (hoặc gói) 5 ml, 10 ml. Chai 30 ml, 60 ml, 90 ml, 100 ml, 120 ml, dong thuốc bằng cốc đong kèm theo.\nTùy theo độ tuổi của người bệnh và liều chỉ định của bác sĩ để lựa chọn sử dụng quy cách đóng gói phù hợp."
+                    android:textSize="@dimen/_10sdp" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:paddingLeft="@dimen/_10sdp"
+                android:paddingTop="@dimen/_10sdp"
+                android:paddingRight="@dimen/_10sdp">
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Liều dùng"
+                    android:textSize="@dimen/_12sdp"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Trẻ sơ sinh đến dưới 2 tuổi: Uống mỗi lần 2 ml – 5 ml, ngày uống 3 lần.\nTrẻ từ 2 tuổi đến 6 tuổi: Uống mỗi lần 5 ml – 10 ml, ngày uống 3 lần.\nTrẻ trên 6 tuổi: Uống mỗi lần 15 ml, ngày uống 3 lần.\nThuốc ho Astemix có sẵn các quy cách đóng gói: Ông (hoặc gói) 5 ml, 10 ml. Chai 30 ml, 60 ml, 90 ml, 100 ml, 120 ml, dong thuốc bằng cốc đong kèm theo.\nTùy theo độ tuổi của người bệnh và liều chỉ định của bác sĩ để lựa chọn sử dụng quy cách đóng gói phù hợp."
+                    android:textSize="@dimen/_10sdp" />
+
+            </LinearLayout>
+
+        </LinearLayout>
+    </ScrollView>
+
+    <androidx.appcompat.widget.AppCompatButton
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="0.05"
+        android:layout_gravity="bottom"
+        android:text="Thêm vào giỏ hàng"
+        android:textSize="@dimen/_10sdp"
+        android:background="@color/red"
+        />
+
+</LinearLayout>
+

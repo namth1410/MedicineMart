@@ -132,7 +132,7 @@ class DonHangActivity : AppCompatActivity(), View.OnClickListener {
             }
         }
         val adapterDonhang = DonHangAdapter(this, list)
-        val test = Sanpham(1, "Thuốc đi ỉa", 20.02, "cho những thằng tên Tuyển", 1)
+        val test = Sanpham(1, "Thuốc đi ỉa", "Xương khớp",20, "cho những thằng tên Tuyển", "as")
         list.clear()
         list.add(test)
         list.add(test)

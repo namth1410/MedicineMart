@@ -21,8 +21,8 @@ class DonHangAdapter(private val context: Activity, private val arraylist: Array
         val mota : TextView = view.findViewById(R.id.mota)
 
         //imageView.setImageResource(arraylist[position].imageId)
-        ten.text = arraylist[position].ten
-        mota.text = arraylist[position].mota
+        ten.text = arraylist[position].name
+        mota.text = arraylist[position].describe
 
         return view
     }
