@@ -92,15 +92,15 @@
 
         <TextView
             android:id="@+id/chuacotaikhoan"
-            android:layout_gravity="right"
-            android:layout_marginRight="@dimen/_10sdp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_gravity="right"
             android:layout_marginLeft="@dimen/_10sdp"
             android:layout_marginTop="@dimen/_290sdp"
+            android:layout_marginRight="@dimen/_10sdp"
             android:text="Chưa có tài khoản?"
-            android:textSize="@dimen/_12sdp"
-            android:textColor="@color/grey"/>
+            android:textColor="@color/grey"
+            android:textSize="@dimen/_12sdp" />
 
         <Button
             android:id="@+id/btn_dangnhap"
@@ -111,6 +111,12 @@
             android:layout_gravity="center_horizontal"
             android:layout_marginTop="@dimen/_370sdp"
             />
+
+        <Button
+            android:id="@+id/button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Admin Log" />
 
     </androidx.cardview.widget.CardView>
 </RelativeLayout>

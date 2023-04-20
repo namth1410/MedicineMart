@@ -35,6 +35,13 @@ class DangNhapActivity : AppCompatActivity() {
                 finish()
             //}
         }
+
+        binding_dang_nhap.button.setOnClickListener {
+            val intent = Intent(this@DangNhapActivity, TrangChuAdActivity::class.java)
+            startActivity(intent)
+            Animatoo.animateSwipeLeft(this)
+            finish()
+        }
     }
 
 

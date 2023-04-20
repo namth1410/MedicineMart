@@ -3,43 +3,43 @@ package com.example.medicinemart.activities
 import android.content.Intent
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
-import com.bumptech.glide.Glide
+import androidx.viewpager.widget.ViewPager
 import com.example.medicinemart.R
-import com.example.medicinemart.databinding.ThongbaoBinding
+import com.example.medicinemart.adapter.ViewPagerAdapter
+import com.example.medicinemart.databinding.TrangchuadminBinding
 import com.google.android.material.bottomnavigation.BottomNavigationView
 
-private lateinit var binding_thong_bao: ThongbaoBinding
+private lateinit var binding_trang_chu_ad: TrangchuadminBinding
+private lateinit var viewPagerAdapter: ViewPagerAdapter
+private lateinit var viewPager: ViewPager
+private lateinit var imageList: List<Int>
 
-
-class ThongBaoActivity : AppCompatActivity() {
+class TrangChuAdActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        binding_thong_bao = ThongbaoBinding.inflate(layoutInflater)
-        setContentView(binding_thong_bao.root)
+        binding_trang_chu_ad = TrangchuadminBinding.inflate(layoutInflater)
+        setContentView(binding_trang_chu_ad.root)
 
-
-
-        binding_thong_bao.bottomNavigationView.setSelectedItemId(R.id.thongbao)
+        binding_trang_chu_ad.bottomNavigationView.setSelectedItemId(R.id.home)
         val mOnNavigationItemSelectedListener = BottomNavigationView.OnNavigationItemSelectedListener { item ->
             when (item.itemId) {
-                R.id.hoso -> {
+                R.id.chat -> {
                     // put your code here
-                    val intent = Intent(this@ThongBaoActivity, HoSoActivity::class.java)
+                    val intent = Intent(this@TrangChuAdActivity, ChatAdActivity::class.java)
                     startActivity(intent)
                     overridePendingTransition(R.anim.no_animation,  R.anim.no_animation)
                     return@OnNavigationItemSelectedListener true
                 }
-
-                R.id.donhang -> {
+                R.id.thongke -> {
                     // put your code here
-                    val intent = Intent(this@ThongBaoActivity, DonHangActivity::class.java)
+                    val intent = Intent(this@TrangChuAdActivity, ThongKeAdActivity::class.java)
                     startActivity(intent)
                     overridePendingTransition(R.anim.no_animation,  R.anim.no_animation)
                     return@OnNavigationItemSelectedListener true
                 }
-                R.id.home -> {
+                R.id.chucnang -> {
                     // put your code here
-                    val intent = Intent(this@ThongBaoActivity, TrangChuActivity::class.java)
+                    val intent = Intent(this@TrangChuAdActivity, ChucNangAdActivity::class.java)
                     startActivity(intent)
                     overridePendingTransition(R.anim.no_animation,  R.anim.no_animation)
                     return@OnNavigationItemSelectedListener true
@@ -48,14 +48,8 @@ class ThongBaoActivity : AppCompatActivity() {
             false
         }
 
-        binding_thong_bao.bottomNavigationView.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener)
-
-        Glide
-            .with(this)
-            .load("https://media.thuonghieucongluan.vn/uploads/2022/10/26/moc-tri-hoa-1-1666738910.jpg")
-            .into(binding_thong_bao.img)
+        binding_trang_chu_ad.bottomNavigationView.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener)
 
     }
-
 
 }

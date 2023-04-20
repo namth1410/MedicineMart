@@ -22,9 +22,15 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="@dimen/_20sdp"
+<<<<<<< Updated upstream
             android:layout_marginTop="@dimen/_10sdp"
             android:background="@drawable/shapebgsearch"
             android:layout_weight="0.8"
+=======
+            android:layout_marginTop="@dimen/_50sdp"
+            android:layout_weight="0.8"
+            android:background="@drawable/bg_edittext"
+>>>>>>> Stashed changes
             android:iconifiedByDefault="false"
             android:inputType="textVisiblePassword"
             android:queryBackground="@null"

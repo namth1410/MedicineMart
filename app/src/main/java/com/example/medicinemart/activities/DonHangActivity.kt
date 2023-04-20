@@ -4,7 +4,6 @@ import android.content.Intent
 import android.graphics.Color
 import android.os.Bundle
 import android.view.View
-import android.widget.LinearLayout
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.AppCompatButton
 import com.example.medicinemart.R
@@ -12,8 +11,6 @@ import com.example.medicinemart.adapter.DonHangAdapter
 import com.example.medicinemart.models.Sanpham
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.example.medicinemart.databinding.DonhangBinding
-import java.util.Objects
-import kotlin.reflect.typeOf
 
 private lateinit var binding_don_hang: DonhangBinding
 

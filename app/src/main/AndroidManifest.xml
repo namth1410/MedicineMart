@@ -32,9 +32,21 @@
         <activity android:name=".activities.ThongBaoActivity"/>
         <activity android:name=".activities.DonHangActivity"/>
         <activity android:name=".activities.HoSoActivity"/>
+<<<<<<< Updated upstream
         <activity android:name=".activities.CartActivity"/>
         <activity android:name=".activities.ChiTietSanPhamActivity"/>
         <activity android:name=".activities.ThongTinTaiKhoanActivity"/>
+=======
+        <activity android:name=".activities.TrangChuAdActivity" android:windowSoftInputMode="adjustPan"/>
+        <activity android:name=".activities.ChatAdActivity"/>
+        <activity android:name=".activities.ThongKeAdActivity"/>
+        <activity android:name=".activities.ChucNangAdActivity"/>
+        <activity android:name=".activities.ThemSpActivity"/>
+        <activity android:name=".activities.XoaSpActivity"/>
+        <activity android:name=".activities.SuaSpActivity"/>
+        <activity android:name=".activities.QuanLyKhachHangActivity"/>
+
+>>>>>>> Stashed changes
     </application>
 
 </manifest>
