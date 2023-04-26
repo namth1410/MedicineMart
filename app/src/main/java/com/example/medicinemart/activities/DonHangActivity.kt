@@ -7,11 +7,21 @@ import android.view.View
 import android.widget.LinearLayout
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.AppCompatButton
+import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.medicinemart.R
 import com.example.medicinemart.adapter.DonHangAdapter
+import com.example.medicinemart.adapter.OnItemClickListener
+import com.example.medicinemart.adapter.RecycleViewHomeAdapter
+import com.example.medicinemart.adapter.RecycleViewOrderAdapter
 import com.example.medicinemart.models.Sanpham
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.example.medicinemart.databinding.DonhangBinding
+import com.example.medicinemart.retrofit.RetrofitClient
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.async
+import kotlinx.coroutines.launch
+import java.io.Serializable
 import java.util.Objects
 import kotlin.reflect.typeOf
 
@@ -22,7 +32,42 @@ var donHangDangGiaoItemList = ArrayList<Sanpham>()
 var donHangDaGiaoItemList = ArrayList<Sanpham>()
 var donHangDaHuyItemList = ArrayList<Sanpham>()
 
+var quantity_product_in_order = ArrayList<Int>()
 
+
+fun loadDataDonhang() {
+    GlobalScope.launch(Dispatchers.Main) {
+        donHangChoXacNhanItemList.clear()
+        donHangDangGiaoItemList.clear()
+        donHangDaGiaoItemList.clear()
+        donHangDaHuyItemList.clear()
+        val getOrder = async { RetrofitClient.viewPagerApi.getOrder(1, "All") }
+        val res_getOrder = getOrder.await().body()
+        for (i in res_getOrder!!) {
+            val id = i.getAsJsonPrimitive("id").asInt
+            val name = i.getAsJsonPrimitive("name").toString()
+            val type = i.getAsJsonPrimitive("type").toString()
+            val price = i.getAsJsonPrimitive("price").asInt
+            val describe = i.getAsJsonPrimitive("describe").toString()
+            val image = i.getAsJsonPrimitive("image").toString()
+            var status = i.getAsJsonPrimitive("status").toString()
+            status = status.substring(1, status.length - 1)
+            val tmp = Sanpham(id, name, type, price, describe, image)
+            println(status)
+            if (status == "Chờ xác nhận") {
+                donHangChoXacNhanItemList.add(tmp)
+            } else if (status == "Đang giao") {
+                donHangDangGiaoItemList.add(tmp)
+            } else if (status == "Đã giao") {
+                donHangDaGiaoItemList.add(tmp)
+            } else if (status == "Đã hủy") {
+                donHangDaHuyItemList.add(tmp)
+            }
+            quantity_product_in_order.add(i.getAsJsonPrimitive("quantity").asInt)
+        }
+        println("donhang " + donHangChoXacNhanItemList)
+    }
+}
 
 class DonHangActivity : AppCompatActivity(), View.OnClickListener {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -83,6 +128,7 @@ class DonHangActivity : AppCompatActivity(), View.OnClickListener {
         }
 
         binding_don_hang.btnChoXacNhan.performClick()
+        handlerData(binding_don_hang.btnChoXacNhan)
 
     }
 
@@ -93,11 +139,11 @@ class DonHangActivity : AppCompatActivity(), View.OnClickListener {
     fun checkList(list: ArrayList<Sanpham>) {
         if (list.isEmpty()) {
             binding_don_hang.layoutEmpty.visibility = View.VISIBLE
-            binding_don_hang.listview.visibility = View.INVISIBLE
+            binding_don_hang.recyclerView.visibility = View.INVISIBLE
 
         } else {
             binding_don_hang.layoutEmpty.visibility = View.INVISIBLE
-            binding_don_hang.listview.visibility = View.VISIBLE
+            binding_don_hang.recyclerView.visibility = View.VISIBLE
         }
     }
 
@@ -131,18 +177,24 @@ class DonHangActivity : AppCompatActivity(), View.OnClickListener {
                 list = donHangDaHuyItemList
             }
         }
-        val adapterDonhang = DonHangAdapter(this, list)
-        val test = Sanpham(1, "Thuốc đi ỉa", "Xương khớp",20, "cho những thằng tên Tuyển", "as")
-        list.clear()
-        list.add(test)
-        list.add(test)
-        list.add(test)
-        list.add(test)
-        list.add(test)
-        list.add(test)
-        list.add(test)
-        checkList(list)
-        binding_don_hang.listview.adapter = adapterDonhang
+        println(list)
+        val adapterRecyclerOrder = RecycleViewOrderAdapter(list, quantity_product_in_order, this, object :
+            OnItemClickListener {
+            override fun onItemClick(position: Int) {
+                println("Mày vừa click vào item đúng không?")
+            }
+        })
+        binding_don_hang.recyclerView.layoutManager = LinearLayoutManager(this)
+
+        val VerticalLayout = LinearLayoutManager(
+            this,
+            LinearLayoutManager.VERTICAL,
+            false
+        )
+        binding_don_hang.recyclerView.setLayoutManager(VerticalLayout)
+        binding_don_hang.recyclerView.adapter = adapterRecyclerOrder
+
+
     }
 
 }

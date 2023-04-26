@@ -16,6 +16,8 @@ class HoSoActivity : AppCompatActivity() {
         binding_ho_so = HosoBinding.inflate(layoutInflater)
         setContentView(binding_ho_so.root)
 
+        binding_ho_so.tvFullname.text = customer.full_name
+
         binding_ho_so.bottomNavigationView.setSelectedItemId(R.id.hoso)
         val mOnNavigationItemSelectedListener = BottomNavigationView.OnNavigationItemSelectedListener { item ->
             when (item.itemId) {

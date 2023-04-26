@@ -8,5 +8,5 @@ data class Sanpham(
     var type: String,
     var price: Int,
     var describe: String,
-    var image: String,
+    var image: String
 ) : Serializable

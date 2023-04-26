@@ -1,60 +1,117 @@
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    android:orientation="vertical"
-    android:weightSum="1">
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
 
     <LinearLayout
+        android:id="@+id/top_bar"
         android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_marginBottom="@dimen/_10sdp"
-        android:layout_weight="0.05"
-        android:weightSum="2"
-        android:orientation="horizontal">
+        android:layout_height="wrap_content"
+        android:background="@color/blue"
+        android:orientation="horizontal"
+        android:weightSum="2">
 
         <androidx.appcompat.widget.AppCompatButton
             android:id="@+id/btn_back"
-            android:layout_weight="0.2"
             android:layout_width="0dp"
             android:layout_height="match_parent"
-            android:background="@color/white"
-            android:paddingLeft="@dimen/_10sdp"
-            android:drawableStart="@drawable/baseline_arrow_back_ios_24"/>
+            android:layout_weight="0.2"
+            android:background="@color/blue"
+            android:drawableStart="@drawable/baseline_arrow_back_ios_24"
+            android:paddingLeft="@dimen/_10sdp" />
+
         <TextView
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_weight="1.6"
-            android:alpha="0"/>
+            android:alpha="0" />
 
         <androidx.appcompat.widget.AppCompatButton
-            android:layout_weight="0.2"
             android:layout_width="0dp"
             android:layout_height="match_parent"
-            android:background="@color/white"
+            android:layout_weight="0.2"
+            android:background="@color/blue"
             android:paddingRight="@dimen/_10sdp" />
 
 
     </LinearLayout>
 
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/recyclerView"
-        android:layout_weight="0.9"
+    <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
+        android:id="@+id/swipeContainer"
         android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:scrollbars="none"
-        tools:itemCount="5"
-        tools:listitem="@layout/item_cart" />
+        android:layout_height="match_parent"
+        android:layout_above="@+id/bottom_bar"
+        android:layout_below="@+id/top_bar">
 
-    <androidx.appcompat.widget.AppCompatButton
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/recyclerView"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_above="@+id/btn_muahang"
+            android:layout_below="@+id/top_bar"
+            android:scrollbars="none"
+            tools:itemCount="5"
+            tools:listitem="@layout/item_cart" />
+
+    </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
+
+
+    <LinearLayout
+        android:id="@+id/bottom_bar"
         android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="0.05"
-        android:layout_gravity="bottom"
-        android:text="Thêm vào giỏ hàng"
-        android:textSize="@dimen/_10sdp"
-        android:background="@color/red"
-        />
+        android:layout_height="@dimen/_40sdp"
+        android:layout_alignParentBottom="true"
+        android:background="@color/white"
+        android:orientation="horizontal"
+        android:weightSum="10">
 
-</LinearLayout>
+        <androidx.appcompat.widget.AppCompatCheckBox
+            android:id="@+id/allCheckBox"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_gravity="center_vertical"
+            android:layout_weight="2"
+            android:text="Tất cả"
+            android:textSize="@dimen/_10sdp" />
+
+        <RelativeLayout
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="5">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_toLeftOf="@+id/total_price"
+                android:layout_centerVertical="true"
+                android:text="Thành tiền: "
+                android:textColor="@color/black"
+                android:textSize="@dimen/_15sdp" />
+
+            <TextView
+                android:id="@+id/total_price"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:paddingRight="@dimen/_5sdp"
+                android:layout_alignParentRight="true"
+                android:layout_centerVertical="true"
+                android:text="20.000đ"
+                android:textColor="@color/red"
+                android:textSize="@dimen/_15sdp" />
+        </RelativeLayout>
+
+
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/btn_muahang"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_gravity="end"
+            android:layout_weight="3"
+            android:background="@color/red"
+            android:text="Mua hàng"
+            android:textSize="@dimen/_10sdp" />
+    </LinearLayout>
+
+
+</RelativeLayout>
 

@@ -14,6 +14,12 @@
         android:orientation="horizontal"
         android:weightSum="10"
         android:padding="5dp">
+        <androidx.appcompat.widget.AppCompatCheckBox
+            android:id="@+id/checkBox"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:layout_weight="1"/>
 
         <ImageView
             android:id="@+id/imageview"
@@ -24,7 +30,7 @@
 
 
         <LinearLayout
-            android:layout_weight="7"
+            android:layout_weight="6"
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:weightSum="1"
@@ -39,7 +45,7 @@
                 android:textColor="@color/black"
                 android:maxLines="3"
                 android:ellipsize="end"
-                android:textSize="@dimen/_20sdp"
+                android:textSize="@dimen/_15sdp"
                 android:textStyle="bold" />
 
             <LinearLayout
@@ -96,10 +102,6 @@
             </LinearLayout>
 
         </LinearLayout>
-
-
-
-
     </LinearLayout>
 
 </androidx.cardview.widget.CardView>

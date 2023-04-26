@@ -16,13 +16,10 @@ class DonHangAdapter(private val context: Activity, private val arraylist: Array
     override fun getView(position: Int, convertView: View?, parent: ViewGroup): View {
         val inflater : LayoutInflater = LayoutInflater.from(context)
         val view: View = inflater.inflate(R.layout.donhang_item, parent, false)
-        val imageView: ImageView = view.findViewById(R.id.image)
         val ten : TextView = view.findViewById(R.id.name)
-        val mota : TextView = view.findViewById(R.id.mota)
 
         //imageView.setImageResource(arraylist[position].imageId)
         ten.text = arraylist[position].name
-        mota.text = arraylist[position].describe
 
         return view
     }
