@@ -1,18 +1,17 @@
 package com.example.medicinemart.activities
 
 import android.annotation.SuppressLint
-import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import android.view.MotionEvent
 import android.view.View
-import android.view.inputmethod.InputMethodManager
 import android.widget.*
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.GridLayoutManager
 import com.example.medicinemart.R
 import com.example.medicinemart.adapter.OnItemClickListener
 import com.example.medicinemart.adapter.RecycleViewSearchAdapter
+import com.example.medicinemart.common.Info
 import com.example.medicinemart.databinding.SearchBinding
 import com.example.medicinemart.models.Sanpham
 import java.io.Serializable
@@ -23,7 +22,7 @@ val priceComparator = Comparator<Sanpham> { item1, item2 ->
     item1.price.compareTo(item2.price)
 }
 
-var productSearchList = ArrayList<Sanpham>(siroHoThaoDuoc)
+var productSearchList = ArrayList<Sanpham>()
 var productSearchListCopy = ArrayList<Sanpham>(productSearchList)
 
 
@@ -35,7 +34,8 @@ class SearchActivity : AppCompatActivity(), AdapterView.OnItemSelectedListener {
         setContentView(binding_search.root)
         val text_search = intent.getStringExtra("text_search")
         binding_search.searchView.setQuery(text_search, false)
-
+        productSearchListCopy.addAll(productSearchList)
+//        productSearchList.clear()
         //xử lý nút quay lại
         binding_search.btnBack.setOnClickListener {
             onBackPressed()
@@ -72,12 +72,14 @@ class SearchActivity : AppCompatActivity(), AdapterView.OnItemSelectedListener {
             }
         }
 
+
+
         // Xử lý adapter cho RecycleView
         val adapterRecyclerSearch = RecycleViewSearchAdapter(productSearchList, this, object :
             OnItemClickListener {
             override fun onItemClick(position: Int) {
                 val intent = Intent(this@SearchActivity, ChiTietSanPhamActivity::class.java)
-                intent.putExtra("item", siroHoThaoDuoc.get(position) as Serializable)
+                intent.putExtra("item", productSearchList.get(position) as Serializable)
 
                 startActivity(intent)
                 overridePendingTransition(R.anim.no_animation, R.anim.no_animation)
@@ -90,11 +92,17 @@ class SearchActivity : AppCompatActivity(), AdapterView.OnItemSelectedListener {
         binding_search.recyclerView.adapter = adapterRecyclerSearch
         // --
 
+        for (product in Info.all_product) {
+            if (product.name.contains(text_search.toString(), true)) {
+                productSearchList.add(product)
+                println(product.name)
+                binding_search.recyclerView.adapter?.notifyDataSetChanged()
+            }
+        }
+
         // Xử lý sự kiện khi bấm vào giỏ hàng
         binding_search.btnCart.setOnClickListener() {
             val intent = Intent(this, CartActivity::class.java)
-            loadDataCart()
-
             startActivity(intent)
             overridePendingTransition(R.anim.no_animation, R.anim.no_animation)
         }
@@ -104,12 +112,32 @@ class SearchActivity : AppCompatActivity(), AdapterView.OnItemSelectedListener {
             override fun onQueryTextSubmit(query: String?): Boolean {
                 // Xử lý khi người dùng nhấn nút tìm kiếm
 
+                productSearchList.clear()
+                for (product in Info.all_product) {
+                    val originalString = product.name
+                    val nonAccentString = originalString.removeAccent()
+                    if (nonAccentString.contains(query.toString(), true)) {
+                        productSearchList.add(product)
+                        println(product.name)
+                    }
+                }
+                binding_search.recyclerView.adapter?.notifyDataSetChanged()
                 return false
             }
 
             override fun onQueryTextChange(newText: String?): Boolean {
                 // Xử lý khi người dùng thay đổi nội dung tìm kiếm
                 println(newText)
+                productSearchList.clear()
+                for (product in Info.all_product) {
+                    val originalString = product.name
+                    val nonAccentString = originalString.removeAccent()
+                    if (nonAccentString.contains(newText.toString(), true)) {
+                        productSearchList.add(product)
+                        println(product.name)
+                    }
+                }
+                binding_search.recyclerView.adapter?.notifyDataSetChanged()
                 return false
             }
         })

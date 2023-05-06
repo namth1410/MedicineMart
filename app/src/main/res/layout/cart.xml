@@ -7,7 +7,7 @@
         android:id="@+id/top_bar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@color/blue"
+        android:background="@color/white"
         android:orientation="horizontal"
         android:weightSum="2">
 
@@ -16,7 +16,7 @@
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_weight="0.2"
-            android:background="@color/blue"
+            android:background="@color/white"
             android:drawableStart="@drawable/baseline_arrow_back_ios_24"
             android:paddingLeft="@dimen/_10sdp" />
 
@@ -24,13 +24,17 @@
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_weight="1.6"
-            android:alpha="0" />
+            android:text="Giỏ hàng"
+            android:textColor="@color/black"
+            android:gravity="center"
+            android:textSize="@dimen/_20sdp"
+            android:alpha="1" />
 
         <androidx.appcompat.widget.AppCompatButton
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_weight="0.2"
-            android:background="@color/blue"
+            android:background="@color/white"
             android:paddingRight="@dimen/_10sdp" />
 
 
@@ -95,7 +99,7 @@
                 android:paddingRight="@dimen/_5sdp"
                 android:layout_alignParentRight="true"
                 android:layout_centerVertical="true"
-                android:text="20.000đ"
+                android:text="0đ"
                 android:textColor="@color/red"
                 android:textSize="@dimen/_15sdp" />
         </RelativeLayout>
@@ -112,6 +116,29 @@
             android:textSize="@dimen/_10sdp" />
     </LinearLayout>
 
+    <LinearLayout
+        android:id="@+id/layoutEmpty"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/top_bar"
+        android:layout_marginTop="@dimen/_50sdp"
+        android:orientation="vertical"
+        android:visibility="invisible">
+
+        <ImageView
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/_200sdp"
+            android:src="@drawable/cart_empty" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center_horizontal"
+            android:text="Giỏ hàng rỗng."
+            android:textColor="@color/black"
+            android:textSize="@dimen/_20sdp" />
+
+    </LinearLayout>
 
 </RelativeLayout>
 

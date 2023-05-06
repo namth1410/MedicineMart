@@ -13,9 +13,16 @@ import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.example.medicinemart.R
-import com.example.medicinemart.activities.loadDataCart
-import com.example.medicinemart.activities.reloadCartRecycleView
+import com.example.medicinemart.activities.binding_gio_hang
+import com.example.medicinemart.activities.checkList
 import com.example.medicinemart.activities.total_price
+import com.example.medicinemart.common.Info
+import com.example.medicinemart.common.Info.customer
+import com.example.medicinemart.common.Info.product_to_pay
+import com.example.medicinemart.common.Info.products_in_cart
+import com.example.medicinemart.common.Info.quantity_product_in_cart
+import com.example.medicinemart.common.Info.quantity_product_to_pay
+import com.example.medicinemart.common.Info.total_products_checcked_in_cart
 import com.example.medicinemart.models.Sanpham
 import com.example.medicinemart.retrofit.RetrofitClient.viewPagerApi
 import okhttp3.ResponseBody
@@ -25,8 +32,19 @@ import retrofit2.Response
 import java.text.DecimalFormat
 import java.text.NumberFormat
 
+interface OnCheckedChangeListener {
+    fun onCheckedChanged(totalPrice: Int)
+}
 
-class RecycleViewCartAdapter (private val mList: List<Sanpham>, private val quantity_array: List<Int>, private  val context: Context, private val listener: OnItemClickListener) : RecyclerView.Adapter<RecycleViewCartAdapter.ViewHolder>(){
+interface OnItemInteractionListener : OnItemClickListener, OnCheckedChangeListener
+
+
+class RecycleViewCartAdapter(
+    private val mList: List<Sanpham>,
+    private val quantity_array: List<Int>,
+    private val context: Context,
+    private val listener: OnItemClickListener
+) : RecyclerView.Adapter<RecycleViewCartAdapter.ViewHolder>() {
 
     // create new views
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
@@ -55,31 +73,75 @@ class RecycleViewCartAdapter (private val mList: List<Sanpham>, private val quan
             listener.onItemClick(position)
         }
 
-        checkBox.setOnClickListener() {
-            if (checkBox.isChecked) {
-                total_price += ItemsViewModel.price * quantity_item
-            } else {
-                total_price -= ItemsViewModel.price * quantity_item
+        if (binding_gio_hang.allCheckBox.isChecked) {
+            checkBox.isChecked = true
+            product_to_pay.clear()
+            product_to_pay.addAll(products_in_cart)
+            quantity_product_to_pay.clear()
+            quantity_product_to_pay.addAll(quantity_product_in_cart)
+        } else {
+            if (total_products_checcked_in_cart == 0) {
+                checkBox.isChecked = false
+                product_to_pay.clear()
+                quantity_product_to_pay.clear()
             }
         }
 
+        checkBox.setOnClickListener() {
+            if (total_products_checcked_in_cart == 0) {
+                total_price = 0
+            }
+            if (checkBox.isChecked) {
+                total_price += ItemsViewModel.price * quantity_product_in_cart.get(position)
+                total_products_checcked_in_cart++
+                product_to_pay.add(ItemsViewModel)
+                quantity_product_to_pay.add(quantity_product_in_cart.get(position))
+                if (total_products_checcked_in_cart == products_in_cart.size) {
+                    binding_gio_hang.allCheckBox.isChecked = true
+                }
+            } else {
+                total_price -= ItemsViewModel.price * quantity_product_in_cart.get(position)
+                if (total_products_checcked_in_cart == products_in_cart.size) {
+                    binding_gio_hang.allCheckBox.isChecked = false
+                }
+                quantity_product_to_pay.removeAt(product_to_pay.indexOf(ItemsViewModel))
+                product_to_pay.remove(ItemsViewModel)
+                total_products_checcked_in_cart--
+            }
+            println(total_price)
+            val formatter: NumberFormat = DecimalFormat("#,###")
+            binding_gio_hang.totalPrice.text = formatter.format(total_price) + "đ"
+        }
+
         holder.itemView.findViewById<Button>(R.id.btn_sub).setOnClickListener() {
-            (quantity.text).toString().toInt()
+//            (quantity.text).toString().toInt()
 
             if ((quantity.text).toString().toInt() == 1) {
                 val dialogBuilder = AlertDialog.Builder(context)
                     .setMessage("Bạn chắc chắn muốn bỏ sản phẩm này?")
                     .setPositiveButton("Yes") { _, _ ->
                         // Xử lý khi người dùng chọn Yes
-                        reloadCartRecycleView()
-                        val call = viewPagerApi.deleteProductInCart(1, ItemsViewModel.id)
+//                        reloadCartRecycleView()
+                        val call = viewPagerApi.deleteProductInCart(customer.id, ItemsViewModel.id)
                         call.enqueue(object : Callback<Void> {
                             override fun onResponse(call: Call<Void>, response: Response<Void>) {
                                 if (response.isSuccessful) {
                                     // Xóa thành công
                                     println("Xoa ok")
-                                    reloadCartRecycleView()
-                                    loadDataCart()
+                                    products_in_cart.removeAt(position)
+                                    quantity_product_in_cart.removeAt(position)
+                                    if (checkBox.isChecked) {
+                                        total_price -= ItemsViewModel.price
+                                        checkBox.isChecked = false
+                                    }
+                                    if (products_in_cart.isEmpty()) {
+                                        binding_gio_hang.allCheckBox.isChecked = false
+                                        checkList(products_in_cart)
+                                    }
+                                    binding_gio_hang.recyclerView.adapter?.notifyDataSetChanged()
+                                    val formatter: NumberFormat = DecimalFormat("#,###")
+                                    binding_gio_hang.totalPrice.text =
+                                        formatter.format(total_price) + "đ"
                                 } else {
                                     // Xóa không thành công
                                 }
@@ -92,15 +154,31 @@ class RecycleViewCartAdapter (private val mList: List<Sanpham>, private val quan
                     }
                     .setNegativeButton("No") { _, _ ->
                         // Xử lý khi người dùng chọn No
-                        println("no")
                     }.create()
 
                 dialogBuilder.show()
             } else {
                 quantity.text = ((quantity.text).toString().toInt() - 1).toString()
-                val call = viewPagerApi.updateQuantity(1, ItemsViewModel.id, (quantity.text).toString().toInt())
+                var currentQuantity = quantity_product_in_cart.get(position)
+                currentQuantity -= 1
+                quantity_product_in_cart.set(position, currentQuantity)
+                if (checkBox.isChecked) {
+                    total_price -= ItemsViewModel.price
+                    val formatter: NumberFormat = DecimalFormat("#,###")
+                    binding_gio_hang.totalPrice.text = formatter.format(total_price) + "đ"
+                    val i = product_to_pay.indexOf(ItemsViewModel)
+                    quantity_product_to_pay.set(i, quantity_product_to_pay.get(i) - 1)
+                }
+                val call = viewPagerApi.updateQuantity(
+                    customer.id,
+                    ItemsViewModel.id,
+                    (quantity.text).toString().toInt()
+                )
                 call.enqueue(object : Callback<ResponseBody> {
-                    override fun onResponse(call: Call<ResponseBody>, response: Response<ResponseBody>) {
+                    override fun onResponse(
+                        call: Call<ResponseBody>,
+                        response: Response<ResponseBody>
+                    ) {
                         // Xử lý kết quả trả về từ API nếu cần
                     }
 
@@ -108,17 +186,32 @@ class RecycleViewCartAdapter (private val mList: List<Sanpham>, private val quan
                         // Xử lý lỗi nếu có
                     }
                 })
-                loadDataCart()
             }
         }
 
         holder.itemView.findViewById<Button>(R.id.btn_sum).setOnClickListener() {
             (quantity.text).toString().toInt()
             quantity.text = ((quantity.text).toString().toInt() + 1).toString()
-
-            val call = viewPagerApi.updateQuantity(1, ItemsViewModel.id, (quantity.text).toString().toInt())
+            var currentQuantity = Info.quantity_product_in_cart.get(position)
+            currentQuantity += 1
+            quantity_product_in_cart.set(position, currentQuantity)
+            if (checkBox.isChecked) {
+                total_price += ItemsViewModel.price
+                val formatter: NumberFormat = DecimalFormat("#,###")
+                binding_gio_hang.totalPrice.text = formatter.format(total_price) + "đ"
+                val i = product_to_pay.indexOf(ItemsViewModel)
+                quantity_product_to_pay.set(i, quantity_product_to_pay.get(i) + 1)
+            }
+            val call = viewPagerApi.updateQuantity(
+                customer.id,
+                ItemsViewModel.id,
+                (quantity.text).toString().toInt()
+            )
             call.enqueue(object : Callback<ResponseBody> {
-                override fun onResponse(call: Call<ResponseBody>, response: Response<ResponseBody>) {
+                override fun onResponse(
+                    call: Call<ResponseBody>,
+                    response: Response<ResponseBody>
+                ) {
                     // Xử lý kết quả trả về từ API nếu cần
                 }
 
@@ -126,19 +219,20 @@ class RecycleViewCartAdapter (private val mList: List<Sanpham>, private val quan
                     // Xử lý lỗi nếu có
                 }
             })
-            loadDataCart()
-            reloadCartRecycleView()
-//            this.notifyDataSetChanged()
         }
 
         holder.name.text = ItemsViewModel.name
         holder.quantity.text = quantity_item.toString()
         val formatter: NumberFormat = DecimalFormat("#,###")
         holder.price.text = formatter.format(ItemsViewModel.price) + "đ"
-        val link = ItemsViewModel.image.substring(1, ItemsViewModel.image.length - 1)
+        if (ItemsViewModel.image.startsWith("\"") && ItemsViewModel.image.endsWith("\"")) {
+            ItemsViewModel.image =
+                ItemsViewModel.image.substring(1, ItemsViewModel.image.length - 1)
+        }
+//        val link = ItemsViewModel.image.substring(1, ItemsViewModel.image.length - 1)
         Glide
             .with(context)
-            .load(link)
+            .load(ItemsViewModel.image)
             .into(holder.imageView)
 
     }

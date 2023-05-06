@@ -7,6 +7,11 @@ import android.view.inputmethod.InputMethodManager
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import com.blogspot.atifsoftwares.animatoolib.Animatoo
+import com.example.medicinemart.common.Info.PASSWORD_PATTERN
+import com.example.medicinemart.common.Info.USERNAME_PATTERN
+import com.example.medicinemart.common.Info.password_list
+import com.example.medicinemart.common.Info.salt_list
+import com.example.medicinemart.common.Info.username_list
 import com.example.medicinemart.databinding.DangkyBinding
 import com.example.medicinemart.retrofit.RetrofitClient
 import kotlinx.coroutines.Dispatchers
@@ -24,12 +29,12 @@ import java.util.*
 
 private lateinit var binding_dang_ky: DangkyBinding
 
-val USERNAME_PATTERN = "^[a-zA-Z0-9]{6,30}\$".toRegex()
-val PASSWORD_PATTERN = "^\\S{6,15}\$".toRegex()
-
-var username_list = ArrayList<String>()
-var password_list = ArrayList<String>()
-var salt_list = ArrayList<String>()
+//val USERNAME_PATTERN = "^[a-zA-Z0-9]{6,30}\$".toRegex()
+//val PASSWORD_PATTERN = "^\\S{6,15}\$".toRegex()
+//
+//var username_list = ArrayList<String>()
+//var password_list = ArrayList<String>()
+//var salt_list = ArrayList<String>()
 
 fun getAccounts() {
     GlobalScope.launch(Dispatchers.IO) {
@@ -82,13 +87,23 @@ fun sha256(input: String, salt: String): String {
 }
 
 fun hexStringToByteArray(hexString: String): ByteArray {
-    val len = hexString.length
-    val byteArray = ByteArray(len / 2)
-    for (i in 0 until len step 2) {
-        byteArray[i / 2] = ((Character.digit(hexString[i], 16) shl 4) +
-                Character.digit(hexString[i + 1], 16)).toByte()
+//    val len = hexString.length
+//    val byteArray = ByteArray(len / 2)
+//    for (i in 0 until len step 2) {
+//        byteArray[i / 2] = ((Character.digit(hexString[i], 16) shl 4) +
+//                Character.digit(hexString[i + 1], 16)).toByte()
+//    }
+//    return byteArray
+    val paddedHexString = if (hexString.length % 2 != 0) "0$hexString" else hexString
+    val len = paddedHexString.length
+    val data = ByteArray(len / 2)
+    var i = 0
+    while (i < len) {
+        data[i / 2] = ((Character.digit(paddedHexString[i], 16) shl 4)
+                + Character.digit(paddedHexString[i + 1], 16)).toByte()
+        i += 2
     }
-    return byteArray
+    return data
 }
 // Hàm xử lý đăng ký
 fun register(username: String, password: String) {
@@ -140,6 +155,7 @@ class DangKyActivity : AppCompatActivity() {
                 binding_dang_ky.errUsername.text = ""
             }
         }
+
         // Xử lý khi ấn ra ngoài EditText thì ẩn bàn phím và bỏ focus
         binding_dang_ky.edtPassword.setOnFocusChangeListener { _, hasFocus ->
             if (!hasFocus) {
@@ -150,6 +166,7 @@ class DangKyActivity : AppCompatActivity() {
                 binding_dang_ky.errPassword.text = ""
             }
         }
+
         // Xử lý khi ấn ra ngoài EditText thì ẩn bàn phím và bỏ focus
         binding_dang_ky.edtRepassword.setOnFocusChangeListener { _, hasFocus ->
             if (!hasFocus) {

@@ -2,11 +2,18 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     package="com.example.medicinemart">
+    <uses-feature android:name="android.hardware.camera" android:required="true" />
 
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     <uses-permission android:name="android.permission.CAMERA" />
+
+
 
     <application
         android:usesCleartextTraffic="true"
@@ -19,6 +26,11 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.MedicineMart"
         tools:targetApi="31">
+
+        <meta-data
+            android:name="com.google.android.geo.API_KEY"
+            android:value="AIzaSyAO2reF-FIXhEMePnu0F6tdWZLDzUM13to"/>
+
         <activity
             android:name=".activities.SplashScreen"
             android:exported="true"
@@ -35,10 +47,24 @@
         <activity android:name=".activities.ThongBaoActivity"/>
         <activity android:name=".activities.SearchActivity" android:windowSoftInputMode="adjustNothing|stateHidden|adjustResize"/>
         <activity android:name=".activities.DonHangActivity"/>
-        <activity android:name=".activities.HoSoActivity"/>
+        <activity android:name=".activities.HoSoActivity"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="android.intent.action.GET_CONTENT" />
+                <category android:name="android.intent.category.OPENABLE" />
+                <category android:name="android.intent.category.DEFAULT" />
+                <data android:mimeType="image/*" />
+            </intent-filter>
+        </activity>
         <activity android:name=".activities.CartActivity"/>
         <activity android:name=".activities.ChiTietSanPhamActivity"/>
         <activity android:name=".activities.ThongTinTaiKhoanActivity"/>
+        <activity android:name=".activities.DiaChiActivity"/>
+        <activity android:name=".activities.DiaChiMoiActivity"/>
+        <activity android:name=".activities.ChiTietDiaChiActivity"/>
+        <activity android:name=".activities.ThanhToanActivity"/>
+        <activity android:name=".activities.ChonDiaChiNhanHangActivity"/>
+        <activity android:name=".activities.MapActivity"/>
     </application>
 
 </manifest>

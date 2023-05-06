@@ -39,10 +39,13 @@ class RecycleViewOrderAdapter (private val mList: List<Sanpham>, private val qua
         holder.price.text = formatter.format(ItemsViewModel.price) + "đ"
         holder.quantity.text = "x" + formatter.format(quantity_item)
         holder.total_price.text = formatter.format(ItemsViewModel.price * quantity_item) + "đ"
-        val link = ItemsViewModel.image.substring(1, ItemsViewModel.image.length - 1)
+        if (ItemsViewModel.image.startsWith("\"") && ItemsViewModel.image.endsWith("\"")) {
+            ItemsViewModel.image =
+                ItemsViewModel.image.substring(1, ItemsViewModel.image.length - 1)
+        }
         Glide
             .with(context)
-            .load(link)
+            .load(ItemsViewModel.image)
             .into(holder.imageView)
     }
 

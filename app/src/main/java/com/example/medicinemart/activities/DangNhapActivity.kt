@@ -12,6 +12,12 @@ import android.widget.Button
 import androidx.appcompat.app.AppCompatActivity
 import com.blogspot.atifsoftwares.animatoolib.Animatoo
 import com.example.medicinemart.R
+import com.example.medicinemart.common.Info._username
+import com.example.medicinemart.common.Info.customer
+import com.example.medicinemart.common.Info.password_list
+import com.example.medicinemart.common.Info.salt_list
+import com.example.medicinemart.common.Info.sharedPref
+import com.example.medicinemart.common.Info.username_list
 import com.example.medicinemart.databinding.DangnhapBinding
 import com.example.medicinemart.models.Customer
 import com.example.medicinemart.retrofit.RetrofitClient
@@ -21,20 +27,19 @@ import retrofit2.Response
 
 private lateinit var binding_dang_nhap: DangnhapBinding
 
-var _username = ""
-var customer = Customer()
 fun getInfoCustomer() {
     val call = RetrofitClient.viewPagerApi.getInfoCustomer(_username)
-    println("_username " + _username)
     call.enqueue(object : Callback<Customer> {
         override fun onResponse(call: Call<Customer>, response: Response<Customer>) {
             if (response.isSuccessful) {
                 // Xử lý kết quả trả về nếu thêm hàng mới thành công
-                println(response.body().toString())
+                customer.id = response.body()!!.id
                 customer.username = response.body()!!.username
                 customer.phone = response.body()!!.phone
                 customer.email = response.body()!!.email
                 customer.full_name = response.body()!!.full_name
+                loadDataCart()
+                loadDataDonhang()
             } else {
                 // Xử lý lỗi nếu thêm hàng mới thất bại
             }
@@ -51,12 +56,25 @@ class DangNhapActivity : AppCompatActivity() {
         binding_dang_nhap = DangnhapBinding.inflate(layoutInflater)
         setContentView(binding_dang_nhap.root)
 
-//        val intent = Intent(this, TrangChuActivity::class.java)
-//        intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
-//        startActivity(intent)
-//        Animatoo.animateSlideRight(this)
-//        finish()
+        // Lấy SharedPreferences dựa trên tên file "my_prefs"
+        sharedPref = getSharedPreferences("my_prefs", Context.MODE_PRIVATE)
 
+        val username = sharedPref.getString("username", "")
+        val password = sharedPref.getString("password", "")
+
+        if (username!!.isNotEmpty() && password!!.isNotEmpty()) {
+            // Thực hiện đăng nhập tự động
+            _username = username
+            customer.username = _username
+            getInfoCustomer()
+            val intent = Intent(this, TrangChuActivity::class.java)
+            intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
+            startActivity(intent)
+            Animatoo.animateSlideRight(this)
+            finish()
+        }
+
+        // Kiểm tra kết nối mạng
         val connectivityManager = getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
         val networkInfo = connectivityManager.activeNetworkInfo
 
@@ -147,14 +165,18 @@ class DangNhapActivity : AppCompatActivity() {
 
             var salt_csdl = salt_list.get(username_list.indexOf(username))
             val hashpassword = sha256(password, salt_csdl)
-            println(hashpassword)
-            println(username_list.indexOf(username))
             if (!(password_list.indexOf(hashpassword) == username_list.indexOf(username))) {
                 binding_dang_nhap.errPassword.text = "Mật khẩu không đúng !"
                 return@setOnClickListener
             }
 
             if (isUsernamePasswordValid(username, password)) {
+                // Lưu trữ thông tin đăng nhập của người dùng
+                val editor = sharedPref.edit()
+                editor.putString("username", username)
+                editor.putString("password", password)
+                editor.apply()
+
                 _username = username
                 getInfoCustomer()
                 val intent = Intent(this, TrangChuActivity::class.java)

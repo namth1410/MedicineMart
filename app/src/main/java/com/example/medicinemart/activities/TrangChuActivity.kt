@@ -12,6 +12,12 @@ import com.example.medicinemart.R
 import com.example.medicinemart.adapter.OnItemClickListener
 import com.example.medicinemart.adapter.RecycleViewHomeAdapter
 import com.example.medicinemart.adapter.ViewPagerAdapter
+import com.example.medicinemart.common.Info._username
+import com.example.medicinemart.common.Info.all_product
+import com.example.medicinemart.common.Info.id_address_max_in_db
+import com.example.medicinemart.common.Info.list_address
+import com.example.medicinemart.databinding.CartBinding
+import com.example.medicinemart.databinding.DonhangBinding
 import com.example.medicinemart.databinding.TrangchuBinding
 import com.example.medicinemart.models.BannerAds
 import com.example.medicinemart.models.Sanpham
@@ -25,7 +31,6 @@ private lateinit var viewPagerAdapter: ViewPagerAdapter
 private lateinit var viewPager: ViewPager
 
 private lateinit var handler: Handler
-private var timer: Timer? = null
 private var page = 0
 private var delay: Long = 3000
 
@@ -33,40 +38,38 @@ var siroHoThaoDuoc = ArrayList<Sanpham>()
 var xuongKhop = ArrayList<Sanpham>()
 var imageURLList = ArrayList<String>()
 
-
-lateinit var bottomNav: BottomNavigationView
-
+fun String.removeAccent(): String {
+    val regex = "\\p{InCombiningDiacriticalMarks}+".toRegex()
+    val temp = java.text.Normalizer.normalize(this, java.text.Normalizer.Form.NFD)
+    return regex.replace(temp, "").replace("Đ", "D").replace("đ", "d")
+}
 
 class TrangChuActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding_trang_chu = TrangchuBinding.inflate(layoutInflater)
+        binding_gio_hang = CartBinding.inflate(layoutInflater)
+        binding_don_hang = DonhangBinding.inflate(layoutInflater)
+
+        val originalString = "Thuô"
+        val nonAccentString = originalString.removeAccent()
+        println(nonAccentString) // In ra "Chuoi Tieng Viet can chuyen doi"
+
         setContentView(binding_trang_chu.root)
 
-        println(customer)
         // --ViewPager
         viewPager = binding_trang_chu.idViewPager
 
-//        val quotesApi = RetrofitClient.getInstance().create(ViewPagerAPI::class.java)
-//
-//        GlobalScope.launch {
-//            val result = async {quotesApi.getAll()}
-//            val test = result.await().body()
-//            println(test?.get(0)?.name)
-//        }
-
-        // launching a new coroutine
-//        viewPagerApi = RetrofitClient.getInstance().create(API::class.java)
         GlobalScope.launch(Dispatchers.IO) {
-            loadDataCart()
-            loadDataDonhang()
-
             val res_getBannerAds = async { viewPagerApi.getBannerAds() }
             val res_getAllProduct = async { viewPagerApi.getAllProduct() }
+            val res_getAddress = async { viewPagerApi.getAddress(_username) }
+            val res_getIdAddressMax = async { viewPagerApi.getIdAddressMax() }
+            id_address_max_in_db = res_getIdAddressMax.await().body()!!
             var list_banner_ads: ArrayList<BannerAds>
-            var list_san_pham: ArrayList<Sanpham>
             list_banner_ads = res_getBannerAds.await().body()!!
-            list_san_pham = res_getAllProduct.await().body()!!
+            all_product = res_getAllProduct.await().body()!!
+            list_address = res_getAddress.await().body()!!
             withContext(Dispatchers.Main) {
             if (imageURLList.isEmpty()) {
                 for (i in list_banner_ads) {
@@ -76,12 +79,11 @@ class TrangChuActivity : AppCompatActivity() {
             }
 
             if (siroHoThaoDuoc.isEmpty()) {
-                for (i in list_san_pham) {
+                for (i in all_product) {
                     if (i.type == "Xương khớp") {
                         xuongKhop.add(i)
                     } else if (i.type == "Siro ho thảo dược") {
                         siroHoThaoDuoc.add(i)
-
                     }
 
                 }
@@ -106,7 +108,7 @@ class TrangChuActivity : AppCompatActivity() {
             override fun onItemClick(position: Int) {
                 val intent = Intent(this@TrangChuActivity, ChiTietSanPhamActivity::class.java)
                 intent.putExtra("item", siroHoThaoDuoc.get(position) as java.io.Serializable)
-
+                intent.putExtra("goto", "")
                 startActivity(intent)
                 overridePendingTransition(R.anim.no_animation, R.anim.no_animation)
             }
@@ -174,7 +176,7 @@ class TrangChuActivity : AppCompatActivity() {
         // Xử lý sự kiện khi bấm vào giỏ hàng
         binding_trang_chu.btnCart.setOnClickListener() {
             val intent = Intent(this, CartActivity::class.java)
-            loadDataCart()
+//            loadDataCart()
 
             startActivity(intent)
             overridePendingTransition(R.anim.no_animation, R.anim.no_animation)
@@ -186,6 +188,14 @@ class TrangChuActivity : AppCompatActivity() {
                 // Xử lý khi người dùng nhấn nút tìm kiếm
                 val intent = Intent(this@TrangChuActivity, SearchActivity::class.java).apply {
                     putExtra("text_search", query)
+                }
+                for (product in all_product) {
+                    val originalString = product.name
+                    val nonAccentString = originalString.removeAccent()
+                    if (nonAccentString.contains(query.toString(), true)) {
+                        productSearchList.add(product)
+                        println(product.name)
+                    }
                 }
                 startActivity(intent)
                 overridePendingTransition(R.anim.no_animation, R.anim.no_animation)
@@ -202,16 +212,7 @@ class TrangChuActivity : AppCompatActivity() {
         startTimer()
     }
 
-
-
-
     fun reloadAllDataListView() {
-        //arrayAdapter.clear()
-        //arrayAdapter.addAll(productArrayList)
-//        imageURLList.clear()
-//        for (i in imageURLList) {
-//            imageURLList.add(i)
-//        }
         viewPager.adapter?.notifyDataSetChanged()
         binding_trang_chu.recyclerView1.adapter?.notifyDataSetChanged()
     }
@@ -243,36 +244,13 @@ class TrangChuActivity : AppCompatActivity() {
                 }
             }
         })
-//        timer = Timer()
-//        timer?.scheduleAtFixedRate(object : TimerTask() {
-//            override fun run() {
-//                runOnUiThread {
-//                    println(page)
-//                    if (page == imageURLList.size - 1) {
-//                        page = 0
-//                    } else {
-//                        page++
-//                    }
-//                    viewPager.setCurrentItem(page, true)
-//                }
-//            }
-//        }, delay, delay) // chuyển đổi sau 3 giây và thực hiện lại sau 3 giây
-//
-//        viewPager.addOnPageChangeListener(object : ViewPager.OnPageChangeListener {
-//            override fun onPageScrolled(position: Int, positionOffset: Float, positionOffsetPixels: Int) {}
-//
-//            override fun onPageSelected(position: Int) {
-//                // cập nhật giá trị của biến page khi người dùng vuốt sang ảnh khác
-//                page = position
-//                delay = 3000
-//                timer?.cancel()
-//                timer = null
-//                startTimer()
-//            }
-//
-//            override fun onPageScrollStateChanged(state: Int) {
-//
-//            }
-//        })
+    }
+
+    override fun onResume() {
+        super.onResume()
+        productSearchList.clear()
+        productSearchListCopy.clear()
+        binding_trang_chu.searchView.setQuery("", false)
+        binding_trang_chu.searchView.clearFocus()
     }
 }

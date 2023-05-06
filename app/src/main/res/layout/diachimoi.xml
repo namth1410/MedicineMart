@@ -1,0 +1,117 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:focusableInTouchMode="true"
+    android:clickable="true"
+    android:focusable="true">
+
+    <RelativeLayout
+        android:id="@+id/head"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="@dimen/_20sdp"
+        android:layout_marginTop="@dimen/_20sdp"
+        android:layout_marginRight="@dimen/_20sdp"
+        android:focusableInTouchMode="true"
+        android:clickable="true"
+        android:focusable="true">
+
+        <TextView
+            android:id="@+id/tv_taikhoan"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:text="Địa chỉ mới"
+            android:textAlignment="center"
+            android:textColor="@color/black"
+            android:textSize="@dimen/_20sdp" />
+
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/btn_back"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="#00000000"
+            android:drawableStart="@drawable/baseline_arrow_back_ios_24" />
+
+        <androidx.appcompat.widget.AppCompatButton
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentEnd="true"
+            android:background="@drawable/bg_edittext"
+            android:backgroundTint="@color/blue"
+            android:text="Save"
+            android:visibility="invisible" />
+
+    </RelativeLayout>
+
+
+    <EditText
+        android:id="@+id/edt_hoten"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/head"
+        android:paddingLeft="@dimen/_20sdp"
+        android:backgroundTint="@color/grey"
+        android:hint="Họ và tên"
+        android:text=""
+        android:singleLine="true"
+        android:textSize="@dimen/_12sdp"/>
+
+    <EditText
+        android:id="@+id/edt_sdt"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingLeft="@dimen/_20sdp"
+        android:backgroundTint="@color/grey"
+        android:layout_below="@id/edt_hoten"
+        android:inputType="number"
+        android:hint="Số điện thoại"
+        android:text=""
+        android:singleLine="true"
+        android:textSize="@dimen/_12sdp"/>
+
+    <EditText
+        android:id="@+id/edt_diachi"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingLeft="@dimen/_20sdp"
+        android:backgroundTint="@color/grey"
+        android:layout_below="@id/edt_sdt"
+        android:inputType="text|textNoSuggestions"
+        android:hint="Địa chỉ"
+        android:text=""
+        android:maxLines="2"
+        android:textSize="@dimen/_12sdp"/>
+
+    <com.google.android.gms.maps.MapView
+        android:id="@+id/mapView"
+        android:apiKey="AIzaSyAO2reF-FIXhEMePnu0F6tdWZLDzUM13to"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/_200sdp"
+        android:layout_below="@+id/edt_diachi"/>
+
+    <View
+        android:id="@+id/line"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_above="@+id/btn_hoanthanh"
+        android:layout_marginBottom="1dp"
+        android:alpha="0.1"
+        android:background="@android:color/black"
+        />
+
+
+    <androidx.appcompat.widget.AppCompatButton
+        android:id="@+id/btn_hoanthanh"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/_50sdp"
+        android:layout_alignParentBottom="true"
+        android:text="Hoàn thành"
+        android:textSize="@dimen/_15sdp"
+        android:textColor="@color/white"
+        android:textAllCaps="false"
+        android:background="@color/blue"
+        />
+
+</RelativeLayout>

@@ -1,32 +1,46 @@
 package com.example.medicinemart.activities
 
+import android.Manifest
+import android.app.AlertDialog
 import android.content.Context
+import android.content.Intent
+import android.content.pm.PackageManager
+import android.graphics.Bitmap
+import android.graphics.BitmapFactory
 import android.graphics.Color
+import android.graphics.Matrix
 import android.os.Bundle
+import android.provider.MediaStore
 import android.text.Editable
 import android.text.TextWatcher
 import android.view.View
 import android.view.inputmethod.InputMethodManager
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.app.ActivityCompat
+import androidx.core.content.ContextCompat
+import com.example.medicinemart.common.Info._username
+import com.example.medicinemart.common.Info.customer
 import com.example.medicinemart.databinding.ThongTinTaiKhoanBinding
 import com.example.medicinemart.retrofit.RetrofitClient
 import okhttp3.ResponseBody
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
+import java.io.ByteArrayOutputStream
 
 private lateinit var binding_thong_tin_tai_khoan: ThongTinTaiKhoanBinding
-
-
 class ThongTinTaiKhoanActivity : AppCompatActivity() {
+
+    private val REQUEST_PERMISSION = 100
+    private val REQUEST_IMAGE_CAPTURE = 1
+    private val REQUEST_PICK_IMAGE = 2
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding_thong_tin_tai_khoan = ThongTinTaiKhoanBinding.inflate(layoutInflater)
         setContentView(binding_thong_tin_tai_khoan.root)
 
-
         binding_thong_tin_tai_khoan.edtUsername.text =
-            Editable.Factory.getInstance().newEditable(customer.username)
+            Editable.Factory.getInstance().newEditable(_username)
         binding_thong_tin_tai_khoan.edtHoten.text =
             Editable.Factory.getInstance().newEditable(customer.full_name)
         binding_thong_tin_tai_khoan.edtSdt.text =
@@ -128,6 +142,7 @@ class ThongTinTaiKhoanActivity : AppCompatActivity() {
             onBackPressed()
         }
 
+        // Xử lý khi nhấn lưu thông tin
         binding_thong_tin_tai_khoan.btnSave.setOnClickListener() {
             binding_thong_tin_tai_khoan.edtHoten.setTextColor(Color.GRAY)
             binding_thong_tin_tai_khoan.edtSdt.setTextColor(Color.GRAY)
@@ -147,6 +162,8 @@ class ThongTinTaiKhoanActivity : AppCompatActivity() {
                 ) {
                     // Xử lý kết quả trả về từ API nếu cần
                     binding_thong_tin_tai_khoan.btnSave.visibility = View.GONE
+                    customer.full_name = binding_thong_tin_tai_khoan.edtHoten.text.toString()
+                    customer.phone = binding_thong_tin_tai_khoan.edtSdt.text.toString()
                 }
 
                 override fun onFailure(call: Call<ResponseBody>, t: Throwable) {
@@ -156,5 +173,74 @@ class ThongTinTaiKhoanActivity : AppCompatActivity() {
             })
         }
 
+        // Xử lý thay đổi avatar
+        binding_thong_tin_tai_khoan.avat.setOnClickListener() {
+            val dialogBuilder = AlertDialog.Builder(this)
+                .setMessage("Bạn muốn lấy ảnh từ?")
+                .setPositiveButton("Thư viện ảnh") { _, _ ->
+                    // Xử lý khi người dùng chọn Yes
+                    openGallery()
+                }
+                .setNegativeButton("Camera") { _, _ ->
+                    // Xử lý khi người dùng chọn No
+                    openCamera()
+                }.create()
+
+            dialogBuilder.show()
+        }
+
+    }
+
+    override fun onResume() {
+        super.onResume()
+        checkCameraPermission()
+    }
+
+    private fun checkCameraPermission() {
+        if (ContextCompat.checkSelfPermission(this, Manifest.permission.CAMERA)
+            != PackageManager.PERMISSION_GRANTED) {
+            ActivityCompat.requestPermissions(this,
+                arrayOf(Manifest.permission.CAMERA),
+                REQUEST_PERMISSION)
+
+            println("chap nhan")
+        }
+    }
+
+    private fun openCamera() {
+        val cameraIntent = Intent(MediaStore.ACTION_IMAGE_CAPTURE)
+        startActivityForResult(cameraIntent, REQUEST_IMAGE_CAPTURE)
+    }
+
+    private fun openGallery() {
+        Intent(Intent.ACTION_GET_CONTENT).also { intent ->
+            intent.type = "image/*"
+            intent.resolveActivity(packageManager)?.also {
+                startActivityForResult(intent, REQUEST_PICK_IMAGE)
+            }
+        }
+    }
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+        if (resultCode == RESULT_OK) {
+            if (requestCode == REQUEST_IMAGE_CAPTURE) {
+                val bitmap = data?.extras?.get("data") as Bitmap
+                val stream = ByteArrayOutputStream()
+                bitmap.compress(Bitmap.CompressFormat.PNG, 100, stream)
+                val byteArray = stream.toByteArray()
+                println(byteArray)
+                val bitmap1 = BitmapFactory.decodeByteArray(byteArray, 0, byteArray.size)
+                val matrix = Matrix()
+                matrix.postRotate(90f) // độ xoay (để xoay ngược chiều kim đồng hồ, hãy sử dụng số âm)
+                val rotatedBitmap = Bitmap.createBitmap(bitmap, 0, 0, bitmap.width, bitmap.height, matrix, true)
+
+                binding_thong_tin_tai_khoan.imageView2.setImageBitmap(rotatedBitmap)
+            }
+            else if (requestCode == REQUEST_PICK_IMAGE) {
+                val uri = data?.getData()
+                println(uri)
+                binding_thong_tin_tai_khoan.imageView2.setImageURI(uri)
+            }
+        }
     }
 }
