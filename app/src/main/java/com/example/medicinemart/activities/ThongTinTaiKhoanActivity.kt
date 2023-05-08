@@ -16,11 +16,14 @@ import android.provider.MediaStore
 import android.text.Editable
 import android.text.TextWatcher
 import android.view.View
+import android.view.animation.Animation
+import android.view.animation.AnimationUtils
 import android.view.inputmethod.InputMethodManager
 import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
+import com.example.medicinemart.R
 import com.example.medicinemart.common.Info._username
 import com.example.medicinemart.common.Info.customer
 import com.example.medicinemart.databinding.ThongTinTaiKhoanBinding
@@ -31,6 +34,7 @@ import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 import java.io.ByteArrayOutputStream
+
 
 private lateinit var binding_thong_tin_tai_khoan: ThongTinTaiKhoanBinding
 
@@ -146,6 +150,8 @@ class ThongTinTaiKhoanActivity : AppCompatActivity() {
         })
 
         binding_thong_tin_tai_khoan.btnBack.setOnClickListener {
+            val anim = AnimationUtils.loadAnimation(this, R.anim.btn_back)
+            binding_thong_tin_tai_khoan.btnBack.startAnimation(anim)
             onBackPressed()
         }
 

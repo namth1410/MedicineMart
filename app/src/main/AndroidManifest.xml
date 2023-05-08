@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
-    package="com.example.medicinemart">
+    xmlns:tools="http://schemas.android.com/tools">
     <uses-feature android:name="android.hardware.camera" android:required="true" />
 
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
@@ -64,6 +63,7 @@
         <activity android:name=".activities.DiaChiMoiActivity"/>
         <activity android:name=".activities.ChiTietDiaChiActivity"/>
         <activity android:name=".activities.ThanhToanActivity"/>
+        <activity android:name=".activities.ThongTinDonHangActivity"/>
         <activity android:name=".activities.ChonDiaChiNhanHangActivity"/>
         <activity android:name=".activities.MapActivity"/>
     </application>
