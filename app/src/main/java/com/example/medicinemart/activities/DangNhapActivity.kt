@@ -4,11 +4,13 @@ import android.app.AlertDialog
 import android.content.Context
 import android.content.Intent
 import android.net.ConnectivityManager
+import android.os.Build
 import android.os.Bundle
 import android.text.method.HideReturnsTransformationMethod
 import android.text.method.PasswordTransformationMethod
 import android.view.inputmethod.InputMethodManager
 import android.widget.Button
+import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
 import com.blogspot.atifsoftwares.animatoolib.Animatoo
 import com.example.medicinemart.R
@@ -30,6 +32,7 @@ private lateinit var binding_dang_nhap: DangnhapBinding
 fun getInfoCustomer() {
     val call = RetrofitClient.viewPagerApi.getInfoCustomer(_username)
     call.enqueue(object : Callback<Customer> {
+        @RequiresApi(Build.VERSION_CODES.O)
         override fun onResponse(call: Call<Customer>, response: Response<Customer>) {
             if (response.isSuccessful) {
                 // Xử lý kết quả trả về nếu thêm hàng mới thành công
@@ -40,6 +43,7 @@ fun getInfoCustomer() {
                 customer.full_name = response.body()!!.full_name
                 loadDataCart()
                 loadDataDonhang()
+                getAddressFromDB()
             } else {
                 // Xử lý lỗi nếu thêm hàng mới thất bại
             }

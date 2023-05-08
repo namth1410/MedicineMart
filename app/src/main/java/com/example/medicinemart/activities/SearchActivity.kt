@@ -80,6 +80,7 @@ class SearchActivity : AppCompatActivity(), AdapterView.OnItemSelectedListener {
             override fun onItemClick(position: Int) {
                 val intent = Intent(this@SearchActivity, ChiTietSanPhamActivity::class.java)
                 intent.putExtra("item", productSearchList.get(position) as Serializable)
+                intent.putExtra("goto", "search")
 
                 startActivity(intent)
                 overridePendingTransition(R.anim.no_animation, R.anim.no_animation)

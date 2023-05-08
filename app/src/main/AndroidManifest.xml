@@ -29,7 +29,7 @@
 
         <meta-data
             android:name="com.google.android.geo.API_KEY"
-            android:value="AIzaSyAO2reF-FIXhEMePnu0F6tdWZLDzUM13to"/>
+            android:value="AIzaSyCOJOMLd2PlUclpuxzt5U1Bv73R4QqfN50"/>
 
         <activity
             android:name=".activities.SplashScreen"
@@ -57,6 +57,7 @@
             </intent-filter>
         </activity>
         <activity android:name=".activities.CartActivity"/>
+        <activity android:name=".activities.ThongTinDonHangActivity"/>
         <activity android:name=".activities.ChiTietSanPhamActivity"/>
         <activity android:name=".activities.ThongTinTaiKhoanActivity"/>
         <activity android:name=".activities.DiaChiActivity"/>

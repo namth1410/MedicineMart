@@ -1,11 +1,21 @@
 package com.example.medicinemart.common
 
+import android.content.Context
+import android.content.Intent
 import android.content.SharedPreferences
-import com.example.medicinemart.models.Address
-import com.example.medicinemart.models.Customer
-import com.example.medicinemart.models.Sanpham
+import android.view.LayoutInflater
+import android.widget.Button
+import androidx.appcompat.app.AlertDialog
+import com.blogspot.atifsoftwares.animatoolib.Animatoo
+import com.example.medicinemart.R
+import com.example.medicinemart.activities.TrangChuActivity
+import com.example.medicinemart.models.*
 import com.google.android.gms.maps.model.LatLng
 import java.math.BigDecimal
+import java.text.DecimalFormat
+import java.text.NumberFormat
+import java.time.LocalDateTime
+import java.time.format.DateTimeFormatter
 
 object Info {
     lateinit var sharedPref: SharedPreferences
@@ -30,6 +40,14 @@ object Info {
     var product_to_pay = ArrayList<Sanpham>()
     var quantity_product_to_pay = ArrayList<Int>()
 
+//    val time_defaul = LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"))
+    val time_defaul = LocalDateTime.of(2000, 1, 1, 0, 0, 0)
+    val time_formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss")
+    val price_formatter: NumberFormat = DecimalFormat("#,###")
+
+
+//    var order_detail = Order()
+
     var list_address = ArrayList<Address>()
     var delivery_address: Address? = null
     var position = -1
@@ -42,6 +60,31 @@ object Info {
         21.03823945605729,
         105.78267775475979
     )
+
+    fun switchActivity(context: Context, targetActivity: Class<*>) {
+        val intent = Intent(context, targetActivity)
+        intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
+        context.startActivity(intent)
+        Animatoo.animateSlideRight(context)
+    }
+
+
+    fun alertDialog(context: Context) {
+        val builder = AlertDialog.Builder(context)
+        builder.setCancelable(false)
+        val layoutInflater = context.getSystemService(Context.LAYOUT_INFLATER_SERVICE) as LayoutInflater
+        val view = layoutInflater.inflate(R.layout.dialog_success, null)
+        val closeButton = view.findViewById<Button>(R.id.btn_ok)
+
+        builder.setView(view)
+        val dialog = builder.create()
+        dialog.show()
+
+        closeButton.setOnClickListener {
+            dialog.dismiss()
+            switchActivity(context, TrangChuActivity::class.java)
+        }
+    }
 
 //    var address = Address()
 

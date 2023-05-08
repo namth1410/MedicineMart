@@ -5,9 +5,9 @@ import android.content.Intent
 import android.os.Bundle
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.view.ViewCompat
 import com.bumptech.glide.Glide
 import com.example.medicinemart.R
-import com.example.medicinemart.common.Info
 import com.example.medicinemart.common.Info.customer
 import com.example.medicinemart.common.Info.products_in_cart
 import com.example.medicinemart.databinding.ChitietsanphamBinding
@@ -32,6 +32,10 @@ class ChiTietSanPhamActivity : AppCompatActivity() {
 
         val item = intent.getSerializableExtra("item") as Sanpham
         val goto = intent.getSerializableExtra("goto") as String
+
+        val transitionName = intent.getStringExtra("transition_name")
+        ViewCompat.setTransitionName(binding_chi_tiet_san_pham.imageView, transitionName)
+
         binding_chi_tiet_san_pham.name.text = item.name
         val formatter: NumberFormat = DecimalFormat("#,###")
         binding_chi_tiet_san_pham.price.text = formatter.format(item.price) + "đ"
@@ -58,13 +62,14 @@ class ChiTietSanPhamActivity : AppCompatActivity() {
                     ) {
                         if (response.isSuccessful) {
                             // Xử lý kết quả trả về nếu thêm hàng mới thành công
+                            require_reload_data_cart = true
                             Toast.makeText(
                                 this@ChiTietSanPhamActivity,
                                 "Đã thêm vào giỏ hàng",
                                 Toast.LENGTH_SHORT
                             ).show()
-                            products_in_cart.add(item)
-                            Info.quantity_product_in_cart.add(1)
+//                            products_in_cart.add(item)
+//                            Info.quantity_product_in_cart.add(1)
 //                            binding_gio_hang.recyclerView.adapter?.notifyDataSetChanged()
                         } else {
                             // Xử lý lỗi nếu thêm hàng mới thất bại
@@ -91,14 +96,14 @@ class ChiTietSanPhamActivity : AppCompatActivity() {
                             ) {
                                 if (response.isSuccessful) {
                                     // Xử lý kết quả trả về nếu thêm hàng mới thành công
+                                    require_reload_data_cart = true
                                     Toast.makeText(
                                         this@ChiTietSanPhamActivity,
                                         "Đã thêm vào giỏ hàng",
                                         Toast.LENGTH_SHORT
                                     ).show()
-                                    products_in_cart.add(item)
-                                    println(item.image)
-                                    Info.quantity_product_in_cart.add(1)
+//                                    products_in_cart.add(item)
+//                                    Info.quantity_product_in_cart.add(1)
 //                                    binding_gio_hang.recyclerView.adapter?.notifyDataSetChanged()
                                 } else {
                                     // Xử lý lỗi nếu thêm hàng mới thất bại

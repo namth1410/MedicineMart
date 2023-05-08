@@ -124,18 +124,26 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@+id/line1"
-        android:layout_above="@+id/rl_chitietthanhtoan"
+        android:layout_above="@+id/line3"
         android:layout_marginTop="-3dp"
         android:scrollbars="none"
         app:spanCount="2"
         tools:itemCount="1"
         tools:listitem="@layout/thanhtoan_item" />
 
+    <View
+        android:id="@+id/line3"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/_5sdp"
+        android:layout_above="@+id/rl_chitietthanhtoan"
+        android:alpha="0.1"
+        android:background="@android:color/black"
+        />
+
     <RelativeLayout
         android:id="@+id/rl_chitietthanhtoan"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="@dimen/_10sdp"
         android:layout_marginBottom="@dimen/_2sdp"
         android:layout_above="@id/line">
 

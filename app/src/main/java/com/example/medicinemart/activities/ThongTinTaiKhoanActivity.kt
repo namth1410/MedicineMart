@@ -2,6 +2,7 @@ package com.example.medicinemart.activities
 
 import android.Manifest
 import android.app.AlertDialog
+import android.app.ProgressDialog
 import android.content.Context
 import android.content.Intent
 import android.content.pm.PackageManager
@@ -9,18 +10,21 @@ import android.graphics.Bitmap
 import android.graphics.BitmapFactory
 import android.graphics.Color
 import android.graphics.Matrix
+import android.os.Build
 import android.os.Bundle
 import android.provider.MediaStore
 import android.text.Editable
 import android.text.TextWatcher
 import android.view.View
 import android.view.inputmethod.InputMethodManager
+import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import com.example.medicinemart.common.Info._username
 import com.example.medicinemart.common.Info.customer
 import com.example.medicinemart.databinding.ThongTinTaiKhoanBinding
+import com.example.medicinemart.models.Customer
 import com.example.medicinemart.retrofit.RetrofitClient
 import okhttp3.ResponseBody
 import retrofit2.Call
@@ -29,6 +33,9 @@ import retrofit2.Response
 import java.io.ByteArrayOutputStream
 
 private lateinit var binding_thong_tin_tai_khoan: ThongTinTaiKhoanBinding
+
+private var progressDialog: ProgressDialog? = null
+
 class ThongTinTaiKhoanActivity : AppCompatActivity() {
 
     private val REQUEST_PERMISSION = 100
@@ -82,12 +89,12 @@ class ThongTinTaiKhoanActivity : AppCompatActivity() {
 
             override fun afterTextChanged(s: Editable?) {
                 // Do something after the text changed
-                if (s.toString() != "Nguyen Van Tuyen") {
+                if (s.toString() != customer.full_name) {
                     binding_thong_tin_tai_khoan.edtHoten.setTextColor(Color.BLACK)
                     binding_thong_tin_tai_khoan.btnSave.visibility = View.VISIBLE
                 } else {
                     binding_thong_tin_tai_khoan.edtHoten.setTextColor(Color.GRAY)
-                    if (binding_thong_tin_tai_khoan.edtSdt.text.toString() == "0345518088") {
+                    if (binding_thong_tin_tai_khoan.edtSdt.text.toString() == customer.phone) {
                         binding_thong_tin_tai_khoan.btnSave.visibility = View.GONE
                     }
                 }
@@ -126,12 +133,12 @@ class ThongTinTaiKhoanActivity : AppCompatActivity() {
 
             override fun afterTextChanged(s: Editable?) {
                 // Do something after the text changed
-                if (s.toString() != "0345518088") {
+                if (s.toString() != customer.phone) {
                     binding_thong_tin_tai_khoan.edtSdt.setTextColor(Color.BLACK)
                     binding_thong_tin_tai_khoan.btnSave.visibility = View.VISIBLE
                 } else {
                     binding_thong_tin_tai_khoan.edtSdt.setTextColor(Color.GRAY)
-                    if (binding_thong_tin_tai_khoan.edtHoten.text.toString() == "Nguyen Van Tuyen") {
+                    if (binding_thong_tin_tai_khoan.edtHoten.text.toString() == customer.full_name) {
                         binding_thong_tin_tai_khoan.btnSave.visibility = View.GONE
                     }
                 }
@@ -155,15 +162,44 @@ class ThongTinTaiKhoanActivity : AppCompatActivity() {
                 binding_thong_tin_tai_khoan.edtHoten.text.toString(),
                 binding_thong_tin_tai_khoan.edtSdt.text.toString()
             )
+            progressDialog = ProgressDialog(this)
+            progressDialog?.setCancelable(false)
+            progressDialog?.setMessage("Đợi xíu...")
+            progressDialog?.setProgressStyle(ProgressDialog.STYLE_SPINNER)
+            progressDialog?.setProgress(0)
+            progressDialog?.show()
             call.enqueue(object : Callback<ResponseBody> {
                 override fun onResponse(
                     call: Call<ResponseBody>,
                     response: Response<ResponseBody>,
                 ) {
                     // Xử lý kết quả trả về từ API nếu cần
-                    binding_thong_tin_tai_khoan.btnSave.visibility = View.GONE
-                    customer.full_name = binding_thong_tin_tai_khoan.edtHoten.text.toString()
-                    customer.phone = binding_thong_tin_tai_khoan.edtSdt.text.toString()
+                    val call = RetrofitClient.viewPagerApi.getInfoCustomer(_username)
+                    call.enqueue(object : Callback<Customer> {
+                        @RequiresApi(Build.VERSION_CODES.O)
+                        override fun onResponse(call: Call<Customer>, response: Response<Customer>) {
+                            if (response.isSuccessful) {
+                                // Xử lý kết quả trả về nếu thêm hàng mới thành công
+                                customer.id = response.body()!!.id
+                                customer.username = response.body()!!.username
+                                customer.phone = response.body()!!.phone
+                                customer.email = response.body()!!.email
+                                customer.full_name = response.body()!!.full_name
+
+                                progressDialog?.dismiss()
+                                binding_thong_tin_tai_khoan.btnSave.visibility = View.GONE
+                                customer.full_name = binding_thong_tin_tai_khoan.edtHoten.text.toString()
+                                customer.phone = binding_thong_tin_tai_khoan.edtSdt.text.toString()
+                            } else {
+                                // Xử lý lỗi nếu thêm hàng mới thất bại
+                            }
+                        }
+
+                        override fun onFailure(call: Call<Customer>, t: Throwable) {
+                            // Xử lý lỗi nếu không thể kết nối tới server
+                        }
+                    })
+
                 }
 
                 override fun onFailure(call: Call<ResponseBody>, t: Throwable) {

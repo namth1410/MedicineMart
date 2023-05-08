@@ -1,5 +1,6 @@
 package com.example.medicinemart.activities
 
+import android.app.ProgressDialog
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
@@ -28,6 +29,8 @@ import java.math.BigDecimal
 private lateinit var binding_chi_tiet_dia_chi: ChitietdiachiBinding
 private lateinit var mapView: MapView
 private lateinit var googleMap: GoogleMap
+
+private var progressDialog: ProgressDialog? = null
 
 //private lateinit var centerMarker: ImageView
 private var chitietdiachi = "chitietdiachi"
@@ -130,9 +133,18 @@ class ChiTietDiaChiActivity : AppCompatActivity(), OnMapReadyCallback {
                 .setPositiveButton("Xóa") { _, _ ->
                     val call =
                         RetrofitClient.viewPagerApi.deleteAddress(list_address.get(Info.position).id)
+                    progressDialog = ProgressDialog(this)
+                    progressDialog?.setCancelable(false)
+                    progressDialog?.setMessage("Đợi xíu...")
+                    progressDialog?.setProgressStyle(ProgressDialog.STYLE_SPINNER)
+                    progressDialog?.setProgress(0)
+                    progressDialog?.show()
                     call.enqueue(object : Callback<Void> {
                         override fun onResponse(call: Call<Void>, response: Response<Void>) {
                             if (response.isSuccessful) {
+                                require_reload_data_address = true
+                                progressDialog?.dismiss()
+                                onBackPressed()
                                 println("Xóa địa chỉ thành công")
                                 // Xóa thành công
                             } else {
@@ -144,11 +156,10 @@ class ChiTietDiaChiActivity : AppCompatActivity(), OnMapReadyCallback {
                             // Xóa không thành công do lỗi mạng hoặc lỗi server
                         }
                     })
-                    list_address.removeAt(Info.position)
-                    Info.position = -1
-                    Info.td_x = BigDecimal(0.00)
-                    Info.td_y = BigDecimal(0.00)
-                    onBackPressed()
+//                    list_address.removeAt(Info.position)
+//                    Info.position = -1
+//                    Info.td_x = BigDecimal(0.00)
+//                    Info.td_y = BigDecimal(0.00)
                 }
                 .setNegativeButton("Không") { _, _ ->
                     // Xử lý khi người dùng chọn No
@@ -183,9 +194,9 @@ class ChiTietDiaChiActivity : AppCompatActivity(), OnMapReadyCallback {
 //        }
 
         binding_chi_tiet_dia_chi.btnBack.setOnClickListener {
-            Info.position = -1
-            Info.td_x = BigDecimal(0.00)
-            Info.td_y = BigDecimal(0.00)
+//            Info.position = -1
+//            Info.td_x = BigDecimal(0.00)
+//            Info.td_y = BigDecimal(0.00)
             onBackPressed()
         }
     }

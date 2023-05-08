@@ -1,6 +1,7 @@
 package com.example.medicinemart.activities
 
 import android.annotation.SuppressLint
+import android.app.ProgressDialog
 import android.content.Intent
 import android.os.Bundle
 import android.os.Handler
@@ -23,36 +24,83 @@ import com.example.medicinemart.common.Info.total_products_checcked_in_cart
 import com.example.medicinemart.databinding.CartBinding
 import com.example.medicinemart.models.Sanpham
 import com.example.medicinemart.retrofit.RetrofitClient
+import com.google.gson.JsonObject
 import es.dmoral.toasty.Toasty
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.GlobalScope
-import kotlinx.coroutines.async
-import kotlinx.coroutines.launch
+import retrofit2.Call
+import retrofit2.Callback
+import retrofit2.Response
 import java.text.DecimalFormat
 import java.text.NumberFormat
 
-
 public lateinit var binding_gio_hang: CartBinding
+private var progressDialog: ProgressDialog? = null
+
+var require_reload_data_cart = false
+
 var total_price = 0
 
+//fun loadDataCart() {
+//    GlobalScope.launch(Dispatchers.Main) {
+//        val getCart = async { RetrofitClient.viewPagerApi.getCart(customer.id) }
+//        val res_getCart = getCart.await().body()
+//        products_in_cart.clear()
+//        quantity_product_in_cart.clear()
+//        for (i in res_getCart!!) {
+//            val id = i.getAsJsonPrimitive("id_product").asInt
+//            val name = i.getAsJsonPrimitive("name").toString()
+//            val type = i.getAsJsonPrimitive("type").toString()
+//            val price = i.getAsJsonPrimitive("price").asInt
+//            val describe = i.getAsJsonPrimitive("describe").toString()
+//            val image = i.getAsJsonPrimitive("image").toString()
+//            val tmp = Sanpham(id, name, type, price, describe, image)
+//            products_in_cart.add(tmp)
+//            quantity_product_in_cart.add(i.getAsJsonPrimitive("quantity").asInt)
+//        }
+//    }
+//}
+
 fun loadDataCart() {
-    GlobalScope.launch(Dispatchers.Main) {
-        val getCart = async { RetrofitClient.viewPagerApi.getCart(customer.id) }
-        val res_getCart = getCart.await().body()
-        products_in_cart.clear()
-        quantity_product_in_cart.clear()
-        for (i in res_getCart!!) {
-            val id = i.getAsJsonPrimitive("id_product").asInt
-            val name = i.getAsJsonPrimitive("name").toString()
-            val type = i.getAsJsonPrimitive("type").toString()
-            val price = i.getAsJsonPrimitive("price").asInt
-            val describe = i.getAsJsonPrimitive("describe").toString()
-            val image = i.getAsJsonPrimitive("image").toString()
-            val tmp = Sanpham(id, name, type, price, describe, image)
-            products_in_cart.add(tmp)
-            quantity_product_in_cart.add(i.getAsJsonPrimitive("quantity").asInt)
+    val call = RetrofitClient.viewPagerApi.getCart(customer.id)
+    call.enqueue(object : Callback<java.util.ArrayList<JsonObject>> {
+        override fun onResponse(
+            call: Call<java.util.ArrayList<JsonObject>>,
+            response: Response<java.util.ArrayList<JsonObject>>
+        ) {
+            if (response.isSuccessful) {
+                // Xử lý kết quả trả về nếu thêm hàng mới thành công
+                require_reload_data_cart = false
+                if (progressDialog != null) {
+                    progressDialog?.dismiss()
+                    progressDialog = null
+                }
+                products_in_cart.clear()
+                quantity_product_in_cart.clear()
+                for (i in response.body()!!) {
+                    val id = i.getAsJsonPrimitive("id_product").asInt
+                    val name = i.getAsJsonPrimitive("name").toString()
+                    val type = i.getAsJsonPrimitive("type").toString()
+                    val price = i.getAsJsonPrimitive("price").asInt
+                    val describe = i.getAsJsonPrimitive("describe").toString()
+                    val image = i.getAsJsonPrimitive("image").toString()
+                    val tmp = Sanpham(id, name, type, price, describe, image)
+                    products_in_cart.add(tmp)
+                    quantity_product_in_cart.add(i.getAsJsonPrimitive("quantity").asInt)
+                }
+                checkList(products_in_cart)
+                binding_gio_hang.recyclerView.adapter?.notifyDataSetChanged()
+
+
+            } else {
+                println(response.errorBody())
+                // Xử lý lỗi nếu thêm hàng mới thất bại
+            }
         }
-    }
+
+        override fun onFailure(call: Call<java.util.ArrayList<JsonObject>>, t: Throwable) {
+            // Xử lý lỗi nếu không thể kết nối tới server
+
+        }
+    })
 }
 
 fun checkList(list: ArrayList<Sanpham>) {
@@ -147,7 +195,12 @@ class CartActivity : AppCompatActivity() {
         binding_gio_hang.btnMuahang.setOnClickListener {
 
             if (quantity_product_to_pay.isEmpty()) {
-                val toasty = Toasty.warning(applicationContext, "Hello,aldlashldihjalshdlhasldhlakshdlkhaslkdasd Toasty!", Toast.LENGTH_SHORT, true)
+                val toasty = Toasty.warning(
+                    applicationContext,
+                    "Hello,aldlashldihjalshdlhasldhlakshdlkhaslkdasd Toasty!",
+                    Toast.LENGTH_SHORT,
+                    true
+                )
                 toasty.setGravity(Gravity.CENTER, 0, 0)
                 toasty.show()
             } else {
@@ -164,6 +217,16 @@ class CartActivity : AppCompatActivity() {
 
     override fun onResume() {
         super.onResume()
+
+        if (require_reload_data_cart) {
+            progressDialog = ProgressDialog(this)
+            progressDialog?.setCancelable(false)
+            progressDialog?.setMessage("Đợi xíu...")
+            progressDialog?.setProgressStyle(ProgressDialog.STYLE_SPINNER)
+            progressDialog?.setProgress(0)
+            progressDialog?.show()
+            loadDataCart()
+        }
         total_price = 0
         binding_gio_hang.totalPrice.text = "0đ"
         binding_gio_hang.allCheckBox.isChecked = false

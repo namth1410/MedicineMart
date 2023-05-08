@@ -84,7 +84,7 @@
 
     <com.google.android.gms.maps.MapView
         android:id="@+id/mapView"
-        android:apiKey="AIzaSyBbNPzaOCEG4KOjvrPNDHOT8XzCOsFaECI"
+        android:apiKey="AIzaSyCOJOMLd2PlUclpuxzt5U1Bv73R4QqfN50"
         android:layout_width="match_parent"
         android:layout_height="@dimen/_200sdp"
         android:layout_below="@+id/edt_diachi"/>

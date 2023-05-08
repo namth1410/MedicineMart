@@ -51,6 +51,7 @@
 
             <ImageView
                 android:id="@+id/imageView"
+                android:transitionName="shared_element"
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/_200sdp"
                 android:src="@drawable/berberin" />
