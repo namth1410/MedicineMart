@@ -1,0 +1,182 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/bg_dangnhap"
+    android:paddingLeft="@dimen/_5sdp">
+
+    <androidx.cardview.widget.CardView
+        android:layout_width="@dimen/_270sdp"
+        android:layout_height="@dimen/_480sdp"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="@dimen/_40sdp"
+        app:cardBackgroundColor="#FFFFFF"
+        app:cardCornerRadius="25dp">
+
+        <TextView
+            android:id="@+id/textView10"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/_10sdp"
+            android:layout_marginTop="@dimen/_10sdp"
+            android:text="Thêm sản phẩm"
+            android:textColor="#000000"
+            android:textSize="30sp"
+            android:textStyle="bold" />
+
+        <RelativeLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/_60sdp">
+
+            <com.google.android.material.textview.MaterialTextView
+                android:id="@+id/them_sp_ten"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/_10sdp"
+                android:hint="Tên sản phẩm"
+                android:textColorHint="#808080"
+                android:textSize="@dimen/_15sdp" />
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/edt_ten_sp"
+                android:layout_width="@dimen/_260sdp"
+                android:layout_height="@dimen/_30sdp"
+                android:layout_below="@+id/them_sp_ten"
+                android:layout_marginLeft="@dimen/_10sdp"
+                android:layout_marginTop="@dimen/_3sdp"
+                android:layout_marginRight="@dimen/_10sdp"
+                android:layout_marginBottom="@dimen/_10sdp"
+                android:background="@drawable/bg_edittext"
+                android:hint="Nhập tên sản phẩm"
+                android:inputType="textVisiblePassword"
+                android:paddingLeft="@dimen/_5sdp"
+                android:singleLine="true"
+                android:textColor="@color/black"
+                android:textColorHint="#808080"
+                android:textSize="@dimen/_16sdp" />
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/_130sdp">
+
+            <com.google.android.material.textview.MaterialTextView
+                android:id="@+id/them_sp_gia"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/_10sdp"
+                android:hint="Giá"
+                android:textColorHint="#808080"
+                android:textSize="@dimen/_15sdp" />
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/edt_gia_sp"
+                android:layout_width="@dimen/_260sdp"
+                android:layout_height="@dimen/_30sdp"
+                android:layout_below="@+id/them_sp_gia"
+                android:layout_marginLeft="@dimen/_10sdp"
+                android:layout_marginTop="@dimen/_3sdp"
+                android:layout_marginRight="@dimen/_10sdp"
+                android:background="@drawable/bg_edittext"
+                android:hint="Nhập giá sản phẩm"
+                android:paddingLeft="@dimen/_5sdp"
+                android:password="true"
+
+                android:singleLine="true"
+                android:textColor="@color/black"
+                android:textColorHint="#808080"
+                android:textSize="@dimen/_16sdp" />
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/_190sdp">
+
+            <com.google.android.material.textview.MaterialTextView
+                android:id="@+id/them_sp_mota"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/_10sdp"
+                android:hint="Mô tả"
+                android:textColorHint="#808080"
+                android:textSize="@dimen/_15sdp" />
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/edt_mota_sp"
+                android:layout_width="@dimen/_260sdp"
+                android:layout_height="@dimen/_100sdp"
+                android:layout_below="@+id/them_sp_mota"
+                android:layout_marginLeft="@dimen/_10sdp"
+                android:layout_marginTop="@dimen/_3sdp"
+                android:layout_marginRight="@dimen/_10sdp"
+                android:background="@drawable/bg_edittext"
+                android:hint="Nhập mô tả sản phẩm"
+                android:paddingLeft="@dimen/_5sdp"
+                android:paddingTop="@dimen/_5sdp"
+
+                android:password="true"
+                android:singleLine="true"
+                android:textColor="@color/black"
+                android:textColorHint="#808080"
+                android:textSize="@dimen/_16sdp" />
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/_320sdp">
+
+            <com.google.android.material.textview.MaterialTextView
+                android:id="@+id/them_sp_hinhanh"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/_10sdp"
+                android:hint="Hình ảnh"
+                android:textColorHint="#808080"
+                android:textSize="@dimen/_15sdp" />
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/edt_hinhanh_sp"
+                android:layout_width="@dimen/_260sdp"
+                android:layout_height="@dimen/_30sdp"
+                android:layout_below="@+id/them_sp_hinhanh"
+                android:layout_marginLeft="@dimen/_10sdp"
+                android:layout_marginTop="@dimen/_3sdp"
+                android:layout_marginRight="@dimen/_10sdp"
+                android:background="@drawable/bg_edittext"
+                android:hint="Nhập hình ảnh sản phẩm"
+                android:paddingLeft="@dimen/_5sdp"
+                android:password="true"
+
+                android:singleLine="true"
+                android:textColor="@color/black"
+                android:textColorHint="#808080"
+                android:textSize="@dimen/_16sdp" />
+        </RelativeLayout>
+
+        <Button
+            android:id="@+id/btn_save"
+            android:layout_width="@dimen/_100sdp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="right|center_horizontal"
+            android:layout_marginRight="@dimen/_20sdp"
+            android:layout_marginTop="@dimen/_400sdp"
+            android:background="@drawable/bg_button"
+            android:text="Lưu" />
+
+        <Button
+            android:id="@+id/btn_cancel"
+            android:layout_width="@dimen/_100sdp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal|left"
+            android:layout_marginLeft="@dimen/_20sdp"
+            android:layout_marginTop="@dimen/_400sdp"
+            android:background="@drawable/bg_button"
+            android:text="Hủy" />
+
+    </androidx.cardview.widget.CardView>
+</RelativeLayout>

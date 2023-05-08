@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item
+        android:id="@+id/home"
+        android:title="Trang chủ"
+        android:icon="@drawable/baseline_home_24"
+        />
+
+    <item
+        android:id="@+id/chat"
+        android:title="Chat"
+        android:icon="@drawable/baseline_chat"
+        />
+
+    <item
+        android:id="@+id/thongke"
+        android:title="Thống kê"
+        android:icon="@drawable/chart_areaspline"
+        />
+    <item
+        android:id="@+id/chucnang"
+        android:title="Chức năng"
+        android:icon="@drawable/tools"
+        />
+
+
+</menu>
