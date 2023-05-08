@@ -8,6 +8,7 @@
     android:focusable="true"
     android:background="@drawable/bg_dangnhap">
 
+
     <androidx.cardview.widget.CardView
         android:id="@+id/cardView"
         android:layout_width="@dimen/_270sdp"
@@ -71,8 +72,8 @@
                     android:layout_height="wrap_content"
                     android:layout_below="@+id/edt_username"
                     android:layout_marginLeft="@dimen/_10sdp"
-                    android:textSize="@dimen/_12sdp"
-                    android:textColor="@color/red" />
+                    android:textColor="@color/red"
+                    android:textSize="@dimen/_12sdp" />
             </RelativeLayout>
 
             <RelativeLayout
@@ -113,8 +114,8 @@
                     android:layout_height="wrap_content"
                     android:layout_below="@+id/edt_password"
                     android:layout_marginLeft="@dimen/_10sdp"
-                    android:textSize="@dimen/_12sdp"
-                    android:textColor="@color/red" />
+                    android:textColor="@color/red"
+                    android:textSize="@dimen/_12sdp" />
             </RelativeLayout>
 
             <LinearLayout
@@ -140,7 +141,8 @@
                     android:gravity="end"
                     android:text="Chưa có tài khoản?"
                     android:textColor="@color/grey"
-                    android:textSize="@dimen/_12sdp" />
+                    android:textSize="@dimen/_12sdp"
+                    android:clickable="true" />
 
             </LinearLayout>
 
@@ -149,8 +151,8 @@
                 android:id="@+id/btn_dangnhap"
                 android:layout_width="@dimen/_260sdp"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/_20sdp"
                 android:layout_gravity="center_horizontal"
+                android:layout_marginTop="@dimen/_20sdp"
                 android:background="@drawable/bg_button"
                 android:text="Đăng nhập" />
         </LinearLayout>

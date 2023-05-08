@@ -7,9 +7,11 @@ import android.net.ConnectivityManager
 import android.os.Bundle
 import android.text.method.HideReturnsTransformationMethod
 import android.text.method.PasswordTransformationMethod
+import android.view.animation.AnimationUtils
 import android.view.inputmethod.InputMethodManager
 import android.widget.Button
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.content.ContextCompat
 import com.blogspot.atifsoftwares.animatoolib.Animatoo
 import com.example.medicinemart.R
 import com.example.medicinemart.common.Info._username
@@ -101,6 +103,7 @@ class DangNhapActivity : AppCompatActivity() {
 
         // Xử lý khi ấn vào "Chưa có tài khoản"
         binding_dang_nhap.chuacotaikhoan.setOnClickListener {
+            binding_dang_nhap.chuacotaikhoan.setTextColor(ContextCompat.getColor(this, R.color.blue))
             val intent = Intent(this@DangNhapActivity, DangKyActivity::class.java)
             startActivity(intent)
             Animatoo.animateSlideLeft(this)
@@ -143,6 +146,10 @@ class DangNhapActivity : AppCompatActivity() {
 
         // Xử lý khi ấn vào nút Đăng Nhập
         binding_dang_nhap.btnDangnhap.setOnClickListener {
+
+            val animation = AnimationUtils.loadAnimation(this, R.anim.btn_anim)
+            binding_dang_nhap.btnDangnhap.startAnimation(animation)
+
             var username = binding_dang_nhap.edtUsername.text.toString()
             var password = binding_dang_nhap.edtPassword.text.toString()
 
