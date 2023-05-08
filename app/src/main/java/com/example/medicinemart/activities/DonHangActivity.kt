@@ -114,7 +114,7 @@ fun loadDataDonhang() {
                     }
 
                     var _receiveddate = time_defaul
-                    if (!i.get("receivedDate").isJsonNull) {
+                    if (!i.get("shipDate").isJsonNull) {
                         _date = i.getAsJsonPrimitive("receivedDate")?.asString
                         _receiveddate = LocalDateTime.parse(_date.toString(), formatter)
                     } else {
@@ -122,7 +122,7 @@ fun loadDataDonhang() {
                     }
 
                     var _canceldate = time_defaul
-                    if (!i.get("cancelDate").isJsonNull) {
+                    if (!i.get("shipDate").isJsonNull) {
                         _date = i.getAsJsonPrimitive("cancelDate")?.asString
                         _canceldate = LocalDateTime.parse(_date.toString(), formatter)
                     } else {
@@ -150,7 +150,7 @@ fun loadDataDonhang() {
                     }
                 }
                 binding_don_hang.recyclerView.adapter?.notifyDataSetChanged()
-                checkList(donHangChoXacNhanItemList)
+
             } else {
                 println(response.errorBody())
                 // Xử lý lỗi nếu thêm hàng mới thất bại
@@ -163,6 +163,152 @@ fun loadDataDonhang() {
         }
     })
 }
+
+//fun loadDataDonhang() {
+//    GlobalScope.launch(Dispatchers.Main) {
+//        donHangChoXacNhanItemList.clear()
+//        donHangDangGiaoItemList.clear()
+//        donHangDaGiaoItemList.clear()
+//        donHangDaHuyItemList.clear()
+//        println("custom_id " + customer.id)
+//        val getOrder = async { RetrofitClient.viewPagerApi.getOrder(customer.id, "All") }
+//        val res_getOrder = getOrder.await().body()
+//        for (i in res_getOrder!!) {
+//            val id_order = i.getAsJsonPrimitive("id_order").asInt
+//            val quantity = i.getAsJsonPrimitive("quantity").asInt
+//            val id = i.getAsJsonPrimitive("id").asInt
+//            val name = i.getAsJsonPrimitive("name").toString()
+//            val type = i.getAsJsonPrimitive("type").toString()
+//            val price = i.getAsJsonPrimitive("price").asInt
+//            val describe = i.getAsJsonPrimitive("describe").toString()
+//            val image = i.getAsJsonPrimitive("image").toString()
+//            var status = i.getAsJsonPrimitive("status").toString()
+//            status = status.substring(1, status.length - 1)
+//            val formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss")
+//
+//            var _date = i.getAsJsonPrimitive("orderDate").asString
+//            val _orderdate = LocalDateTime.parse(_date, formatter)
+//
+//            var _shipdate = time_defaul
+//            if (!i.get("shipDate").isJsonNull) {
+//                _date = i.getAsJsonPrimitive("shipDate")?.asString
+//                _shipdate = LocalDateTime.parse(_date.toString(), formatter)
+//            } else {
+//                _shipdate = time_defaul
+//            }
+//
+//            var _receiveddate = time_defaul
+//            if (!i.get("shipDate").isJsonNull) {
+//                _date = i.getAsJsonPrimitive("receivedDate")?.asString
+//                _receiveddate = LocalDateTime.parse(_date.toString(), formatter)
+//            } else {
+//                _receiveddate = time_defaul
+//            }
+//
+//            var _canceldate = time_defaul
+//            if (!i.get("shipDate").isJsonNull) {
+//                _date = i.getAsJsonPrimitive("cancelDate")?.asString
+//                _canceldate = LocalDateTime.parse(_date.toString(), formatter)
+//            } else {
+//                _canceldate = time_defaul
+//            }
+//
+//            val sanpham = Sanpham(id, name, type, price, describe, image)
+//            val address = Address()
+//            val time = Time(_orderdate, _shipdate, _receiveddate, _canceldate)
+//            val tmp = Order(id_order, sanpham, quantity, address, time)
+//            if (status == "Chờ xác nhận") {
+//                donHangChoXacNhanItemList.add(tmp)
+////                quantityChoXacNhan.add(i.getAsJsonPrimitive("quantity").asInt)
+//            } else if (status == "Đang giao") {
+//                donHangDangGiaoItemList.add(tmp)
+////                quantityDangGiao.add(i.getAsJsonPrimitive("quantity").asInt)
+//            } else if (status == "Đã giao") {
+//                donHangDaGiaoItemList.add(tmp)
+////                quantityDaGiao.add(i.getAsJsonPrimitive("quantity").asInt)
+//            } else if (status == "Đã hủy") {
+//                donHangDaHuyItemList.add(tmp)
+////                quantityDaHuy.add(i.getAsJsonPrimitive("quantity").asInt)
+//            }
+//        }
+//    }
+//}
+
+//@RequiresApi(Build.VERSION_CODES.O)
+//fun convertDateToLocalDateTime(date: Date): LocalDateTime {
+//    val instant = Instant.ofEpochMilli(date.time)
+//    return LocalDateTime.ofInstant(instant, ZoneId.systemDefault())
+//}
+
+//fun loadDataDonhang() {
+//    GlobalScope.launch(Dispatchers.Main) {
+//        donHangChoXacNhanItemList.clear()
+//        donHangDangGiaoItemList.clear()
+//        donHangDaGiaoItemList.clear()
+//        donHangDaHuyItemList.clear()
+//        println("custom_id " + customer.id)
+//        val getOrder = async { RetrofitClient.viewPagerApi.getOrder(customer.id, "All") }
+//        val res_getOrder = getOrder.await().body()
+//        for (i in res_getOrder!!) {
+//            val id_order = i.getAsJsonPrimitive("id_order").asInt
+//            val quantity = i.getAsJsonPrimitive("quantity").asInt
+//            val id = i.getAsJsonPrimitive("id").asInt
+//            val name = i.getAsJsonPrimitive("name").toString()
+//            val type = i.getAsJsonPrimitive("type").toString()
+//            val price = i.getAsJsonPrimitive("price").asInt
+//            val describe = i.getAsJsonPrimitive("describe").toString()
+//            val image = i.getAsJsonPrimitive("image").toString()
+//            var status = i.getAsJsonPrimitive("status").toString()
+//            status = status.substring(1, status.length - 1)
+//            val formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss")
+//
+//            var _date = i.getAsJsonPrimitive("orderDate").asString
+//            val _orderdate = LocalDateTime.parse(_date, formatter)
+//
+//            var _shipdate = time_defaul
+//            if (!i.get("shipDate").isJsonNull) {
+//                _date = i.getAsJsonPrimitive("shipDate")?.asString
+//                _shipdate = LocalDateTime.parse(_date.toString(), formatter)
+//            } else {
+//                _shipdate = time_defaul
+//            }
+//
+//            var _receiveddate = time_defaul
+//            if (!i.get("shipDate").isJsonNull) {
+//                _date = i.getAsJsonPrimitive("receivedDate")?.asString
+//                _receiveddate = LocalDateTime.parse(_date.toString(), formatter)
+//            } else {
+//                _receiveddate = time_defaul
+//            }
+//
+//            var _canceldate = time_defaul
+//            if (!i.get("shipDate").isJsonNull) {
+//                _date = i.getAsJsonPrimitive("cancelDate")?.asString
+//                _canceldate = LocalDateTime.parse(_date.toString(), formatter)
+//            } else {
+//                _canceldate = time_defaul
+//            }
+//
+//            val sanpham = Sanpham(id, name, type, price, describe, image)
+//            val address = Address()
+//            val time = Time(_orderdate, _shipdate, _receiveddate, _canceldate)
+//            val tmp = Order(id_order, sanpham, quantity, address, time)
+//            if (status == "Chờ xác nhận") {
+//                donHangChoXacNhanItemList.add(tmp)
+////                quantityChoXacNhan.add(i.getAsJsonPrimitive("quantity").asInt)
+//            } else if (status == "Đang giao") {
+//                donHangDangGiaoItemList.add(tmp)
+////                quantityDangGiao.add(i.getAsJsonPrimitive("quantity").asInt)
+//            } else if (status == "Đã giao") {
+//                donHangDaGiaoItemList.add(tmp)
+////                quantityDaGiao.add(i.getAsJsonPrimitive("quantity").asInt)
+//            } else if (status == "Đã hủy") {
+//                donHangDaHuyItemList.add(tmp)
+////                quantityDaHuy.add(i.getAsJsonPrimitive("quantity").asInt)
+//            }
+//        }
+//    }
+//}
 
 @RequiresApi(Build.VERSION_CODES.O)
 fun convertDateToLocalDateTime(date: Date): LocalDateTime {
@@ -240,16 +386,16 @@ class DonHangActivity : AppCompatActivity(), View.OnClickListener {
         TODO("Not yet implemented")
     }
 
-//    fun checkList(list: ArrayList<Order>) {
-//        if (list.isEmpty()) {
-//            binding_don_hang.layoutEmpty.visibility = View.VISIBLE
-//            binding_don_hang.recyclerView.visibility = View.INVISIBLE
-//
-//        } else {
-//            binding_don_hang.layoutEmpty.visibility = View.INVISIBLE
-//            binding_don_hang.recyclerView.visibility = View.VISIBLE
-//        }
-//    }
+    fun checkList(list: ArrayList<Order>) {
+        if (list.isEmpty()) {
+            binding_don_hang.layoutEmpty.visibility = View.VISIBLE
+            binding_don_hang.recyclerView.visibility = View.INVISIBLE
+
+        } else {
+            binding_don_hang.layoutEmpty.visibility = View.INVISIBLE
+            binding_don_hang.recyclerView.visibility = View.VISIBLE
+        }
+    }
 
     fun handlerButton(p: AppCompatButton) {
         binding_don_hang.btnDangGiao.setActivated(false)
@@ -268,27 +414,22 @@ class DonHangActivity : AppCompatActivity(), View.OnClickListener {
     fun handlerData(p: AppCompatButton) {
 //        var list = ArrayList<Sanpham>()
         var list = donHangChoXacNhanItemList
-        var type_order = "choxacnhan"
 //        var quantity_product_in_order = quantityChoXacNhan
         when (p) {
             binding_don_hang.btnChoXacNhan -> {
                 list = donHangChoXacNhanItemList
-                type_order = "choxacnhan"
 //                quantity_product_in_order = quantityChoXacNhan
             }
             binding_don_hang.btnDangGiao -> {
                 list = donHangDangGiaoItemList
-                type_order = "danggiao"
 //                quantity_product_in_order = quantityDangGiao
             }
             binding_don_hang.btnDaGiao -> {
                 list = donHangDaGiaoItemList
-                type_order = "dagiao"
 //                quantity_product_in_order = quantityDaGiao
             }
             binding_don_hang.btnDaHuy -> {
                 list = donHangDaHuyItemList
-                type_order = "dahuy"
 //                quantity_product_in_order = quantityDaHuy
             }
         }
@@ -301,8 +442,6 @@ class DonHangActivity : AppCompatActivity(), View.OnClickListener {
                     override fun onItemClick(position: Int) {
                         println("Mày vừa click vào item đúng không?")
                         val intent = Intent(this@DonHangActivity, ThongTinDonHangActivity::class.java)
-
-                        intent.putExtra("type_order", type_order)
                         order_detail = Order()
                         order_detail.sanpham = list.get(position).sanpham
                         order_detail.address = list.get(position).address
@@ -326,14 +465,6 @@ class DonHangActivity : AppCompatActivity(), View.OnClickListener {
             )
             binding_don_hang.recyclerView.setLayoutManager(VerticalLayout)
             binding_don_hang.recyclerView.adapter = adapterRecyclerOrder
-
-            if (p == binding_don_hang.btnChoXacNhan) {
-                for (i in 0 until binding_don_hang.recyclerView.childCount) {
-                    val view = binding_don_hang.recyclerView.getChildAt(i)
-
-                    // thực hiện các thao tác mong muốn với view item
-                }
-            }
         }
 
 
