@@ -79,6 +79,19 @@
 
 
     </ScrollView>
+=======
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/userRecycleView"
+        android:layout_width="match_parent"
+        android:layout_height="528dp"
+        android:layout_weight="5.2"
+        tools:listitem="@layout/user_list">
+
+
+
+
+    </androidx.recyclerview.widget.RecyclerView>
+>>>>>>> Stashed changes
 
     <com.google.android.material.bottomnavigation.BottomNavigationView
         android:id="@+id/bottomNavigationView"

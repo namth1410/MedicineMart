@@ -18,7 +18,6 @@ import com.google.android.material.bottomnavigation.BottomNavigationView
 
 private lateinit var binding_thongke_ad: ThongkeAdminBinding
 
-
 class ThongKeAdActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

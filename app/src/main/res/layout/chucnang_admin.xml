@@ -94,6 +94,22 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintVertical_bias="0.741" />
+            app:layout_constraintVertical_bias="0.706" />
+
+        <Button
+            android:id="@+id/btn_quanlydonhang"
+            android:layout_width="@dimen/_300sdp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:background="@drawable/bg_button"
+            android:text="Quản lý đơn hàng"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.523"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.92" />
+>>>>>>> Stashed changes
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 

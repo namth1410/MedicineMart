@@ -18,6 +18,7 @@ class ChucNangAdActivity : AppCompatActivity() {
         setContentView(binding_chucnang_ad.root)
 
         binding_chucnang_ad.btnThemSp.setOnClickListener {
+            /*binding_chucnang_ad.btnThemSp.setOnClickListener {
             val intent = Intent(this@ChucNangAdActivity, ThemSpActivity::class.java)
             startActivity(intent)
             Animatoo.animateSlideLeft(this)
@@ -49,38 +50,45 @@ class ChucNangAdActivity : AppCompatActivity() {
             //finish()
         }
 
-        binding_chucnang_ad.bottomNavigationView.setSelectedItemId(R.id.chucnang)
-        val mOnNavigationItemSelectedListener = BottomNavigationView.OnNavigationItemSelectedListener { item ->
-            when (item.itemId) {
-                R.id.home -> {
-                    // put your code here
-                    val intent = Intent(this@ChucNangAdActivity, TrangChuAdActivity::class.java)
-                    startActivity(intent)
-                    overridePendingTransition(R.anim.no_animation,  R.anim.no_animation)
-                    return@OnNavigationItemSelectedListener true
+         */
+
+            binding_chucnang_ad.bottomNavigationView.setSelectedItemId(R.id.chucnang)
+            val mOnNavigationItemSelectedListener =
+                BottomNavigationView.OnNavigationItemSelectedListener { item ->
+                    when (item.itemId) {
+                        R.id.home -> {
+                            // put your code here
+                            val intent =
+                                Intent(this@ChucNangAdActivity, TrangChuAdActivity::class.java)
+                            startActivity(intent)
+                            overridePendingTransition(R.anim.no_animation, R.anim.no_animation)
+                            return@OnNavigationItemSelectedListener true
+                        }
+
+                        R.id.chat -> {
+                            // put your code here
+                            val intent = Intent(this@ChucNangAdActivity, ChatAdActivity::class.java)
+                            startActivity(intent)
+                            overridePendingTransition(R.anim.no_animation, R.anim.no_animation)
+                            return@OnNavigationItemSelectedListener true
+                        }
+                        R.id.thongke -> {
+                            // put your code here
+                            val intent =
+                                Intent(this@ChucNangAdActivity, ThongKeAdActivity::class.java)
+                            startActivity(intent)
+                            overridePendingTransition(R.anim.no_animation, R.anim.no_animation)
+                            return@OnNavigationItemSelectedListener true
+                        }
+                    }
+                    false
                 }
 
-                R.id.chat -> {
-                    // put your code here
-                    val intent = Intent(this@ChucNangAdActivity, ChatAdActivity::class.java)
-                    startActivity(intent)
-                    overridePendingTransition(R.anim.no_animation,  R.anim.no_animation)
-                    return@OnNavigationItemSelectedListener true
-                }
-                R.id.thongke -> {
-                    // put your code here
-                    val intent = Intent(this@ChucNangAdActivity, ThongKeAdActivity::class.java)
-                    startActivity(intent)
-                    overridePendingTransition(R.anim.no_animation,  R.anim.no_animation)
-                    return@OnNavigationItemSelectedListener true
-                }
-            }
-            false
+            binding_chucnang_ad.bottomNavigationView.setOnNavigationItemSelectedListener(
+                mOnNavigationItemSelectedListener
+            )
+
         }
 
-        binding_chucnang_ad.bottomNavigationView.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener)
-
     }
-
-
 }

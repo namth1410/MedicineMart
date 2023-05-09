@@ -37,7 +37,6 @@ class TrangChuActivity : AppCompatActivity() {
         binding_trang_chu = TrangchuBinding.inflate(layoutInflater)
         setContentView(binding_trang_chu.root)
 
-<<<<<<< Updated upstream
         // --ViewPager
         viewPager = binding_trang_chu.idViewPager
 
@@ -131,38 +130,6 @@ class TrangChuActivity : AppCompatActivity() {
         // --RecycleView end
 
 //      Xử lý điều hướng thanh BottomNavigationView
-        val mOnNavigationItemSelectedListener =
-            BottomNavigationView.OnNavigationItemSelectedListener { item ->
-                when (item.itemId) {
-                    R.id.hoso -> {
-                        // put your code here
-                        val intent = Intent(this@TrangChuActivity, HoSoActivity::class.java)
-                        startActivity(intent)
-                        overridePendingTransition(R.anim.no_animation, R.anim.no_animation)
-                        return@OnNavigationItemSelectedListener true
-                    }
-                    R.id.thongbao -> {
-                        // put your code here
-                        val intent = Intent(this@TrangChuActivity, ThongBaoActivity::class.java)
-                        startActivity(intent)
-                        overridePendingTransition(R.anim.no_animation, R.anim.no_animation)
-                        return@OnNavigationItemSelectedListener true
-                    }
-                    R.id.donhang -> {
-                        // put your code here
-                        val intent = Intent(this@TrangChuActivity, DonHangActivity::class.java)
-                        startActivity(intent)
-                        overridePendingTransition(R.anim.no_animation, R.anim.no_animation)
-                        return@OnNavigationItemSelectedListener true
-                    }
-                }
-                false
-            }
-
-        binding_trang_chu.bottomNavigationView.setOnNavigationItemSelectedListener(
-            mOnNavigationItemSelectedListener
-        )
-=======
         binding_trang_chu.bottomNavigationView.setSelectedItemId(R.id.home)
         val mOnNavigationItemSelectedListener = BottomNavigationView.OnNavigationItemSelectedListener { item ->
             when (item.itemId) {
@@ -190,9 +157,8 @@ class TrangChuActivity : AppCompatActivity() {
             }
             false
         }
->>>>>>> Stashed changes
 
-
+        binding_trang_chu.bottomNavigationView.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener)
     }
 
     fun reloadAllDataListView() {
