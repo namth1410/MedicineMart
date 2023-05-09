@@ -273,6 +273,51 @@ class TrangChuActivity : AppCompatActivity() {
             startActivity(intent)
             overridePendingTransition(R.anim.no_animation, R.anim.no_animation)
         }
+        binding_trang_chu.tvXemthem2.setOnClickListener() {
+            val query = "xuong khop"
+            val intent = Intent(this@TrangChuActivity, SearchActivity::class.java).apply {
+                putExtra("text_search", query)
+            }
+            for (product in all_product) {
+                val originalString = product.type
+                val nonAccentString = originalString.removeAccent()
+                if (nonAccentString.contains(query, true)) {
+                    productSearchList.add(product)
+                }
+            }
+            startActivity(intent)
+            overridePendingTransition(R.anim.no_animation, R.anim.no_animation)
+        }
+        binding_trang_chu.tvXemthem3.setOnClickListener() {
+            val query = "dau ngai cuu"
+            val intent = Intent(this@TrangChuActivity, SearchActivity::class.java).apply {
+                putExtra("text_search", query)
+            }
+            for (product in all_product) {
+                val originalString = product.type
+                val nonAccentString = originalString.removeAccent()
+                if (nonAccentString.contains(query, true)) {
+                    productSearchList.add(product)
+                }
+            }
+            startActivity(intent)
+            overridePendingTransition(R.anim.no_animation, R.anim.no_animation)
+        }
+        binding_trang_chu.tvXemthem4.setOnClickListener() {
+            val query = "dai trang"
+            val intent = Intent(this@TrangChuActivity, SearchActivity::class.java).apply {
+                putExtra("text_search", query)
+            }
+            for (product in all_product) {
+                val originalString = product.type
+                val nonAccentString = originalString.removeAccent()
+                if (nonAccentString.contains(query, true)) {
+                    productSearchList.add(product)
+                }
+            }
+            startActivity(intent)
+            overridePendingTransition(R.anim.no_animation, R.anim.no_animation)
+        }
         startTimer()
     }
 

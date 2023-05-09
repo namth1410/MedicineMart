@@ -156,6 +156,7 @@
                         android:textSize="@dimen/_18sdp" />
 
                     <TextView
+                        android:id="@+id/tv_xemthem2"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_weight="0.3"
@@ -201,6 +202,7 @@
                         android:textSize="@dimen/_18sdp" />
 
                     <TextView
+                        android:id="@+id/tv_xemthem3"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_weight="0.3"
@@ -246,6 +248,7 @@
                         android:textSize="@dimen/_18sdp" />
 
                     <TextView
+                        android:id="@+id/tv_xemthem4"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_weight="0.3"

@@ -86,6 +86,15 @@ class HoSoActivity : AppCompatActivity() {
 //            overridePendingTransition(R.anim.no_animation,  R.anim.no_animation)
         }
 
+        // Xử lý sự kiện bấm vào Hỗ trợ
+        binding_ho_so.tvHotro.setOnClickListener() {
+            val intent = Intent(this@HoSoActivity, HoTroActivity::class.java)
+            startActivity(intent)
+            Animatoo.animateSlideLeft(this)
+
+//            overridePendingTransition(R.anim.no_animation,  R.anim.no_animation)
+        }
+
         // Xử lý sự kiện bấm Đăng xuất
         binding_ho_so.tvDangxuat.setOnClickListener() {
             val editor = sharedPref.edit()

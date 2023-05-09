@@ -1,9 +1,6 @@
 package com.example.medicinemart.retrofit
 
-import com.example.medicinemart.models.Address
-import com.example.medicinemart.models.BannerAds
-import com.example.medicinemart.models.Customer
-import com.example.medicinemart.models.Sanpham
+import com.example.medicinemart.models.*
 import com.google.gson.JsonObject
 import okhttp3.ResponseBody
 import retrofit2.Call
@@ -125,4 +122,16 @@ interface API {
 
     @GET("api/getIdAddressMax.php")
     suspend fun getIdAddressMax() : Response<Int>
+
+    @GET("api/getNotification.php")
+    fun getNotification(@Query("id_customer") id_customer: Int) : Call<ArrayList<JsonObject>>
+
+    @FormUrlEncoded
+    @POST("api/addNotification.php")
+    fun addNotification(
+        @Field("id_customer") id_customer: Int,
+        @Field("title") title: String,
+        @Field("content") content: String,
+        @Field("id_product") id_product: Int
+    ): Call<ResponseBody>
 }

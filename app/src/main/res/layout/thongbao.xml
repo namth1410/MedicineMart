@@ -3,33 +3,81 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:background="@color/white">
 
-    <TextView
-        android:id="@+id/textView2"
-        android:layout_width="174dp"
-        android:layout_height="209dp"
-        android:text="Thông báo"
-        android:textSize="@dimen/_25sdp"
-        android:layout_centerHorizontal="true"
-        android:layout_centerVertical="true"
-        android:textColor="@color/black"/>
+    <LinearLayout
+        android:id="@+id/head"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/_40sdp"
+        android:background="@color/white"
+        android:weightSum="1">
 
-    <ImageView
-        android:id="@+id/img"
+        <TextView
+            android:id="@+id/tv_thongbao"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_marginStart="@dimen/_20sdp"
+            android:layout_marginTop="@dimen/_10sdp"
+            android:gravity="center_vertical"
+            android:text="Thông báo"
+            android:textColor="@color/black"
+            android:textStyle="bold"
+            android:textSize="@dimen/_14sdp"
+            android:layout_weight="0.8"
+            android:iconifiedByDefault="false"
+            android:inputType="textVisiblePassword"
+            android:searchIcon="@drawable/baseline_search_24" />
+
+
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/btn_cart"
+            android:paddingLeft="@dimen/_5sdp"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_marginTop="@dimen/_10sdp"
+            android:layout_weight="0.1"
+            android:background="#00000000"
+            android:drawableStart="@drawable/baseline_shopping_cart_24" />
+
+        <androidx.appcompat.widget.AppCompatButton
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_marginTop="@dimen/_10sdp"
+            android:layout_weight="0.1"
+            android:background="#00000000"
+            android:drawableStart="@drawable/baseline_chat_24" />
+
+    </LinearLayout>
+
+    <View
+        android:id="@+id/line"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/_5sdp"
+        android:layout_below="@id/head"
+        android:alpha="0.1"
+        android:background="@android:color/black"
+        />
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/recyclerView"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_below="@id/textView2"
-        android:layout_above="@id/bottomNavigationView">
+        android:layout_below="@+id/line"
+        android:layout_above="@+id/bottomNavigationView"
+        android:scrollbars="none"
+        tools:itemCount="5"
+        tools:listitem="@layout/thongbao_item" />
 
-    </ImageView>
 
     <com.google.android.material.bottomnavigation.BottomNavigationView
         android:id="@+id/bottomNavigationView"
         android:layout_width="match_parent"
-        android:layout_height="@dimen/_50sdp"
+        android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
-        android:background="#2FB4FF"
+        android:background="@color/blue"
+        android:maxHeight="@dimen/_50sdp"
+        android:minHeight="@dimen/_45sdp"
         app:labelVisibilityMode="labeled"
         app:menu="@menu/bottom_nav" />
 </RelativeLayout>

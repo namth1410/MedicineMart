@@ -15,6 +15,8 @@ private lateinit var binding_thong_tin_don_hang: ThongtindonhangBinding
 lateinit var order_detail: Order
 
 
+
+
 class ThongTinDonHangActivity : AppCompatActivity() {
     @RequiresApi(Build.VERSION_CODES.O)
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -61,4 +63,5 @@ class ThongTinDonHangActivity : AppCompatActivity() {
         }
 
     }
+
 }

@@ -9,11 +9,11 @@ import com.blogspot.atifsoftwares.animatoolib.Animatoo
 import com.example.medicinemart.adapter.OnItemClickListener
 import com.example.medicinemart.adapter.RecycleViewThanhToanAdapter
 import com.example.medicinemart.common.Info
-import com.example.medicinemart.common.Info.alertDialog
 import com.example.medicinemart.common.Info.customer
 import com.example.medicinemart.common.Info.delivery_address
 import com.example.medicinemart.common.Info.list_address
 import com.example.medicinemart.common.Info.product_to_pay
+import com.example.medicinemart.common.Info.products_in_cart
 import com.example.medicinemart.common.Info.quantity_product_to_pay
 import com.example.medicinemart.databinding.ThanhtoanBinding
 import com.example.medicinemart.models.Address
@@ -116,13 +116,28 @@ class ThanhToanActivity : AppCompatActivity() {
                                         call1.enqueue(object : Callback<Void> {
                                             override fun onResponse(call: Call<Void>, response: Response<Void>) {
                                                 if (response.isSuccessful) {
-                                                    progressDialog.dismiss()
-                                                    println("da doi can load lai trang" + require_reload_data_cart)
-                                                    require_reload_data_cart = true
-                                                    println("da doi can load lai trang" + require_reload_data_cart)
+                                                    products_in_cart.remove(i)
+                                                    val content = "Đơn hàng mã " + i.id + " đã được hệ thống ghi nhận. Hãy chờ người bán xác nhận!"
+                                                    val call1 = RetrofitClient.viewPagerApi.addNotification(customer.id, Info.title_cho_xac_nhan, "hih", i.id)
+                                                    call1.enqueue(object : Callback<ResponseBody> {
+                                                        override fun onResponse(call: Call<ResponseBody>, response: Response<ResponseBody>) {
+                                                            if (response.isSuccessful) {
+                                                                // Xóa thành công
+                                                                progressDialog.dismiss()
+                                                                println("da doi can load lai trang" + require_reload_data_cart)
+                                                                require_reload_data_thong_bao = true
+                                                                require_reload_data_cart = true
+                                                                println("da doi can load lai trang" + require_reload_data_cart)
+                                                                Info.alertDialog(this@ThanhToanActivity)
+                                                            } else {
+                                                                // Xóa không thành công
+                                                            }
+                                                        }
 
-                                                    alertDialog(this@ThanhToanActivity)
-
+                                                        override fun onFailure(call: Call<ResponseBody>, t: Throwable) {
+                                                            // Xóa không thành công do lỗi mạng hoặc lỗi server
+                                                        }
+                                                    })
                                                     // Xóa thành công
                                                 } else {
                                                     // Xóa không thành công

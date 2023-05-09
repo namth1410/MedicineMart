@@ -150,7 +150,7 @@ fun loadDataDonhang() {
                     }
                 }
                 binding_don_hang.recyclerView.adapter?.notifyDataSetChanged()
-
+                checkList(donHangChoXacNhanItemList)
             } else {
                 println(response.errorBody())
                 // Xử lý lỗi nếu thêm hàng mới thất bại
@@ -310,16 +310,16 @@ class DonHangActivity : AppCompatActivity(), View.OnClickListener {
         TODO("Not yet implemented")
     }
 
-    fun checkList(list: ArrayList<Order>) {
-        if (list.isEmpty()) {
-            binding_don_hang.layoutEmpty.visibility = View.VISIBLE
-            binding_don_hang.recyclerView.visibility = View.INVISIBLE
-
-        } else {
-            binding_don_hang.layoutEmpty.visibility = View.INVISIBLE
-            binding_don_hang.recyclerView.visibility = View.VISIBLE
-        }
-    }
+//    fun checkList(list: ArrayList<Order>) {
+//        if (list.isEmpty()) {
+//            binding_don_hang.layoutEmpty.visibility = View.VISIBLE
+//            binding_don_hang.recyclerView.visibility = View.INVISIBLE
+//
+//        } else {
+//            binding_don_hang.layoutEmpty.visibility = View.INVISIBLE
+//            binding_don_hang.recyclerView.visibility = View.VISIBLE
+//        }
+//    }
 
     fun handlerButton(p: AppCompatButton) {
         binding_don_hang.btnDangGiao.setActivated(false)
@@ -389,6 +389,14 @@ class DonHangActivity : AppCompatActivity(), View.OnClickListener {
             )
             binding_don_hang.recyclerView.setLayoutManager(VerticalLayout)
             binding_don_hang.recyclerView.adapter = adapterRecyclerOrder
+
+            if (p == binding_don_hang.btnChoXacNhan) {
+                for (i in 0 until binding_don_hang.recyclerView.childCount) {
+                    val view = binding_don_hang.recyclerView.getChildAt(i)
+
+                    // thực hiện các thao tác mong muốn với view item
+                }
+            }
         }
 
 

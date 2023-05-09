@@ -46,6 +46,7 @@ fun getInfoCustomer() {
                 loadDataCart()
                 loadDataDonhang()
                 getAddressFromDB()
+                getNotification()
             } else {
                 // Xử lý lỗi nếu thêm hàng mới thất bại
             }
@@ -107,10 +108,23 @@ class DangNhapActivity : AppCompatActivity() {
 
         // Xử lý khi ấn vào "Chưa có tài khoản"
         binding_dang_nhap.chuacotaikhoan.setOnClickListener {
-            binding_dang_nhap.chuacotaikhoan.setTextColor(ContextCompat.getColor(this, R.color.blue))
-            val intent = Intent(this@DangNhapActivity, DangKyActivity::class.java)
-            startActivity(intent)
-            Animatoo.animateSlideLeft(this)
+            it.animate()
+                .scaleX(1.5f)
+                .scaleY(1.5f)
+                .setDuration(250)
+                .withEndAction {
+                    it.animate()
+                        .translationX(500f)
+                        .setDuration(500)
+                        .withEndAction {
+//                            binding_dang_nhap.chuacotaikhoan.setTextColor(ContextCompat.getColor(this, R.color.blue))
+                            val intent = Intent(this@DangNhapActivity, DangKyActivity::class.java)
+                            startActivity(intent)
+                            Animatoo.animateSlideLeft(this)
+                        }
+                        .start()
+                }
+                .start()
             //finish()
         }
 
@@ -197,5 +211,11 @@ class DangNhapActivity : AppCompatActivity() {
                 finish()
             }
         }
+
+    }
+
+    override fun onResume() {
+        super.onResume()
+        binding_dang_nhap.chuacotaikhoan.setTextColor(ContextCompat.getColor(this, R.color.grey))
     }
 }
