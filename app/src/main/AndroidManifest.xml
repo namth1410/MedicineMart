@@ -43,6 +43,7 @@
         <activity android:name=".activities.XoaSpActivity"/>
         <activity android:name=".activities.SuaSpActivity"/>
         <activity android:name=".activities.QuanLyKhachHangActivity"/>
+        <activity android:name=".activities.QuanLyDonHangActivity"/>
     </application>
 
 </manifest>

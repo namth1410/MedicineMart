@@ -18,7 +18,6 @@ class ChucNangAdActivity : AppCompatActivity() {
         setContentView(binding_chucnang_ad.root)
 
         binding_chucnang_ad.btnThemSp.setOnClickListener {
-            /*binding_chucnang_ad.btnThemSp.setOnClickListener {
             val intent = Intent(this@ChucNangAdActivity, ThemSpActivity::class.java)
             startActivity(intent)
             Animatoo.animateSlideLeft(this)
@@ -43,6 +42,7 @@ class ChucNangAdActivity : AppCompatActivity() {
             Animatoo.animateSlideLeft(this)
             //finish()
         }
+
         binding_chucnang_ad.btnQuanLyKhachHang.setOnClickListener {
             val intent = Intent(this@ChucNangAdActivity, QuanLyKhachHangActivity::class.java)
             startActivity(intent)
@@ -50,9 +50,13 @@ class ChucNangAdActivity : AppCompatActivity() {
             //finish()
         }
 
-         */
+        binding_chucnang_ad.btnQuanlydonhang.setOnClickListener {
+            val intent = Intent(this@ChucNangAdActivity, QuanLyDonHangActivity::class.java)
+            startActivity(intent)
+            Animatoo.animateSlideLeft(this)
+            //finish()
 
-            binding_chucnang_ad.bottomNavigationView.setSelectedItemId(R.id.chucnang)
+        binding_chucnang_ad.bottomNavigationView.setSelectedItemId(R.id.chucnang)
             val mOnNavigationItemSelectedListener =
                 BottomNavigationView.OnNavigationItemSelectedListener { item ->
                     when (item.itemId) {
