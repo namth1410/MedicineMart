@@ -3,24 +3,17 @@ package com.example.medicinemart.activities
 import android.app.ProgressDialog
 import android.content.Intent
 import android.os.Bundle
-import android.os.Handler
-import android.widget.Button
-import android.widget.ImageView
-import android.widget.TextView
-import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.blogspot.atifsoftwares.animatoolib.Animatoo
-import com.example.medicinemart.R
 import com.example.medicinemart.adapter.OnItemClickListener
 import com.example.medicinemart.adapter.RecycleViewThanhToanAdapter
 import com.example.medicinemart.common.Info
+import com.example.medicinemart.common.Info.alertDialog
 import com.example.medicinemart.common.Info.customer
 import com.example.medicinemart.common.Info.delivery_address
 import com.example.medicinemart.common.Info.list_address
 import com.example.medicinemart.common.Info.product_to_pay
-import com.example.medicinemart.common.Info.products_in_cart
-import com.example.medicinemart.common.Info.quantity_product_in_cart
 import com.example.medicinemart.common.Info.quantity_product_to_pay
 import com.example.medicinemart.databinding.ThanhtoanBinding
 import com.example.medicinemart.models.Address
@@ -49,7 +42,6 @@ class ThanhToanActivity : AppCompatActivity() {
                     Info.location_default.latitude
                 ), BigDecimal(Info.location_default.longitude), "Chưa có địa chỉ!"
             )
-            println("danh sach dia chi null " + delivery_address!!.full_name)
         } else {
             delivery_address = list_address.get(0)
         }
@@ -95,8 +87,14 @@ class ThanhToanActivity : AppCompatActivity() {
         }
 
         binding_thanh_toan.btnDathang.setOnClickListener() {
-
-            val call = RetrofitClient.viewPagerApi.addOrder(Info.customer.id)
+            progressDialog = ProgressDialog(this)
+            progressDialog.setCancelable(false)
+            progressDialog.setMessage("Đơn hàng của bạn đang được xử lý...")
+            progressDialog.setProgressStyle(ProgressDialog.STYLE_SPINNER)
+            progressDialog.setProgress(0)
+            progressDialog.show()
+            println(delivery_address)
+            val call = RetrofitClient.viewPagerApi.addOrder(customer.id, delivery_address!!.id)
             call.enqueue(object : Callback<ResponseBody> {
                 override fun onResponse(
                     call: Call<ResponseBody>,
@@ -104,9 +102,7 @@ class ThanhToanActivity : AppCompatActivity() {
                 ) {
                     if (response.isSuccessful) {
                         // Xử lý kết quả trả về nếu thêm hàng mới thành công
-                        println("Thêm đơn hàng mới thành công")
-                        println(product_to_pay)
-                        println(quantity_product_to_pay)
+                        require_reload_data_order = true
                         for (i in product_to_pay) {
                             val call = RetrofitClient.viewPagerApi.addOrderDetail(i.id, quantity_product_to_pay.get(
                                 product_to_pay.indexOf(i)), i.price)
@@ -116,8 +112,27 @@ class ThanhToanActivity : AppCompatActivity() {
                                     response: Response<ResponseBody>
                                 ) {
                                     if (response.isSuccessful) {
-                                        // Xử lý kết quả trả về nếu thêm hàng mới thành công
-                                        println("Thêm chi tiết đơn hàng mới thành công")
+                                        val call1 = RetrofitClient.viewPagerApi.deleteProductInCart(customer.id, i.id)
+                                        call1.enqueue(object : Callback<Void> {
+                                            override fun onResponse(call: Call<Void>, response: Response<Void>) {
+                                                if (response.isSuccessful) {
+                                                    progressDialog.dismiss()
+                                                    println("da doi can load lai trang" + require_reload_data_cart)
+                                                    require_reload_data_cart = true
+                                                    println("da doi can load lai trang" + require_reload_data_cart)
+
+                                                    alertDialog(this@ThanhToanActivity)
+
+                                                    // Xóa thành công
+                                                } else {
+                                                    // Xóa không thành công
+                                                }
+                                            }
+
+                                            override fun onFailure(call: Call<Void>, t: Throwable) {
+                                                // Xóa không thành công do lỗi mạng hoặc lỗi server
+                                            }
+                                        })
                                     } else {
                                         // Xử lý lỗi nếu thêm hàng mới thất bại
                                     }
@@ -128,30 +143,31 @@ class ThanhToanActivity : AppCompatActivity() {
                                 }
                             })
 
-                            println("ma san pham: " + i.id)
-                            println("custom id : " + customer.id)
-                            val call1 = RetrofitClient.viewPagerApi.deleteProductInCart(customer.id, i.id)
-                            call1.enqueue(object : Callback<Void> {
-                                override fun onResponse(call: Call<Void>, response: Response<Void>) {
-                                    if (response.isSuccessful) {
-                                        // Xóa thành công
-                                    } else {
-                                        // Xóa không thành công
-                                    }
-                                }
+//                            val call1 = RetrofitClient.viewPagerApi.deleteProductInCart(customer.id, i.id)
+//                            call1.enqueue(object : Callback<Void> {
+//                                override fun onResponse(call: Call<Void>, response: Response<Void>) {
+//                                    if (response.isSuccessful) {
+//                                        // Xóa thành công
+//                                    } else {
+//                                        // Xóa không thành công
+//                                    }
+//                                }
+//
+//                                override fun onFailure(call: Call<Void>, t: Throwable) {
+//                                    // Xóa không thành công do lỗi mạng hoặc lỗi server
+//                                }
+//                            })
 
-                                override fun onFailure(call: Call<Void>, t: Throwable) {
-                                    // Xóa không thành công do lỗi mạng hoặc lỗi server
-                                }
-                            })
-                            quantity_product_in_cart.removeAt(products_in_cart.indexOf(i))
-                            products_in_cart.remove(i)
-                            binding_gio_hang.recyclerView.adapter?.notifyDataSetChanged()
-                            donHangChoXacNhanItemList.add(i)
-                            quantity_product_in_order.add(quantity_product_to_pay.get(product_to_pay.indexOf(i)))
+//                            quantity_product_in_cart.removeAt(products_in_cart.indexOf(i))
+//                            products_in_cart.remove(i)
+//                            binding_gio_hang.recyclerView.adapter?.notifyDataSetChanged()
+//                            donHangChoXacNhanItemList.add(i)
+//                            quantityChoXacNhan.add(quantity_product_to_pay.get(product_to_pay.indexOf(i)))
                             binding_don_hang.recyclerView.adapter?.notifyDataSetChanged()
 
                         }
+
+
                     } else {
                         // Xử lý lỗi nếu thêm hàng mới thất bại
                     }
@@ -161,36 +177,36 @@ class ThanhToanActivity : AppCompatActivity() {
                     // Xử lý lỗi nếu không thể kết nối tới server
                 }
             })
-            progressDialog = ProgressDialog(this)
-            progressDialog.setCancelable(false)
-            progressDialog.setMessage("Đơn hàng của bạn đang được xử lý...")
-            progressDialog.setProgressStyle(ProgressDialog.STYLE_SPINNER)
-            progressDialog.setProgress(0)
-            progressDialog.show()
-            Info.total_products_checcked_in_cart = 0
-            Handler().postDelayed({
-                progressDialog.dismiss()
-                product_to_pay.clear()
-                quantity_product_to_pay.clear()
-
-
-                val builder = AlertDialog.Builder(this)
-                builder.setCancelable(false)
-                val view = layoutInflater.inflate(R.layout.dialog_success, null)
-                val closeButton = view.findViewById<Button>(R.id.btn_ok)
-
-                builder.setView(view)
-                val dialog = builder.create()
-                dialog.show()
-
-                closeButton.setOnClickListener {
-                    dialog.dismiss()
-                    val intent = Intent(this, TrangChuActivity::class.java)
-                    startActivity(intent)
-                    Animatoo.animateSlideLeft(this)
-                }
-                overridePendingTransition(R.anim.no_animation,  R.anim.no_animation)
-            }, 1500)
+//            progressDialog = ProgressDialog(this)
+//            progressDialog.setCancelable(false)
+//            progressDialog.setMessage("Đơn hàng của bạn đang được xử lý...")
+//            progressDialog.setProgressStyle(ProgressDialog.STYLE_SPINNER)
+//            progressDialog.setProgress(0)
+//            progressDialog.show()
+//            Info.total_products_checcked_in_cart = 0
+//            Handler().postDelayed({
+//                progressDialog.dismiss()
+//                product_to_pay.clear()
+//                quantity_product_to_pay.clear()
+//
+//
+//                val builder = AlertDialog.Builder(this)
+//                builder.setCancelable(false)
+//                val view = layoutInflater.inflate(R.layout.dialog_success, null)
+//                val closeButton = view.findViewById<Button>(R.id.btn_ok)
+//
+//                builder.setView(view)
+//                val dialog = builder.create()
+//                dialog.show()
+//
+//                closeButton.setOnClickListener {
+//                    dialog.dismiss()
+//                    val intent = Intent(this, TrangChuActivity::class.java)
+//                    startActivity(intent)
+//                    Animatoo.animateSlideLeft(this)
+//                }
+//                overridePendingTransition(R.anim.no_animation,  R.anim.no_animation)
+//            }, 1500)
 
 //// Hiển thị ProgressBar và layout xám
 //            progressDialog.visibility = View.VISIBLE

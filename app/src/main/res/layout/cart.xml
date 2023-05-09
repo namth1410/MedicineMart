@@ -59,6 +59,11 @@
 
     </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
 
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="2dp"
+        android:layout_above="@+id/bottom_bar"
+        android:background="@color/grey" />
 
     <LinearLayout
         android:id="@+id/bottom_bar"

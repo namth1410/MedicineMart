@@ -9,12 +9,12 @@ import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.example.medicinemart.R
-import com.example.medicinemart.models.Sanpham
+import com.example.medicinemart.models.Order
 import java.text.DecimalFormat
 import java.text.NumberFormat
 
 @Suppress("UNREACHABLE_CODE")
-class RecycleViewOrderAdapter (private val mList: List<Sanpham>, private val quantity_array: List<Int>, private  val context: Context, private val listener: OnItemClickListener) : RecyclerView.Adapter<RecycleViewOrderAdapter.ViewHolder>() {
+class RecycleViewOrderAdapter (private val mList: List<Order>, private  val context: Context, private val listener: OnItemClickListener) : RecyclerView.Adapter<RecycleViewOrderAdapter.ViewHolder>() {
     override fun onCreateViewHolder(
         parent: ViewGroup,
         viewType: Int,
@@ -31,21 +31,24 @@ class RecycleViewOrderAdapter (private val mList: List<Sanpham>, private val qua
 
     override fun onBindViewHolder(holder: RecycleViewOrderAdapter.ViewHolder, position: Int) {
         val ItemsViewModel = mList[position]
-        val quantity_item = quantity_array[position]
+//        val quantity_item = quantity_array[position]
 
+        holder.itemView.setOnClickListener {
+            listener.onItemClick(position)
+        }
 
-        holder.name.text = ItemsViewModel.name
+        holder.name.text = ItemsViewModel.sanpham.name
         val formatter: NumberFormat = DecimalFormat("#,###")
-        holder.price.text = formatter.format(ItemsViewModel.price) + "đ"
-        holder.quantity.text = "x" + formatter.format(quantity_item)
-        holder.total_price.text = formatter.format(ItemsViewModel.price * quantity_item) + "đ"
-        if (ItemsViewModel.image.startsWith("\"") && ItemsViewModel.image.endsWith("\"")) {
-            ItemsViewModel.image =
-                ItemsViewModel.image.substring(1, ItemsViewModel.image.length - 1)
+        holder.price.text = formatter.format(ItemsViewModel.sanpham.price) + "đ"
+        holder.quantity.text = "x" + formatter.format(ItemsViewModel.quantity)
+        holder.total_price.text = formatter.format(ItemsViewModel.sanpham.price * ItemsViewModel.quantity) + "đ"
+        if (ItemsViewModel.sanpham.image.startsWith("\"") && ItemsViewModel.sanpham.image.endsWith("\"")) {
+            ItemsViewModel.sanpham.image =
+                ItemsViewModel.sanpham.image.substring(1, ItemsViewModel.sanpham.image.length - 1)
         }
         Glide
             .with(context)
-            .load(ItemsViewModel.image)
+            .load(ItemsViewModel.sanpham.image)
             .into(holder.imageView)
     }
 

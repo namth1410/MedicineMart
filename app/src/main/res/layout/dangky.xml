@@ -179,7 +179,8 @@
             android:layout_marginTop="@dimen/_10sdp"
             android:text="Đã có tài khoản?"
             android:textColor="@color/grey"
-            android:textSize="@dimen/_12sdp" />
+            android:textSize="@dimen/_12sdp"
+            android:clickable="true"/>
 
         </LinearLayout>
 

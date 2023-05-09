@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
-    package="com.example.medicinemart">
+    xmlns:tools="http://schemas.android.com/tools">
     <uses-feature android:name="android.hardware.camera" android:required="true" />
 
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
@@ -29,7 +28,7 @@
 
         <meta-data
             android:name="com.google.android.geo.API_KEY"
-            android:value="AIzaSyAO2reF-FIXhEMePnu0F6tdWZLDzUM13to"/>
+            android:value="AIzaSyCOJOMLd2PlUclpuxzt5U1Bv73R4QqfN50"/>
 
         <activity
             android:name=".activities.SplashScreen"
@@ -57,12 +56,14 @@
             </intent-filter>
         </activity>
         <activity android:name=".activities.CartActivity"/>
+        <activity android:name=".activities.ThongTinDonHangActivity"/>
         <activity android:name=".activities.ChiTietSanPhamActivity"/>
         <activity android:name=".activities.ThongTinTaiKhoanActivity"/>
         <activity android:name=".activities.DiaChiActivity"/>
         <activity android:name=".activities.DiaChiMoiActivity"/>
         <activity android:name=".activities.ChiTietDiaChiActivity"/>
         <activity android:name=".activities.ThanhToanActivity"/>
+        <activity android:name=".activities.ThongTinDonHangActivity"/>
         <activity android:name=".activities.ChonDiaChiNhanHangActivity"/>
         <activity android:name=".activities.MapActivity"/>
     </application>

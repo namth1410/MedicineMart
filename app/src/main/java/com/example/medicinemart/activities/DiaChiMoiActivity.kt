@@ -1,5 +1,6 @@
 package com.example.medicinemart.activities
 
+import android.app.ProgressDialog
 import android.content.Context
 import android.content.Intent
 import android.graphics.Color
@@ -11,7 +12,6 @@ import com.blogspot.atifsoftwares.animatoolib.Animatoo
 import com.example.medicinemart.common.Info
 import com.example.medicinemart.common.Info._username
 import com.example.medicinemart.common.Info.id_address_max_in_db
-import com.example.medicinemart.common.Info.list_address
 import com.example.medicinemart.common.Info.location_default
 import com.example.medicinemart.databinding.DiachimoiBinding
 import com.example.medicinemart.models.Address
@@ -33,6 +33,9 @@ private lateinit var binding_dia_chi_moi: DiachimoiBinding
 private lateinit var mapView: MapView
 private lateinit var googleMap: GoogleMap
 private lateinit var location: LatLng
+
+private var progressDialog: ProgressDialog? = null
+
 
 private var themdiachi = "themdiachi"
 
@@ -141,7 +144,7 @@ class DiaChiMoiActivity : AppCompatActivity(), OnMapReadyCallback {
                     Info.td_y,
                     diachi.toString()
                 )
-                list_address.add(s)
+//                list_address.add(s)
                 val call = RetrofitClient.viewPagerApi.insertAddress(
                     s.username,
                     s.full_name,
@@ -150,7 +153,12 @@ class DiaChiMoiActivity : AppCompatActivity(), OnMapReadyCallback {
                     s.td_y,
                     s.location
                 )
-
+                progressDialog = ProgressDialog(this)
+                progressDialog?.setCancelable(false)
+                progressDialog?.setMessage("Đợi xíu...")
+                progressDialog?.setProgressStyle(ProgressDialog.STYLE_SPINNER)
+                progressDialog?.setProgress(0)
+                progressDialog?.show()
                 call.enqueue(object : Callback<ResponseBody> {
                     override fun onResponse(
                         call: Call<ResponseBody>,
@@ -159,6 +167,9 @@ class DiaChiMoiActivity : AppCompatActivity(), OnMapReadyCallback {
                         if (response.isSuccessful) {
                             // Xử lý kết quả trả về nếu thêm hàng mới thành công
                             println("thêm thành công vị trí mới vào csdl")
+                            require_reload_data_address = true
+                            progressDialog?.dismiss()
+                            onBackPressed()
 
                         } else {
                             // Xử lý lỗi nếu thêm hàng mới thất bại
@@ -170,11 +181,10 @@ class DiaChiMoiActivity : AppCompatActivity(), OnMapReadyCallback {
                         // Xử lý lỗi nếu không thể kết nối tới server
                     }
                 })
-                id_address_max_in_db++
-                Info.position = -1
-                Info.td_x = BigDecimal(0.00)
-                Info.td_y = BigDecimal(0.00)
-                onBackPressed()
+//                id_address_max_in_db++
+//                Info.position = -1
+//                Info.td_x = BigDecimal(0.00)
+//                Info.td_y = BigDecimal(0.00)
             }
 
         }

@@ -23,7 +23,8 @@ interface API {
     suspend fun getAllProduct() : Response<ArrayList<Sanpham>>
 
     @GET("api/getCart.php")
-    suspend fun getCart(@Query("id_customer") id_customer: Int) : Response<ArrayList<JsonObject>>
+//    suspend fun getCart(@Query("id_customer") id_customer: Int) : Response<ArrayList<JsonObject>>
+    fun getCart(@Query("id_customer") id_customer: Int) : Call<ArrayList<JsonObject>>
 
     @FormUrlEncoded
     @POST("api/addCart.php")
@@ -49,10 +50,10 @@ interface API {
     ): Call<Void>
 
     @GET("api/getOrder.php")
-    suspend fun getOrder(
+    fun getOrder(
         @Query("id_customer") idCustomer: Int,
         @Query("status") status: String
-    ) : Response<ArrayList<JsonObject>>
+    ) : Call<ArrayList<JsonObject>>
 
     @FormUrlEncoded
     @POST("api/sign_up.php")
@@ -77,7 +78,7 @@ interface API {
     ): Call<ResponseBody>
 
     @GET("api/getAddress.php")
-    suspend fun getAddress(@Query("username") username: String) : Response<ArrayList<Address>>
+    fun getAddress(@Query("username") username: String) : Call<ArrayList<Address>>
 
     @FormUrlEncoded
     @POST("api/updateAddress.php")
@@ -110,7 +111,8 @@ interface API {
     @FormUrlEncoded
     @POST("api/addOrder.php")
     fun addOrder(
-        @Field("id_customer") id_customer: Int
+        @Field("id_customer") id_customer: Int,
+        @Field("id_address") id_address: Int
     ): Call<ResponseBody>
 
     @FormUrlEncoded

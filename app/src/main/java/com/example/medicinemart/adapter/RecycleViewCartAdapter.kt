@@ -1,18 +1,20 @@
 package com.example.medicinemart.adapter
 
 import android.annotation.SuppressLint
+import android.app.Activity
 import android.app.AlertDialog
 import android.content.Context
+import android.content.Intent
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Button
-import android.widget.CheckBox
-import android.widget.ImageView
-import android.widget.TextView
+import android.widget.*
+import androidx.core.app.ActivityOptionsCompat
+import androidx.core.view.ViewCompat
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.example.medicinemart.R
+import com.example.medicinemart.activities.ChiTietSanPhamActivity
 import com.example.medicinemart.activities.binding_gio_hang
 import com.example.medicinemart.activities.checkList
 import com.example.medicinemart.activities.total_price
@@ -31,6 +33,7 @@ import retrofit2.Callback
 import retrofit2.Response
 import java.text.DecimalFormat
 import java.text.NumberFormat
+
 
 interface OnCheckedChangeListener {
     fun onCheckedChanged(totalPrice: Int)
@@ -64,6 +67,12 @@ class RecycleViewCartAdapter(
         val quantity_item = quantity_array[position]
         val checkBox = holder.itemView.findViewById<CheckBox>(R.id.checkBox)
         var quantity = holder.itemView.findViewById<TextView>(R.id.quantity)
+
+//        holder.itemView.setAnimation(android.view.animation.AnimationUtils.loadAnimation(context, R.anim.fade))
+//        holder.itemView.findViewById<LinearLayout>(R.id.container).startAnimation(
+//            android.view.animation.AnimationUtils.loadAnimation(holder.itemView.context, R.anim.fade)
+//        )
+
 
         // sets the image to the imageview from our itemHolder class
         //holder.imageView.setImageResource(ItemsViewModel.image)
@@ -127,7 +136,6 @@ class RecycleViewCartAdapter(
                             override fun onResponse(call: Call<Void>, response: Response<Void>) {
                                 if (response.isSuccessful) {
                                     // Xóa thành công
-                                    println("Xoa ok")
                                     products_in_cart.removeAt(position)
                                     quantity_product_in_cart.removeAt(position)
                                     if (checkBox.isChecked) {
@@ -247,5 +255,21 @@ class RecycleViewCartAdapter(
         val name: TextView = itemView.findViewById(R.id.name)
         val price: TextView = itemView.findViewById(R.id.price)
         val quantity: TextView = itemView.findViewById(R.id.quantity)
+
+        init {
+            imageView.setOnClickListener {
+                val intent = Intent(imageView.context, ChiTietSanPhamActivity::class.java)
+                intent.putExtra("item", products_in_cart.get(position) as java.io.Serializable)
+                intent.putExtra("goto", "cart")
+                val options = ActivityOptionsCompat.makeSceneTransitionAnimation(
+                    imageView.context as Activity,
+                    imageView,
+                    imageView.transitionName
+                )
+                imageView.context.startActivity(intent, options.toBundle())
+            }
+            ViewCompat.setTransitionName(imageView, "shared_element")
+        }
     }
+
 }

@@ -9,4 +9,7 @@ data class Sanpham(
     var price: Int,
     var describe: String,
     var image: String
-) : Serializable
+) : Serializable {
+    constructor() : this(0,"", "", 0,"","")
+
+}

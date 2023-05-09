@@ -3,10 +3,13 @@ package com.example.medicinemart.activities
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
+import android.view.animation.AnimationUtils
 import android.view.inputmethod.InputMethodManager
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.content.ContextCompat
 import com.blogspot.atifsoftwares.animatoolib.Animatoo
+import com.example.medicinemart.R
 import com.example.medicinemart.common.Info.PASSWORD_PATTERN
 import com.example.medicinemart.common.Info.USERNAME_PATTERN
 import com.example.medicinemart.common.Info.password_list
@@ -138,6 +141,7 @@ class DangKyActivity : AppCompatActivity() {
         setContentView(binding_dang_ky.root)
 
         binding_dang_ky.dacotaikhoan.setOnClickListener {
+            binding_dang_ky.dacotaikhoan.setTextColor(ContextCompat.getColor(this, R.color.blue))
             val intent = Intent(this@DangKyActivity, DangNhapActivity::class.java)
             intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
             startActivity(intent)
@@ -180,6 +184,10 @@ class DangKyActivity : AppCompatActivity() {
 
         // Xử lý khi nhấn vào nút Đăng Ký
         binding_dang_ky.btnDangky.setOnClickListener {
+
+            val animation = AnimationUtils.loadAnimation(this, R.anim.btn_anim)
+            binding_dang_ky.btnDangky.startAnimation(animation)
+
             val username = binding_dang_ky.edtUsername.text.toString()
             val password = binding_dang_ky.edtPassword.text.toString()
             val repassword = binding_dang_ky.edtRepassword.text.toString()

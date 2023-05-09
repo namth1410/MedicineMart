@@ -12,10 +12,8 @@ import com.example.medicinemart.R
 import com.example.medicinemart.adapter.OnItemClickListener
 import com.example.medicinemart.adapter.RecycleViewHomeAdapter
 import com.example.medicinemart.adapter.ViewPagerAdapter
-import com.example.medicinemart.common.Info._username
 import com.example.medicinemart.common.Info.all_product
 import com.example.medicinemart.common.Info.id_address_max_in_db
-import com.example.medicinemart.common.Info.list_address
 import com.example.medicinemart.databinding.CartBinding
 import com.example.medicinemart.databinding.DonhangBinding
 import com.example.medicinemart.databinding.TrangchuBinding
@@ -36,6 +34,8 @@ private var delay: Long = 3000
 
 var siroHoThaoDuoc = ArrayList<Sanpham>()
 var xuongKhop = ArrayList<Sanpham>()
+var dauNgaiCuu = ArrayList<Sanpham>()
+var daiTrang = ArrayList<Sanpham>()
 var imageURLList = ArrayList<String>()
 
 fun String.removeAccent(): String {
@@ -44,51 +44,55 @@ fun String.removeAccent(): String {
     return regex.replace(temp, "").replace("Đ", "D").replace("đ", "d")
 }
 
+
 class TrangChuActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding_trang_chu = TrangchuBinding.inflate(layoutInflater)
         binding_gio_hang = CartBinding.inflate(layoutInflater)
         binding_don_hang = DonhangBinding.inflate(layoutInflater)
-
-        val originalString = "Thuô"
-        val nonAccentString = originalString.removeAccent()
-        println(nonAccentString) // In ra "Chuoi Tieng Viet can chuyen doi"
-
         setContentView(binding_trang_chu.root)
+
+//        getAddressFromDB()
 
         // --ViewPager
         viewPager = binding_trang_chu.idViewPager
 
+
+
         GlobalScope.launch(Dispatchers.IO) {
             val res_getBannerAds = async { viewPagerApi.getBannerAds() }
             val res_getAllProduct = async { viewPagerApi.getAllProduct() }
-            val res_getAddress = async { viewPagerApi.getAddress(_username) }
+//            val res_getAddress = async { viewPagerApi.getAddress(_username) }
             val res_getIdAddressMax = async { viewPagerApi.getIdAddressMax() }
             id_address_max_in_db = res_getIdAddressMax.await().body()!!
             var list_banner_ads: ArrayList<BannerAds>
             list_banner_ads = res_getBannerAds.await().body()!!
             all_product = res_getAllProduct.await().body()!!
-            list_address = res_getAddress.await().body()!!
+//            list_address = res_getAddress.await().body()!!
             withContext(Dispatchers.Main) {
-            if (imageURLList.isEmpty()) {
-                for (i in list_banner_ads) {
-                    imageURLList.add(i.link)
-                }
-                reloadAllDataListView()
-            }
-
-            if (siroHoThaoDuoc.isEmpty()) {
-                for (i in all_product) {
-                    if (i.type == "Xương khớp") {
-                        xuongKhop.add(i)
-                    } else if (i.type == "Siro ho thảo dược") {
-                        siroHoThaoDuoc.add(i)
+                if (imageURLList.isEmpty()) {
+                    for (i in list_banner_ads) {
+                        imageURLList.add(i.link)
                     }
-
+                    reloadAllDataListView()
                 }
-                reloadAllDataListView()
-            }
+
+                if (siroHoThaoDuoc.isEmpty()) {
+                    for (i in all_product) {
+                        if (i.type == "Xương khớp") {
+                            xuongKhop.add(i)
+                        } else if (i.type == "Siro ho thảo dược") {
+                            siroHoThaoDuoc.add(i)
+                        } else if (i.type == "Dầu ngải cứu") {
+                            dauNgaiCuu.add(i)
+                        } else if (i.type == "Đại tràng") {
+                            daiTrang.add(i)
+                        }
+
+                    }
+                    reloadAllDataListView()
+                }
 
                 // Update UI here
             }
@@ -117,11 +121,42 @@ class TrangChuActivity : AppCompatActivity() {
             OnItemClickListener {
             override fun onItemClick(position: Int) {
                 // Xử lý sự kiện click ở đây
+                val intent = Intent(this@TrangChuActivity, ChiTietSanPhamActivity::class.java)
+                intent.putExtra("item", xuongKhop.get(position) as java.io.Serializable)
+                intent.putExtra("goto", "")
+                startActivity(intent)
+                overridePendingTransition(R.anim.no_animation, R.anim.no_animation)
+            }
+        })
+
+        val adapterRecyclerHome3 = RecycleViewHomeAdapter(dauNgaiCuu, this, object :
+            OnItemClickListener {
+            override fun onItemClick(position: Int) {
+                // Xử lý sự kiện click ở đây
+                val intent = Intent(this@TrangChuActivity, ChiTietSanPhamActivity::class.java)
+                intent.putExtra("item", dauNgaiCuu.get(position) as java.io.Serializable)
+                intent.putExtra("goto", "")
+                startActivity(intent)
+                overridePendingTransition(R.anim.no_animation, R.anim.no_animation)
+            }
+        })
+
+        val adapterRecyclerHome4 = RecycleViewHomeAdapter(daiTrang, this, object :
+            OnItemClickListener {
+            override fun onItemClick(position: Int) {
+                // Xử lý sự kiện click ở đây
+                val intent = Intent(this@TrangChuActivity, ChiTietSanPhamActivity::class.java)
+                intent.putExtra("item", daiTrang.get(position) as java.io.Serializable)
+                intent.putExtra("goto", "")
+                startActivity(intent)
+                overridePendingTransition(R.anim.no_animation, R.anim.no_animation)
             }
         })
 
         binding_trang_chu.recyclerView1.layoutManager = LinearLayoutManager(this)
         binding_trang_chu.recyclerView2.layoutManager = LinearLayoutManager(this)
+        binding_trang_chu.recyclerView3.layoutManager = LinearLayoutManager(this)
+        binding_trang_chu.recyclerView4.layoutManager = LinearLayoutManager(this)
         val HorizontalLayout1 = LinearLayoutManager(
             this,
             LinearLayoutManager.HORIZONTAL,
@@ -132,10 +167,24 @@ class TrangChuActivity : AppCompatActivity() {
             LinearLayoutManager.HORIZONTAL,
             false
         )
+        val HorizontalLayout3 = LinearLayoutManager(
+            this,
+            LinearLayoutManager.HORIZONTAL,
+            false
+        )
+        val HorizontalLayout4 = LinearLayoutManager(
+            this,
+            LinearLayoutManager.HORIZONTAL,
+            false
+        )
         binding_trang_chu.recyclerView1.setLayoutManager(HorizontalLayout1)
         binding_trang_chu.recyclerView1.adapter = adapterRecyclerHome1
         binding_trang_chu.recyclerView2.setLayoutManager(HorizontalLayout2)
         binding_trang_chu.recyclerView2.adapter = adapterRecyclerHome2
+        binding_trang_chu.recyclerView3.setLayoutManager(HorizontalLayout3)
+        binding_trang_chu.recyclerView3.adapter = adapterRecyclerHome3
+        binding_trang_chu.recyclerView4.setLayoutManager(HorizontalLayout4)
+        binding_trang_chu.recyclerView4.adapter = adapterRecyclerHome4
 
 
         // --RecycleView end
@@ -183,7 +232,8 @@ class TrangChuActivity : AppCompatActivity() {
         }
 
         // Xử lý người dùng tìm kiếm
-        binding_trang_chu.searchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
+        binding_trang_chu.searchView.setOnQueryTextListener(object :
+            SearchView.OnQueryTextListener {
             override fun onQueryTextSubmit(query: String?): Boolean {
                 // Xử lý khi người dùng nhấn nút tìm kiếm
                 val intent = Intent(this@TrangChuActivity, SearchActivity::class.java).apply {
@@ -194,7 +244,6 @@ class TrangChuActivity : AppCompatActivity() {
                     val nonAccentString = originalString.removeAccent()
                     if (nonAccentString.contains(query.toString(), true)) {
                         productSearchList.add(product)
-                        println(product.name)
                     }
                 }
                 startActivity(intent)
@@ -209,6 +258,21 @@ class TrangChuActivity : AppCompatActivity() {
             }
         })
 
+        binding_trang_chu.tvXemthem1.setOnClickListener() {
+            val query = "siro ho thao duoc"
+            val intent = Intent(this@TrangChuActivity, SearchActivity::class.java).apply {
+                putExtra("text_search", query)
+            }
+            for (product in all_product) {
+                val originalString = product.type
+                val nonAccentString = originalString.removeAccent()
+                if (nonAccentString.contains(query, true)) {
+                    productSearchList.add(product)
+                }
+            }
+            startActivity(intent)
+            overridePendingTransition(R.anim.no_animation, R.anim.no_animation)
+        }
         startTimer()
     }
 
@@ -232,7 +296,12 @@ class TrangChuActivity : AppCompatActivity() {
             }
         }, delay, delay)
         viewPager.addOnPageChangeListener(object : ViewPager.OnPageChangeListener {
-            override fun onPageScrolled(position: Int, positionOffset: Float, positionOffsetPixels: Int) {}
+            override fun onPageScrolled(
+                position: Int,
+                positionOffset: Float,
+                positionOffsetPixels: Int
+            ) {
+            }
 
             override fun onPageSelected(position: Int) {
                 page = position
