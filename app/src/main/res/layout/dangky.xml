@@ -39,9 +39,10 @@
             android:layout_marginLeft="@dimen/_10sdp"
             android:layout_marginTop="@dimen/_5sdp"
             android:text="Đăng ký"
-            android:textColor="#000000"
+            android:textColor="@color/blue"
             android:textSize="@dimen/_35sdp"
-            android:textStyle="bold" />
+            android:textStyle="bold"
+            />
 
         <RelativeLayout
             android:layout_width="wrap_content"
@@ -176,7 +177,7 @@
             android:text="Đăng ký"
             android:background="@drawable/bg_button"
             android:layout_gravity="center_horizontal"
-            android:layout_marginTop="@dimen/_10sdp"
+            android:layout_marginTop="@dimen/_20sdp"
             />
 
         <TextView

@@ -114,7 +114,7 @@ fun loadDataDonhang() {
                     }
 
                     var _receiveddate = time_defaul
-                    if (!i.get("shipDate").isJsonNull) {
+                    if (!i.get("receivedDate").isJsonNull) {
                         _date = i.getAsJsonPrimitive("receivedDate")?.asString
                         _receiveddate = LocalDateTime.parse(_date.toString(), formatter)
                     } else {
@@ -122,7 +122,7 @@ fun loadDataDonhang() {
                     }
 
                     var _canceldate = time_defaul
-                    if (!i.get("shipDate").isJsonNull) {
+                    if (!i.get("cancelDate").isJsonNull) {
                         _date = i.getAsJsonPrimitive("cancelDate")?.asString
                         _canceldate = LocalDateTime.parse(_date.toString(), formatter)
                     } else {

@@ -41,7 +41,7 @@
                 android:layout_marginLeft="@dimen/_10sdp"
                 android:layout_marginTop="@dimen/_5sdp"
                 android:text="Đăng nhập"
-                android:textColor="#000000"
+                android:textColor="@color/blue"
                 android:textSize="@dimen/_35sdp"
                 android:textStyle="bold" />
 
@@ -157,14 +157,17 @@
             </LinearLayout>
 
 
-            <Button
+            <androidx.appcompat.widget.AppCompatButton
                 android:id="@+id/btn_dangnhap"
                 android:layout_width="@dimen/_260sdp"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_horizontal"
                 android:layout_marginTop="@dimen/_20sdp"
                 android:background="@drawable/bg_button"
-                android:text="Đăng nhập" />
+                android:text="Đăng nhập"
+                android:textColor="@color/white"
+                android:backgroundTint="@color/purple_500"/>
+
         </LinearLayout>
 
 
