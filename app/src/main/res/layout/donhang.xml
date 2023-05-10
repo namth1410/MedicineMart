@@ -39,7 +39,8 @@
                 android:textAllCaps="false"
                 android:textColor="@color/grey"
                 android:textSize="@dimen/_10sdp"
-                android:textStyle="normal" />
+                android:textStyle="normal"
+                />
 
             <androidx.appcompat.widget.AppCompatButton
                 android:id="@+id/btn_dangGiao"

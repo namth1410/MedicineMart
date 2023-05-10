@@ -1,10 +1,15 @@
 package com.example.medicinemart.activities
 
+import android.animation.AnimatorSet
+import android.animation.ObjectAnimator
+import android.animation.ValueAnimator
+import android.annotation.SuppressLint
 import android.app.ProgressDialog
 import android.content.Intent
 import android.graphics.Color
 import android.os.Build
 import android.os.Bundle
+import android.view.MotionEvent
 import android.view.View
 import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
@@ -317,6 +322,8 @@ fun convertDateToLocalDateTime(date: Date): LocalDateTime {
 }
 
 class DonHangActivity : AppCompatActivity(), View.OnClickListener {
+    @RequiresApi(Build.VERSION_CODES.O)
+    @SuppressLint("ObjectAnimatorBinding")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding_don_hang = DonhangBinding.inflate(layoutInflater)
