@@ -373,6 +373,7 @@
     </RelativeLayout>
 
     <TextView
+        android:id="@+id/btn_cancel"
         android:layout_width="match_parent"
         android:layout_height="@dimen/_35sdp"
         android:layout_marginTop="@dimen/_100sdp"

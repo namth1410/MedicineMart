@@ -8,6 +8,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import com.bumptech.glide.Glide
 import com.example.medicinemart.R
+import com.example.medicinemart.common.Info
 import com.example.medicinemart.common.Info.customer
 import com.example.medicinemart.common.Info.products_in_cart
 import com.example.medicinemart.databinding.ChitietsanphamBinding
@@ -68,8 +69,8 @@ class ChiTietSanPhamActivity : AppCompatActivity() {
                                 "Đã thêm vào giỏ hàng",
                                 Toast.LENGTH_SHORT
                             ).show()
-//                            products_in_cart.add(item)
-//                            Info.quantity_product_in_cart.add(1)
+                            products_in_cart.add(item)
+                            Info.quantity_product_in_cart.add(1)
 //                            binding_gio_hang.recyclerView.adapter?.notifyDataSetChanged()
                         } else {
                             // Xử lý lỗi nếu thêm hàng mới thất bại
@@ -102,8 +103,8 @@ class ChiTietSanPhamActivity : AppCompatActivity() {
                                         "Đã thêm vào giỏ hàng",
                                         Toast.LENGTH_SHORT
                                     ).show()
-//                                    products_in_cart.add(item)
-//                                    Info.quantity_product_in_cart.add(1)
+                                    products_in_cart.add(item)
+                                    Info.quantity_product_in_cart.add(1)
 //                                    binding_gio_hang.recyclerView.adapter?.notifyDataSetChanged()
                                 } else {
                                     // Xử lý lỗi nếu thêm hàng mới thất bại

@@ -1,18 +1,28 @@
 package com.example.medicinemart.activities
 
+import android.app.ProgressDialog
 import android.os.Build
 import android.os.Bundle
+import android.view.View
 import androidx.annotation.RequiresApi
+import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import com.bumptech.glide.Glide
 import com.example.medicinemart.common.Info.price_formatter
 import com.example.medicinemart.common.Info.time_formatter
 import com.example.medicinemart.databinding.ThongtindonhangBinding
 import com.example.medicinemart.models.Order
+import com.example.medicinemart.retrofit.RetrofitClient
+import retrofit2.Call
+import retrofit2.Callback
+import retrofit2.Response
 import java.time.LocalDateTime
 
 private lateinit var binding_thong_tin_don_hang: ThongtindonhangBinding
 lateinit var order_detail: Order
+
+
+private var progressDialog: ProgressDialog? = null
 
 
 
@@ -23,6 +33,49 @@ class ThongTinDonHangActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         binding_thong_tin_don_hang = ThongtindonhangBinding.inflate(layoutInflater)
         setContentView(binding_thong_tin_don_hang.root)
+
+        val type_order = intent.getStringExtra("type_order") as String
+        if (type_order == "choxacnhan") {
+            binding_thong_tin_don_hang.btnCancel.visibility = View.VISIBLE
+        } else {
+            binding_thong_tin_don_hang.btnCancel.visibility = View.GONE
+        }
+
+        binding_thong_tin_don_hang.btnCancel.setOnClickListener() {
+            val dialogBuilder = AlertDialog.Builder(this)
+                .setMessage("Hủy đơn hàng?")
+                .setPositiveButton("Chắc chắn") { _, _ ->
+                    val call =
+                        RetrofitClient.viewPagerApi.deleteOrderdetail(order_detail.id, order_detail.sanpham.id)
+                    progressDialog = ProgressDialog(this)
+                    progressDialog?.setCancelable(false)
+                    progressDialog?.setMessage("Đợi xíu...")
+                    progressDialog?.setProgressStyle(ProgressDialog.STYLE_SPINNER)
+                    progressDialog?.setProgress(0)
+                    progressDialog?.show()
+                    call.enqueue(object : Callback<Void> {
+                        override fun onResponse(call: Call<Void>, response: Response<Void>) {
+                            if (response.isSuccessful) {
+                                progressDialog?.dismiss()
+                                require_reload_data_order = true
+                                onBackPressed()
+                                // Xóa thành công
+                            } else {
+                                // Xóa không thành công
+                            }
+                        }
+
+                        override fun onFailure(call: Call<Void>, t: Throwable) {
+                            // Xóa không thành công do lỗi mạng hoặc lỗi server
+                        }
+                    })
+                }
+                .setNegativeButton("Không") { _, _ ->
+                    // Xử lý khi người dùng chọn No
+                }.create()
+
+            dialogBuilder.show()
+        }
 
         val currentDateTime = LocalDateTime.now()
 //        val formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss")

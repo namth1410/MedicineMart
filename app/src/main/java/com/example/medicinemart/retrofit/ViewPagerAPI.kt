@@ -134,4 +134,11 @@ interface API {
         @Field("content") content: String,
         @Field("id_product") id_product: Int
     ): Call<ResponseBody>
+
+    @FormUrlEncoded
+    @POST("api/deleteOrderdetail.php")
+    fun deleteOrderdetail(
+        @Field("id_order") id_order: Int,
+        @Field("id_product") id_product: Int
+    ): Call<Void>
 }

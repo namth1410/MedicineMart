@@ -15,40 +15,68 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@color/white"
+        android:orientation="horizontal"
         android:weightSum="1">
 
-        <SearchView
-            android:id="@+id/search_view"
+        <LinearLayout
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="@dimen/_20sdp"
             android:layout_marginTop="@dimen/_10sdp"
-            android:queryHint="Tìm kiếm"
-            android:background="@drawable/shapebgsearch"
-            android:layout_weight="0.8"
-            android:iconifiedByDefault="false"
-            android:inputType="textVisiblePassword"
-            android:queryBackground="@null"
-            android:searchIcon="@drawable/baseline_search_24" />
+            android:layout_weight="0.83">
 
+            <SearchView
+                android:id="@+id/search_view"
+                android:layout_width="wrap_content"
+                android:layout_height="@dimen/_35sdp"
+                android:background="@drawable/shapebgsearch"
+                android:iconifiedByDefault="false"
+                android:inputType="textVisiblePassword"
+                android:queryBackground="@null"
+                android:queryHint="Tìm kiếm"
+                android:searchIcon="@drawable/baseline_search_24" />
+        </LinearLayout>
 
-        <androidx.appcompat.widget.AppCompatButton
+        <RelativeLayout
             android:id="@+id/btn_cart"
-            android:paddingLeft="@dimen/_5sdp"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/_10sdp"
-            android:layout_weight="0.1"
-            android:background="#00000000"
-            android:drawableStart="@drawable/baseline_shopping_cart_24" />
+            android:layout_marginRight="@dimen/_10sdp"
+            android:layout_weight="0.17"
+            android:gravity="right">
 
-        <androidx.appcompat.widget.AppCompatButton
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/_10sdp"
-            android:layout_weight="0.1"
-            android:background="#00000000"
-            android:drawableStart="@drawable/baseline_chat_24" />
+            <ImageView
+                android:layout_width="@dimen/_35sdp"
+                android:layout_height="@dimen/_35sdp"
+                android:src="@drawable/cart" />
+
+            <TextView
+                android:id="@+id/quantity_in_cart"
+                android:layout_width="@dimen/_15sdp"
+                android:layout_height="@dimen/_15sdp"
+                android:text="1"
+                android:textSize="@dimen/_10sdp"
+                android:textColor="@color/white"
+                android:layout_marginLeft="@dimen/_25sdp"
+                android:background="@drawable/circle_background"
+                android:gravity="center_vertical|center_horizontal" />
+
+        </RelativeLayout>
+
+        <!--        <LinearLayout-->
+        <!--            android:layout_width="0dp"-->
+        <!--            android:layout_height="wrap_content"-->
+        <!--            android:layout_marginTop="@dimen/_10sdp"-->
+        <!--            android:layout_marginRight="@dimen/_15sdp"-->
+        <!--            android:gravity="right"-->
+        <!--            android:layout_weight="0.15">-->
+        <!--            <ImageView-->
+        <!--                android:id="@+id/btn_cart"-->
+        <!--                android:layout_width="@dimen/_35sdp"-->
+        <!--                android:layout_height="@dimen/_35sdp"-->
+        <!--                android:src="@drawable/cart" />-->
+        <!--        </LinearLayout>-->
 
     </LinearLayout>
 
@@ -56,9 +84,9 @@
         android:id="@+id/scrollView1"
         android:layout_width="match_parent"
         android:layout_height="@dimen/_500sdp"
-        android:layout_marginTop="@dimen/_10sdp"
         android:layout_above="@+id/bottomNavigationView"
-        android:layout_below="@+id/head">
+        android:layout_below="@+id/head"
+        android:layout_marginTop="@dimen/_10sdp">
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -72,6 +100,7 @@
                 android:layout_below="@+id/head"
                 android:layout_gravity="center_horizontal"
                 android:layout_marginLeft="@dimen/_15sdp"
+                android:layout_marginTop="@dimen/_10sdp"
                 android:layout_marginRight="@dimen/_15sdp"
                 app:cardBackgroundColor="#FFFFFF"
                 app:cardCornerRadius="25dp">
@@ -105,18 +134,18 @@
                         android:layout_height="wrap_content"
                         android:layout_weight="0.7"
                         android:text="Siro ho thảo dược"
-                        android:textStyle="bold"
                         android:textColor="@color/black"
-                        android:textSize="@dimen/_18sdp" />
+                        android:textSize="@dimen/_18sdp"
+                        android:textStyle="bold" />
 
                     <TextView
                         android:id="@+id/tv_xemthem1"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_weight="0.3"
-                        android:text="Xem thêm"
                         android:drawableRight="@drawable/baseline_keyboard_arrow_right_24"
                         android:drawableTint="@color/blue"
+                        android:text="Xem thêm"
                         android:textAlignment="textEnd"
                         android:textColor="@color/blue"
                         android:textSize="@dimen/_12sdp" />
@@ -151,18 +180,18 @@
                         android:layout_height="wrap_content"
                         android:layout_weight="0.7"
                         android:text="Xương khớp"
-                        android:textStyle="bold"
                         android:textColor="@color/black"
-                        android:textSize="@dimen/_18sdp" />
+                        android:textSize="@dimen/_18sdp"
+                        android:textStyle="bold" />
 
                     <TextView
                         android:id="@+id/tv_xemthem2"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_weight="0.3"
-                        android:text="Xem thêm"
                         android:drawableRight="@drawable/baseline_keyboard_arrow_right_24"
                         android:drawableTint="@color/blue"
+                        android:text="Xem thêm"
                         android:textAlignment="textEnd"
                         android:textColor="@color/blue"
                         android:textSize="@dimen/_12sdp" />
@@ -197,18 +226,18 @@
                         android:layout_height="wrap_content"
                         android:layout_weight="0.7"
                         android:text="Dầu ngải cứu"
-                        android:textStyle="bold"
                         android:textColor="@color/black"
-                        android:textSize="@dimen/_18sdp" />
+                        android:textSize="@dimen/_18sdp"
+                        android:textStyle="bold" />
 
                     <TextView
                         android:id="@+id/tv_xemthem3"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_weight="0.3"
-                        android:text="Xem thêm"
                         android:drawableRight="@drawable/baseline_keyboard_arrow_right_24"
                         android:drawableTint="@color/blue"
+                        android:text="Xem thêm"
                         android:textAlignment="textEnd"
                         android:textColor="@color/blue"
                         android:textSize="@dimen/_12sdp" />
@@ -243,18 +272,18 @@
                         android:layout_height="wrap_content"
                         android:layout_weight="0.7"
                         android:text="Đại tràng"
-                        android:textStyle="bold"
                         android:textColor="@color/black"
-                        android:textSize="@dimen/_18sdp" />
+                        android:textSize="@dimen/_18sdp"
+                        android:textStyle="bold" />
 
                     <TextView
                         android:id="@+id/tv_xemthem4"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_weight="0.3"
-                        android:text="Xem thêm"
                         android:drawableRight="@drawable/baseline_keyboard_arrow_right_24"
                         android:drawableTint="@color/blue"
+                        android:text="Xem thêm"
                         android:textAlignment="textEnd"
                         android:textColor="@color/blue"
                         android:textSize="@dimen/_12sdp" />

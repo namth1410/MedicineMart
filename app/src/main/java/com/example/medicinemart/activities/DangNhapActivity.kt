@@ -43,10 +43,10 @@ fun getInfoCustomer() {
                 customer.phone = response.body()!!.phone
                 customer.email = response.body()!!.email
                 customer.full_name = response.body()!!.full_name
-                loadDataCart()
-                loadDataDonhang()
-                getAddressFromDB()
-                getNotification()
+//                loadDataCart()
+//                loadDataDonhang()
+//                getAddressFromDB()
+//                getNotification()
             } else {
                 // Xử lý lỗi nếu thêm hàng mới thất bại
             }
@@ -74,7 +74,7 @@ class DangNhapActivity : AppCompatActivity() {
             _username = username
             customer.username = _username
             getInfoCustomer()
-            val intent = Intent(this, TrangChuActivity::class.java)
+            val intent = Intent(this, PreLoadingActivity::class.java)
             intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
             startActivity(intent)
             Animatoo.animateSlideRight(this)
@@ -204,7 +204,7 @@ class DangNhapActivity : AppCompatActivity() {
 
                 _username = username
                 getInfoCustomer()
-                val intent = Intent(this, TrangChuActivity::class.java)
+                val intent = Intent(this, PreLoadingActivity::class.java)
                 intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
                 startActivity(intent)
                 Animatoo.animateSlideRight(this)

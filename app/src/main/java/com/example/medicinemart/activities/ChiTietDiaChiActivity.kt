@@ -127,7 +127,6 @@ class ChiTietDiaChiActivity : AppCompatActivity(), OnMapReadyCallback {
         }
 
         binding_chi_tiet_dia_chi.btnXoadiachi.setOnClickListener() {
-            println(list_address.get(Info.position).id)
             val dialogBuilder = AlertDialog.Builder(this)
                 .setMessage("Xóa địa chỉ?")
                 .setPositiveButton("Xóa") { _, _ ->

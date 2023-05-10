@@ -14,6 +14,7 @@ import com.example.medicinemart.adapter.RecycleViewHomeAdapter
 import com.example.medicinemart.adapter.ViewPagerAdapter
 import com.example.medicinemart.common.Info.all_product
 import com.example.medicinemart.common.Info.id_address_max_in_db
+import com.example.medicinemart.common.Info.products_in_cart
 import com.example.medicinemart.databinding.CartBinding
 import com.example.medicinemart.databinding.DonhangBinding
 import com.example.medicinemart.databinding.TrangchuBinding
@@ -53,11 +54,13 @@ class TrangChuActivity : AppCompatActivity() {
         binding_don_hang = DonhangBinding.inflate(layoutInflater)
         setContentView(binding_trang_chu.root)
 
+
 //        getAddressFromDB()
 
         // --ViewPager
         viewPager = binding_trang_chu.idViewPager
 
+        binding_trang_chu.quantityInCart.text = products_in_cart.size.toString()
 
 
         GlobalScope.launch(Dispatchers.IO) {
@@ -362,6 +365,8 @@ class TrangChuActivity : AppCompatActivity() {
 
     override fun onResume() {
         super.onResume()
+        binding_trang_chu.quantityInCart.text = products_in_cart.size.toString()
+
         productSearchList.clear()
         productSearchListCopy.clear()
         binding_trang_chu.searchView.setQuery("", false)

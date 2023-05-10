@@ -4,6 +4,7 @@
     android:layout_height="match_parent">
 
     <ImageView
+        android:id="@+id/image"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_centerVertical="true"
@@ -12,3 +13,32 @@
     </ImageView>
 
 </RelativeLayout>
+
+
+<!--<?xml version="1.0" encoding="utf-8"?>-->
+
+<!--<RelativeLayout android:layout_width="wrap_content"-->
+<!--    android:layout_height="wrap_content"-->
+<!--    xmlns:android="http://schemas.android.com/apk/res/android">-->
+
+<!--    <ImageView-->
+<!--        android:id="@+id/cart_icon"-->
+<!--        android:layout_width="wrap_content"-->
+<!--        android:layout_height="wrap_content"-->
+<!--        android:src="@drawable/cart"/>-->
+
+<!--    <TextView-->
+<!--        android:id="@+id/cart_quantity"-->
+<!--        android:layout_width="@dimen/_80sdp"-->
+<!--        android:layout_height="wrap_content"-->
+<!--        android:layout_gravity="top"-->
+<!--        android:gravity="center"-->
+<!--        android:layout_marginLeft="@dimen/_150sdp"-->
+<!--        android:background="@drawable/circle_background"-->
+<!--        android:padding="4dp"-->
+<!--        android:textColor="@android:color/white"-->
+<!--        android:textSize="@dimen/_60sdp"-->
+<!--        android:text="10"/>-->
+
+<!--</RelativeLayout>-->
+
