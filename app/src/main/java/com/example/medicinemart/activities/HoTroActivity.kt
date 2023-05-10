@@ -3,7 +3,9 @@ package com.example.medicinemart.activities
 import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
+import android.view.animation.AnimationUtils
 import androidx.appcompat.app.AppCompatActivity
+import com.example.medicinemart.R
 import com.example.medicinemart.databinding.HotroBinding
 
 private lateinit var binding_ho_tro: HotroBinding
@@ -30,6 +32,8 @@ class HoTroActivity : AppCompatActivity() {
         }
 
         binding_ho_tro.btnCall.setOnClickListener() {
+            val animation = AnimationUtils.loadAnimation(this, R.anim.btn_anim)
+            binding_ho_tro.btnCall.startAnimation(animation)
             val intent = Intent(Intent.ACTION_DIAL)
             intent.data = Uri.parse("tel:0345518088")
             startActivity(intent)

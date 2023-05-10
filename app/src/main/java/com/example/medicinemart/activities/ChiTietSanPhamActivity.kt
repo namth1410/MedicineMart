@@ -3,6 +3,7 @@ package com.example.medicinemart.activities
 import android.annotation.SuppressLint
 import android.content.Intent
 import android.os.Bundle
+import android.view.animation.AnimationUtils
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
@@ -123,6 +124,8 @@ class ChiTietSanPhamActivity : AppCompatActivity() {
         }
 
         binding_chi_tiet_san_pham.btnCart.setOnClickListener() {
+            val animation = AnimationUtils.loadAnimation(this, R.anim.btn_anim)
+            binding_chi_tiet_san_pham.btnCart.startAnimation(animation)
             val intent = Intent(this, CartActivity::class.java)
 //            loadDataCart()
             if (goto == "cart") {
