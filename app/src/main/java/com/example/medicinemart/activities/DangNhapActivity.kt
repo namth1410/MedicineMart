@@ -113,24 +113,10 @@ class DangNhapActivity : AppCompatActivity() {
 
         // Xử lý khi ấn vào "Chưa có tài khoản"
         binding_dang_nhap.chuacotaikhoan.setOnClickListener {
-            it.animate()
-                .scaleX(1.5f)
-                .scaleY(1.5f)
-                .setDuration(250)
-                .withEndAction {
-                    it.animate()
-                        .translationX(500f)
-                        .setDuration(500)
-                        .withEndAction {
-//                            binding_dang_nhap.chuacotaikhoan.setTextColor(ContextCompat.getColor(this, R.color.blue))
-                            val intent = Intent(this@DangNhapActivity, DangKyActivity::class.java)
-                            startActivity(intent)
-                            Animatoo.animateSlideLeft(this)
-                        }
-                        .start()
-                }
-                .start()
-            //finish()
+            binding_dang_nhap.chuacotaikhoan.setTextColor(ContextCompat.getColor(this, R.color.blue))
+            val intent = Intent(this@DangNhapActivity, DangKyActivity::class.java)
+            startActivity(intent)
+            Animatoo.animateSlideLeft(this)
         }
 
         // Xử lý khi ấn ra ngoài EditText thì ẩn bàn phím và bỏ focus
