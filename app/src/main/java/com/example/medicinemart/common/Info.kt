@@ -8,6 +8,7 @@ import android.widget.Button
 import androidx.appcompat.app.AlertDialog
 import com.blogspot.atifsoftwares.animatoolib.Animatoo
 import com.example.medicinemart.R
+import com.example.medicinemart.activities.NetworkChangeReceiver
 import com.example.medicinemart.activities.TrangChuActivity
 import com.example.medicinemart.models.*
 import com.google.android.gms.maps.model.LatLng
@@ -18,6 +19,8 @@ import java.time.LocalDateTime
 import java.time.format.DateTimeFormatter
 
 object Info {
+    var broadcastReceiver = NetworkChangeReceiver()
+
     lateinit var sharedPref: SharedPreferences
 
     val USERNAME_PATTERN = "^[a-zA-Z0-9]{6,30}\$".toRegex()

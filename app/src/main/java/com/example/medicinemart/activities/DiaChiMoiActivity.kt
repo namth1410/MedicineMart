@@ -111,25 +111,24 @@ class DiaChiMoiActivity : AppCompatActivity(), OnMapReadyCallback {
             val sdt = binding_dia_chi_moi.edtSdt.text
             val diachi = binding_dia_chi_moi.edtDiachi.text
 
-            if (hoten.isNullOrEmpty()) {
+            if (hoten.isNullOrEmpty() || (hoten.toString() == "Không được để trống!")) {
                 binding_dia_chi_moi.edtHoten.text =
                     Editable.Factory.getInstance().newEditable("Không được để trống!")
                 binding_dia_chi_moi.edtHoten.setTextColor(Color.RED)
             }
-            if (sdt.isNullOrEmpty()) {
+            if (sdt.isNullOrEmpty() || (sdt.toString() == "Không được để trống!")) {
                 binding_dia_chi_moi.edtSdt.text =
                     Editable.Factory.getInstance().newEditable("Không được để trống!")
                 binding_dia_chi_moi.edtSdt.setTextColor(Color.RED)
             }
-            if (diachi.isNullOrEmpty()) {
+            if (diachi.isNullOrEmpty() || (diachi.toString() == "Không được để trống!")) {
                 binding_dia_chi_moi.edtDiachi.text =
                     Editable.Factory.getInstance().newEditable("Không được để trống!")
                 binding_dia_chi_moi.edtDiachi.setTextColor(Color.RED)
             }
 
-            if (!hoten.isNullOrEmpty() && !sdt.isNullOrEmpty() && !diachi.isNullOrEmpty()) {
+            if (!hoten.isNullOrEmpty() && !sdt.isNullOrEmpty() && !diachi.isNullOrEmpty() && (hoten.toString() != "Không được để trống!") && (sdt.toString() != "Không được để trống!") && (diachi.toString() != "Không được để trống!")) {
                 if (Info.td_x == BigDecimal(0.00)) {
-                    println("td chua khoi tao")
                     Info.td_x = location_default.latitude.toBigDecimal()
                     Info.td_y = location_default.longitude.toBigDecimal()
                 }
@@ -146,12 +145,7 @@ class DiaChiMoiActivity : AppCompatActivity(), OnMapReadyCallback {
                 )
 //                list_address.add(s)
                 val call = RetrofitClient.viewPagerApi.insertAddress(
-                    s.username,
-                    s.full_name,
-                    s.phone,
-                    s.td_x,
-                    s.td_y,
-                    s.location
+                    s.username, s.full_name, s.phone, s.td_x, s.td_y, s.location
                 )
                 progressDialog = ProgressDialog(this)
                 progressDialog?.setCancelable(false)
@@ -161,8 +155,7 @@ class DiaChiMoiActivity : AppCompatActivity(), OnMapReadyCallback {
                 progressDialog?.show()
                 call.enqueue(object : Callback<ResponseBody> {
                     override fun onResponse(
-                        call: Call<ResponseBody>,
-                        response: Response<ResponseBody>
+                        call: Call<ResponseBody>, response: Response<ResponseBody>
                     ) {
                         if (response.isSuccessful) {
                             // Xử lý kết quả trả về nếu thêm hàng mới thành công

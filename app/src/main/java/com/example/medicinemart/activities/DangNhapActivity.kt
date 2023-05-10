@@ -1,8 +1,8 @@
 package com.example.medicinemart.activities
 
-import android.app.AlertDialog
 import android.content.Context
 import android.content.Intent
+import android.content.IntentFilter
 import android.net.ConnectivityManager
 import android.os.Build
 import android.os.Bundle
@@ -10,7 +10,6 @@ import android.text.method.HideReturnsTransformationMethod
 import android.text.method.PasswordTransformationMethod
 import android.view.animation.AnimationUtils
 import android.view.inputmethod.InputMethodManager
-import android.widget.Button
 import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
@@ -30,6 +29,7 @@ import retrofit2.Callback
 import retrofit2.Response
 
 private lateinit var binding_dang_nhap: DangnhapBinding
+
 
 fun getInfoCustomer() {
     val call = RetrofitClient.viewPagerApi.getInfoCustomer(_username)
@@ -81,30 +81,35 @@ class DangNhapActivity : AppCompatActivity() {
             finish()
         }
 
+        val broadcastReceiver = NetworkChangeReceiver()
+        val intentFilter = IntentFilter(ConnectivityManager.CONNECTIVITY_ACTION)
+        registerReceiver(broadcastReceiver, intentFilter)
+
+
         // Kiểm tra kết nối mạng
         val connectivityManager = getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
         val networkInfo = connectivityManager.activeNetworkInfo
 
-        if (networkInfo != null && networkInfo.isConnected) {
-            // Có kết nối mạng, thực hiện các thao tác yêu cầu mạng ở đây
-            getAccounts()
-        } else {
-            // Không có kết nối mạng, hiển thị thông báo hoặc thông báo cho người dùng biết
-            val builder = AlertDialog.Builder(this)
-            builder.setCancelable(false)
-
-            val view = layoutInflater.inflate(R.layout.dialog_no_network, null)
-            val closeButton = view.findViewById<Button>(R.id.dialog_close_button)
-
-            builder.setView(view)
-            val dialog = builder.create()
-            dialog.show()
-
-            closeButton.setOnClickListener {
-                dialog.dismiss()
-            }
-
-        }
+//        if (networkInfo != null && networkInfo.isConnected) {
+//            // Có kết nối mạng, thực hiện các thao tác yêu cầu mạng ở đây
+//            getAccounts()
+//        } else {
+//            // Không có kết nối mạng, hiển thị thông báo hoặc thông báo cho người dùng biết
+//            val builder = AlertDialog.Builder(this)
+//            builder.setCancelable(false)
+//
+//            val view = layoutInflater.inflate(R.layout.dialog_no_network, null)
+//            val closeButton = view.findViewById<Button>(R.id.dialog_close_button)
+//
+//            builder.setView(view)
+//            val dialog = builder.create()
+//            dialog.show()
+//
+//            closeButton.setOnClickListener {
+//                dialog.dismiss()
+//            }
+//
+//        }
 
         // Xử lý khi ấn vào "Chưa có tài khoản"
         binding_dang_nhap.chuacotaikhoan.setOnClickListener {

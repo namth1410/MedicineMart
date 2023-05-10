@@ -1,18 +1,15 @@
 package com.example.medicinemart.activities
 
-import android.app.AlertDialog
-import android.content.Context
 import android.content.Intent
+import android.content.IntentFilter
 import android.net.ConnectivityManager
 import android.os.Build
 import android.os.Bundle
 import android.os.Handler
-import android.widget.Button
 import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
-import com.blogspot.atifsoftwares.animatoolib.Animatoo
-import com.example.medicinemart.R
 import com.example.medicinemart.common.Info
+import com.example.medicinemart.common.Info.broadcastReceiver
 import com.example.medicinemart.common.Info.products_in_cart
 import com.example.medicinemart.common.Info.quantity_product_in_cart
 import com.example.medicinemart.databinding.PreLoadingBinding
@@ -33,29 +30,32 @@ class PreLoadingActivity : AppCompatActivity() {
         binding_preloading = PreLoadingBinding.inflate(layoutInflater)
         setContentView(binding_preloading.root)
 
-        val connectivityManager = getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
-        val networkInfo = connectivityManager.activeNetworkInfo
+        val intentFilter = IntentFilter(ConnectivityManager.CONNECTIVITY_ACTION)
+        registerReceiver(broadcastReceiver, intentFilter)
 
-        if (networkInfo != null && networkInfo.isConnected) {
-            // Có kết nối mạng, thực hiện các thao tác yêu cầu mạng ở đây
-            getAccounts()
-        } else {
-            // Không có kết nối mạng, hiển thị thông báo hoặc thông báo cho người dùng biết
-            val builder = AlertDialog.Builder(this)
-            builder.setCancelable(false)
-
-            val view = layoutInflater.inflate(R.layout.dialog_no_network, null)
-            val closeButton = view.findViewById<Button>(R.id.dialog_close_button)
-
-            builder.setView(view)
-            val dialog = builder.create()
-            dialog.show()
-
-            closeButton.setOnClickListener {
-                dialog.dismiss()
-            }
-
-        }
+//        val connectivityManager = getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
+//        val networkInfo = connectivityManager.activeNetworkInfo
+//
+//        if (networkInfo != null && networkInfo.isConnected) {
+//            // Có kết nối mạng, thực hiện các thao tác yêu cầu mạng ở đây
+//            getAccounts()
+//        } else {
+//            // Không có kết nối mạng, hiển thị thông báo hoặc thông báo cho người dùng biết
+//            val builder = AlertDialog.Builder(this)
+//            builder.setCancelable(false)
+//
+//            val view = layoutInflater.inflate(R.layout.dialog_no_network, null)
+//            val closeButton = view.findViewById<Button>(R.id.dialog_close_button)
+//
+//            builder.setView(view)
+//            val dialog = builder.create()
+//            dialog.show()
+//
+//            closeButton.setOnClickListener {
+//                dialog.dismiss()
+//            }
+//
+//        }
 
         binding_preloading.lottie.playAnimation()
 
@@ -212,13 +212,15 @@ class PreLoadingActivity : AppCompatActivity() {
 
                                                                     Handler().postDelayed({
                                                                         // Chuyển sang màn hình chính của ứng dụng sau khi hiển thị logo trong 3 giây
+//                                                                        Info.broadcastReceiver = NetworkChangeReceiver()
+//                                                                        unregisterReceiver(broadcastReceiver)
                                                                         startActivity(
                                                                             Intent(
                                                                                 this@PreLoadingActivity,
                                                                                 TrangChuActivity::class.java
                                                                             )
                                                                         )
-                                                                        Animatoo.animateZoom(this@PreLoadingActivity)
+//                                                                        Animatoo.animateZoom(this@PreLoadingActivity)
                                                                         finish()
                                                                     }, 1000)
 
@@ -275,6 +277,7 @@ class PreLoadingActivity : AppCompatActivity() {
 
             override fun onFailure(call: Call<Customer>, t: Throwable) {
                 // Xử lý lỗi nếu không thể kết nối tới server
+                println("API loi")
             }
         })
 
@@ -285,5 +288,11 @@ class PreLoadingActivity : AppCompatActivity() {
 //            finish()
 //        }, 1500)
 
+    }
+
+    override fun onDestroy() {
+        // Hủy đăng ký BroadcastReceiver
+//        unregisterReceiver(broadcastReceiver)
+        super.onDestroy()
     }
 }

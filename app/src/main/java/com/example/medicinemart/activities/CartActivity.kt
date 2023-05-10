@@ -108,10 +108,12 @@ fun checkList(list: ArrayList<Sanpham>) {
         binding_gio_hang.layoutEmpty.visibility = View.VISIBLE
         binding_gio_hang.recyclerView.visibility = View.INVISIBLE
         binding_gio_hang.bottomBar.visibility = View.INVISIBLE
+        binding_gio_hang.line.visibility = View.INVISIBLE
     } else {
         binding_gio_hang.layoutEmpty.visibility = View.INVISIBLE
         binding_gio_hang.recyclerView.visibility = View.VISIBLE
         binding_gio_hang.bottomBar.visibility = View.VISIBLE
+        binding_gio_hang.line.visibility = View.VISIBLE
     }
 }
 

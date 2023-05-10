@@ -54,7 +54,9 @@ class TrangChuActivity : AppCompatActivity() {
         binding_don_hang = DonhangBinding.inflate(layoutInflater)
         setContentView(binding_trang_chu.root)
 
-
+//        val broadcastReceiver = NetworkChangeReceiver()
+//        val intentFilter = IntentFilter(ConnectivityManager.CONNECTIVITY_ACTION)
+//        registerReceiver(broadcastReceiver, intentFilter)
 //        getAddressFromDB()
 
         // --ViewPager

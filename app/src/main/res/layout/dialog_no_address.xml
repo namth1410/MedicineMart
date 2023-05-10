@@ -15,13 +15,11 @@
             android:gravity="center"
             android:orientation="vertical">
 
-            <com.airbnb.lottie.LottieAnimationView
-                android:id="@+id/lottie"
+            <ImageView
+                android:id="@+id/image"
                 android:layout_width="@dimen/_80sdp"
                 android:layout_height="@dimen/_80sdp"
-                app:lottie_autoPlay="true"
-                app:lottie_rawRes="@raw/no_internet"
-                app:lottie_loop="true"
+                android:src="@drawable/warning"
                 />
 
             <TextView
@@ -30,7 +28,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="16dp"
                 android:gravity="center"
-                android:text="Quý khách vui lòng kiểm tra kết nối Internet!"
+                android:text="Quý khách chưa có địa chỉ nào! Đến phần Hồ Sơ và thêm địa chỉ của mình!"
                 android:textColor="@color/black" />
 
             <androidx.appcompat.widget.AppCompatButton
