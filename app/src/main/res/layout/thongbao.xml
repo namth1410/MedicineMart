@@ -9,7 +9,7 @@
     <LinearLayout
         android:id="@+id/head"
         android:layout_width="match_parent"
-        android:layout_height="@dimen/_40sdp"
+        android:layout_height="@dimen/_42sdp"
         android:background="@color/white"
         android:weightSum="1">
 
@@ -23,8 +23,8 @@
             android:text="Thông báo"
             android:textColor="@color/black"
             android:textStyle="bold"
-            android:textSize="@dimen/_14sdp"
-            android:layout_weight="0.8"
+            android:textSize="@dimen/_25sdp"
+            android:layout_weight="0.74"
             android:iconifiedByDefault="false"
             android:inputType="textVisiblePassword"
             android:searchIcon="@drawable/baseline_search_24" />
@@ -36,7 +36,7 @@
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_marginTop="@dimen/_10sdp"
-            android:layout_weight="0.1"
+            android:layout_weight="0.13"
             android:background="#00000000"
             android:drawableStart="@drawable/baseline_shopping_cart_24" />
 
@@ -44,7 +44,7 @@
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_marginTop="@dimen/_10sdp"
-            android:layout_weight="0.1"
+            android:layout_weight="0.13"
             android:background="#00000000"
             android:drawableStart="@drawable/baseline_chat_24" />
 
