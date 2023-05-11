@@ -29,7 +29,18 @@ import retrofit2.Response
 
 private lateinit var binding_dang_nhap: DangnhapBinding
 
-
+//fun View.startAnimation(animation: Animation, onEnd: () -> Unit) {
+//    animation.setAnimationListener(object : Animation.AnimationListener {
+//        override fun onAnimationStart(animation: Animation?) = Unit
+//
+//        override fun onAnimationEnd(animation: Animation?) {
+//            onEnd()
+//        }
+//
+//        override fun onAnimationRepeat(animation: Animation?) = Unit
+//    })
+//    this.startAnimation(animation)
+//}
 fun getInfoCustomer() {
     val call = RetrofitClient.viewPagerApi.getInfoCustomer(_username)
     call.enqueue(object : Callback<Customer> {
@@ -154,6 +165,17 @@ class DangNhapActivity : AppCompatActivity() {
 
         // Xử lý khi ấn vào nút Đăng Nhập
         binding_dang_nhap.btnDangnhap.setOnClickListener {
+
+//            val animation = AnimationUtils.loadAnimation(this, R.anim.circle_explosion).apply {
+//                duration = 700
+//                interpolator = AccelerateDecelerateInterpolator()
+//            }
+//
+//            binding_dang_nhap.btnDangnhap.text = ""
+//            binding_dang_nhap.btnDangnhap.startAnimation(animation) {
+//                // display your fragment
+//
+//            }
 
             val animation = AnimationUtils.loadAnimation(this, R.anim.btn_anim)
             binding_dang_nhap.btnDangnhap.startAnimation(animation)

@@ -3,6 +3,7 @@ package com.example.medicinemart.activities
 import android.annotation.SuppressLint
 import android.content.Intent
 import android.os.Bundle
+import android.view.View
 import android.view.animation.AnimationUtils
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
@@ -31,6 +32,13 @@ class ChiTietSanPhamActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         binding_chi_tiet_san_pham = ChitietsanphamBinding.inflate(layoutInflater)
         setContentView(binding_chi_tiet_san_pham.root)
+
+        if (products_in_cart.isEmpty()) {
+            binding_chi_tiet_san_pham.quantityInCart.visibility = View.GONE
+        } else {
+            binding_chi_tiet_san_pham.quantityInCart.visibility = View.VISIBLE
+            binding_chi_tiet_san_pham.quantityInCart.text = products_in_cart.size.toString()
+        }
 
         val item = intent.getSerializableExtra("item") as Sanpham
         val goto = intent.getSerializableExtra("goto") as String
@@ -72,6 +80,10 @@ class ChiTietSanPhamActivity : AppCompatActivity() {
                             ).show()
                             products_in_cart.add(item)
                             Info.quantity_product_in_cart.add(1)
+                            binding_chi_tiet_san_pham.quantityInCart.visibility =
+                                View.VISIBLE
+                            binding_chi_tiet_san_pham.quantityInCart.text =
+                                products_in_cart.size.toString()
 //                            binding_gio_hang.recyclerView.adapter?.notifyDataSetChanged()
                         } else {
                             // Xử lý lỗi nếu thêm hàng mới thất bại
@@ -106,6 +118,10 @@ class ChiTietSanPhamActivity : AppCompatActivity() {
                                     ).show()
                                     products_in_cart.add(item)
                                     Info.quantity_product_in_cart.add(1)
+                                    binding_chi_tiet_san_pham.quantityInCart.visibility =
+                                        View.VISIBLE
+                                    binding_chi_tiet_san_pham.quantityInCart.text =
+                                        products_in_cart.size.toString()
 //                                    binding_gio_hang.recyclerView.adapter?.notifyDataSetChanged()
                                 } else {
                                     // Xử lý lỗi nếu thêm hàng mới thất bại
@@ -134,6 +150,16 @@ class ChiTietSanPhamActivity : AppCompatActivity() {
                 startActivity(intent)
                 overridePendingTransition(R.anim.no_animation, R.anim.no_animation)
             }
+        }
+    }
+
+    override fun onResume() {
+        super.onResume()
+        if (products_in_cart.isEmpty()) {
+            binding_chi_tiet_san_pham.quantityInCart.visibility = View.GONE
+        } else {
+            binding_chi_tiet_san_pham.quantityInCart.visibility = View.VISIBLE
+            binding_chi_tiet_san_pham.quantityInCart.text = products_in_cart.size.toString()
         }
     }
 }

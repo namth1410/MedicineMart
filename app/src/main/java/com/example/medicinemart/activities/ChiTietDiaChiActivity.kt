@@ -8,7 +8,6 @@ import android.text.Editable
 import android.view.LayoutInflater
 import android.view.inputmethod.InputMethodManager
 import android.widget.Button
-import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import com.blogspot.atifsoftwares.animatoolib.Animatoo
 import com.example.medicinemart.R
@@ -135,6 +134,7 @@ class ChiTietDiaChiActivity : AppCompatActivity(), OnMapReadyCallback {
             val layoutInflater = LayoutInflater.from(this)
             val view = layoutInflater.inflate(R.layout.dialog_remove_address, null)
             val closeButton = view.findViewById<Button>(R.id.dialog_close_button)
+            val okButton = view.findViewById<Button>(R.id.dialog_ok_button)
 
             builder.setView(view)
             val dialog = builder.create()
@@ -143,7 +143,38 @@ class ChiTietDiaChiActivity : AppCompatActivity(), OnMapReadyCallback {
                 dialog.dismiss()
             }
 
+            okButton.setOnClickListener {
+                dialog.dismiss()
+                val call =
+                    RetrofitClient.viewPagerApi.deleteAddress(list_address.get(Info.position).id)
+                progressDialog = ProgressDialog(this)
+                progressDialog?.setCancelable(false)
+                progressDialog?.setMessage("Đợi xíu...")
+                progressDialog?.setProgressStyle(ProgressDialog.STYLE_SPINNER)
+                progressDialog?.setProgress(0)
+                progressDialog?.show()
+                call.enqueue(object : Callback<Void> {
+                    override fun onResponse(call: Call<Void>, response: Response<Void>) {
+                        if (response.isSuccessful) {
+                            require_reload_data_address = true
+                            progressDialog?.dismiss()
 
+                            onBackPressed()
+                            // Xóa thành công
+                        } else {
+                            // Xóa không thành công
+                        }
+                    }
+
+                    override fun onFailure(call: Call<Void>, t: Throwable) {
+                        // Xóa không thành công do lỗi mạng hoặc lỗi server
+                    }
+                })
+            }
+
+
+
+/*
             val dialogBuilder = AlertDialog.Builder(this)
                 .setMessage("Xóa địa chỉ?")
                 .setPositiveButton("Xóa") { _, _ ->
@@ -181,7 +212,7 @@ class ChiTietDiaChiActivity : AppCompatActivity(), OnMapReadyCallback {
                     // Xử lý khi người dùng chọn No
                 }.create()
 
-            dialogBuilder.show()
+            dialogBuilder.show()  */
         }
 
         mapView = binding_chi_tiet_dia_chi.mapView

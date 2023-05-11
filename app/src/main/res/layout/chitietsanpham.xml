@@ -7,41 +7,57 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_marginBottom="@dimen/_10sdp"
-        android:layout_weight="0.06"
+        android:layout_weight="0.08"
         android:weightSum="2"
         android:orientation="horizontal">
 
-        <androidx.appcompat.widget.AppCompatButton
+        <ImageView
             android:id="@+id/btn_back"
-            android:layout_weight="0.2"
+            android:layout_weight="0.3"
+            android:paddingLeft="@dimen/_10sdp"
             android:layout_width="0dp"
             android:layout_height="match_parent"
-            android:background="@color/white"
-            android:paddingLeft="@dimen/_10sdp"
-            android:drawableStart="@drawable/baseline_arrow_back_ios_24"/>
+            android:src="@drawable/back_arrow" />
+
         <TextView
             android:layout_width="0dp"
             android:layout_height="match_parent"
-            android:layout_weight="1.6"
+            android:layout_weight="1.4"
             android:alpha="0"/>
 
-        <androidx.appcompat.widget.AppCompatButton
+        <RelativeLayout
             android:id="@+id/btn_cart"
-            android:layout_weight="0.2"
+            android:layout_weight="0.3"
             android:layout_width="0dp"
             android:layout_height="match_parent"
-            android:background="@color/white"
-            android:drawableEnd="@drawable/baseline_shopping_cart_24"
-            android:paddingRight="@dimen/_10sdp" />
+            android:layout_marginTop="@dimen/_10sdp"
+            android:layout_marginRight="@dimen/_10sdp"
+            android:gravity="right">
 
+            <ImageView
+                android:layout_width="@dimen/_35sdp"
+                android:layout_height="@dimen/_35sdp"
+                android:src="@drawable/cart" />
+
+            <TextView
+                android:id="@+id/quantity_in_cart"
+                android:layout_width="@dimen/_15sdp"
+                android:layout_height="@dimen/_15sdp"
+                android:text="1"
+                android:textSize="@dimen/_10sdp"
+                android:textColor="@color/white"
+                android:layout_marginLeft="@dimen/_25sdp"
+                android:background="@drawable/circle_background"
+                android:gravity="center_vertical|center_horizontal" />
+
+        </RelativeLayout>
 
     </LinearLayout>
 
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_weight="0.87"
+        android:layout_weight="0.85"
         android:fillViewport="true">
 
         <LinearLayout

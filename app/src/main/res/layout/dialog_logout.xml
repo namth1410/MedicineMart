@@ -15,13 +15,11 @@
             android:gravity="center"
             android:orientation="vertical">
 
-            <com.airbnb.lottie.LottieAnimationView
+            <ImageView
                 android:id="@+id/lottie"
                 android:layout_width="@dimen/_80sdp"
                 android:layout_height="@dimen/_80sdp"
-                app:lottie_autoPlay="true"
-                app:lottie_rawRes="@raw/remove"
-                app:lottie_loop="true"
+                android:src="@drawable/logout"
                 />
 
             <TextView
@@ -30,7 +28,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="16dp"
                 android:gravity="center"
-                android:text="Bạn chắc chắn muốn xóa địa chỉ?"
+                android:text="Bạn chắc chắn muốn đăng xuất?"
                 android:textColor="@color/black" />
 
             <LinearLayout
@@ -60,7 +58,7 @@
                     android:layout_marginLeft="16dp"
                     android:background="@drawable/bg_button"
                     android:backgroundTint="@color/blue"
-                    android:text="Xóa"
+                    android:text="Đăng xuất"
                     android:textAllCaps="false"
                     android:textColor="@color/white" />
             </LinearLayout>

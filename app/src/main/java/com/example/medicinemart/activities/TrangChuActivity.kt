@@ -4,6 +4,7 @@ import android.content.Intent
 import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
+import android.view.View
 import android.widget.SearchView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -54,6 +55,14 @@ class TrangChuActivity : AppCompatActivity() {
         binding_don_hang = DonhangBinding.inflate(layoutInflater)
         setContentView(binding_trang_chu.root)
 
+        if (products_in_cart.isEmpty()) {
+            binding_trang_chu.quantityInCart.visibility = View.GONE
+        } else {
+            binding_trang_chu.quantityInCart.visibility = View.VISIBLE
+            binding_trang_chu.quantityInCart.text = products_in_cart.size.toString()
+        }
+
+
 //        val broadcastReceiver = NetworkChangeReceiver()
 //        val intentFilter = IntentFilter(ConnectivityManager.CONNECTIVITY_ACTION)
 //        registerReceiver(broadcastReceiver, intentFilter)
@@ -61,9 +70,6 @@ class TrangChuActivity : AppCompatActivity() {
 
         // --ViewPager
         viewPager = binding_trang_chu.idViewPager
-
-        binding_trang_chu.quantityInCart.text = products_in_cart.size.toString()
-
 
         GlobalScope.launch(Dispatchers.IO) {
             val res_getBannerAds = async { viewPagerApi.getBannerAds() }
@@ -367,7 +373,12 @@ class TrangChuActivity : AppCompatActivity() {
 
     override fun onResume() {
         super.onResume()
-        binding_trang_chu.quantityInCart.text = products_in_cart.size.toString()
+        if (products_in_cart.isEmpty()) {
+            binding_trang_chu.quantityInCart.visibility = View.GONE
+        } else {
+            binding_trang_chu.quantityInCart.visibility = View.VISIBLE
+            binding_trang_chu.quantityInCart.text = products_in_cart.size.toString()
+        }
 
         productSearchList.clear()
         productSearchListCopy.clear()
