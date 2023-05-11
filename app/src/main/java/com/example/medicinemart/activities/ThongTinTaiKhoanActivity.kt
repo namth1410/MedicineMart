@@ -16,7 +16,6 @@ import android.provider.MediaStore
 import android.text.Editable
 import android.text.TextWatcher
 import android.view.View
-import android.view.animation.Animation
 import android.view.animation.AnimationUtils
 import android.view.inputmethod.InputMethodManager
 import androidx.annotation.RequiresApi
@@ -63,6 +62,8 @@ class ThongTinTaiKhoanActivity : AppCompatActivity() {
                 val imm = getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
                 imm.hideSoftInputFromWindow(binding_thong_tin_tai_khoan.edtHoten.windowToken, 0)
                 binding_thong_tin_tai_khoan.edtHoten.clearFocus()
+                binding_thong_tin_tai_khoan.edtHoten.isEnabled = false
+
             } else {
 
             }
@@ -112,6 +113,7 @@ class ThongTinTaiKhoanActivity : AppCompatActivity() {
                 val imm = getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
                 imm.hideSoftInputFromWindow(binding_thong_tin_tai_khoan.edtSdt.windowToken, 0)
                 binding_thong_tin_tai_khoan.edtSdt.clearFocus()
+                binding_thong_tin_tai_khoan.edtSdt.isEnabled = false
             }
         }
 

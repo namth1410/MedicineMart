@@ -1,12 +1,13 @@
 package com.example.medicinemart.activities
 
 import android.Manifest.permission.CAMERA
-import android.app.AlertDialog
 import android.content.Intent
 import android.content.pm.PackageManager
 import android.graphics.Bitmap
 import android.os.Bundle
 import android.provider.MediaStore
+import android.view.LayoutInflater
+import android.widget.Button
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
@@ -99,6 +100,33 @@ class HoSoActivity : AppCompatActivity() {
         binding_ho_so.tvDangxuat.setOnClickListener() {
             val editor = sharedPref.edit()
 
+            val builder = android.app.AlertDialog.Builder(this)
+            builder.setCancelable(false)
+            val layoutInflater = LayoutInflater.from(this)
+            val view = layoutInflater.inflate(R.layout.dialog_logout, null)
+            val closeButton = view.findViewById<Button>(R.id.dialog_close_button)
+            val okButton = view.findViewById<Button>(R.id.dialog_ok_button)
+
+            builder.setView(view)
+            val dialog = builder.create()
+            dialog.show()
+            closeButton.setOnClickListener {
+                dialog.dismiss()
+            }
+
+            okButton.setOnClickListener {
+                editor.remove("username")
+                editor.remove("password")
+                editor.apply()
+
+                val intent = Intent(this, DangNhapActivity::class.java)
+                intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
+                startActivity(intent)
+                Animatoo.animateSlideLeft(this)
+                finish()
+            }
+
+            /*
             val dialogBuilder = AlertDialog.Builder(this)
                 .setMessage("Đăng xuất khỏi tài khoản của bạn?")
                 .setPositiveButton("Đăng xuất") { _, _ ->
@@ -119,7 +147,7 @@ class HoSoActivity : AppCompatActivity() {
                 }.create()
 
             dialogBuilder.show()
-            println("Da dang xuat")
+            println("Da dang xuat")  */
         }
 
     }
