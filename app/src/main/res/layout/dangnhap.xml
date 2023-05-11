@@ -151,7 +151,7 @@
                     android:gravity="end"
                     android:text="Chưa có tài khoản?"
                     android:textColor="@color/grey"
-                    android:textSize="@dimen/_12sdp"
+                    android:textSize="@dimen/_14sdp"
                     android:clickable="true" />
 
             </LinearLayout>
@@ -166,7 +166,7 @@
                 android:background="@drawable/bg_button"
                 android:text="Đăng nhập"
                 android:textColor="@color/white"
-                android:backgroundTint="@color/purple_500"/>
+                android:backgroundTint="@color/blue"/>
 
         </LinearLayout>
 
