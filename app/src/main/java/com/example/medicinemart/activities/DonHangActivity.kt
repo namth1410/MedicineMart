@@ -1,15 +1,11 @@
 package com.example.medicinemart.activities
 
-import android.animation.AnimatorSet
-import android.animation.ObjectAnimator
-import android.animation.ValueAnimator
 import android.annotation.SuppressLint
 import android.app.ProgressDialog
 import android.content.Intent
 import android.graphics.Color
 import android.os.Build
 import android.os.Bundle
-import android.view.MotionEvent
 import android.view.View
 import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
