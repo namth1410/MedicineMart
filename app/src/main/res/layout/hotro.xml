@@ -267,16 +267,17 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="@dimen/_50sdp"
+        android:layout_marginTop="@dimen/_60sdp"
         android:layout_below="@+id/ll_social"
         android:orientation="vertical">
-        <ImageView
+        <com.airbnb.lottie.LottieAnimationView
             android:id="@+id/btn_call"
             android:layout_width="@dimen/_50sdp"
             android:layout_height="@dimen/_50sdp"
-            android:layout_marginTop="@dimen/_20sdp"
-            android:layout_gravity="center"
-            android:src="@drawable/phone"/>
+            app:lottie_autoPlay="true"
+            app:lottie_rawRes="@raw/phone_ring"
+            app:lottie_loop="true"
+            android:layout_gravity="center" />
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"

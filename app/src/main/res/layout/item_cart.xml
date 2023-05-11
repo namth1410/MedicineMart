@@ -6,7 +6,7 @@
     android:layout_height="@dimen/_160sdp"
     android:layout_margin="10dp"
     app:cardCornerRadius="10dp"
-    app:cardElevation="6dp">
+    app:cardElevation="10dp">
 
     <LinearLayout
         android:id="@+id/container"

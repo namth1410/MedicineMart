@@ -1,15 +1,12 @@
 package com.example.medicinemart.activities
 
 import android.content.Intent
-import android.content.IntentFilter
-import android.net.ConnectivityManager
 import android.os.Build
 import android.os.Bundle
 import android.os.Handler
 import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
 import com.example.medicinemart.common.Info
-import com.example.medicinemart.common.Info.broadcastReceiver
 import com.example.medicinemart.common.Info.products_in_cart
 import com.example.medicinemart.common.Info.quantity_product_in_cart
 import com.example.medicinemart.databinding.PreLoadingBinding
@@ -30,8 +27,8 @@ class PreLoadingActivity : AppCompatActivity() {
         binding_preloading = PreLoadingBinding.inflate(layoutInflater)
         setContentView(binding_preloading.root)
 
-        val intentFilter = IntentFilter(ConnectivityManager.CONNECTIVITY_ACTION)
-        registerReceiver(broadcastReceiver, intentFilter)
+//        val intentFilter = IntentFilter(ConnectivityManager.CONNECTIVITY_ACTION)
+//        registerReceiver(broadcastReceiver, intentFilter)
 
 //        val connectivityManager = getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
 //        val networkInfo = connectivityManager.activeNetworkInfo

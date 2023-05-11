@@ -5,10 +5,13 @@ import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import android.text.Editable
+import android.view.LayoutInflater
 import android.view.inputmethod.InputMethodManager
+import android.widget.Button
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import com.blogspot.atifsoftwares.animatoolib.Animatoo
+import com.example.medicinemart.R
 import com.example.medicinemart.common.Info
 import com.example.medicinemart.common.Info.list_address
 import com.example.medicinemart.databinding.ChitietdiachiBinding
@@ -127,6 +130,20 @@ class ChiTietDiaChiActivity : AppCompatActivity(), OnMapReadyCallback {
         }
 
         binding_chi_tiet_dia_chi.btnXoadiachi.setOnClickListener() {
+            val builder = android.app.AlertDialog.Builder(this)
+            builder.setCancelable(false)
+            val layoutInflater = LayoutInflater.from(this)
+            val view = layoutInflater.inflate(R.layout.dialog_remove_address, null)
+            val closeButton = view.findViewById<Button>(R.id.dialog_close_button)
+
+            builder.setView(view)
+            val dialog = builder.create()
+            dialog.show()
+            closeButton.setOnClickListener {
+                dialog.dismiss()
+            }
+
+
             val dialogBuilder = AlertDialog.Builder(this)
                 .setMessage("Xóa địa chỉ?")
                 .setPositiveButton("Xóa") { _, _ ->

@@ -2,7 +2,6 @@ package com.example.medicinemart.activities
 
 import android.content.Context
 import android.content.Intent
-import android.content.IntentFilter
 import android.net.ConnectivityManager
 import android.os.Build
 import android.os.Bundle
@@ -81,9 +80,9 @@ class DangNhapActivity : AppCompatActivity() {
             finish()
         }
 
-        val broadcastReceiver = NetworkChangeReceiver()
-        val intentFilter = IntentFilter(ConnectivityManager.CONNECTIVITY_ACTION)
-        registerReceiver(broadcastReceiver, intentFilter)
+//        val broadcastReceiver = NetworkChangeReceiver()
+//        val intentFilter = IntentFilter(ConnectivityManager.CONNECTIVITY_ACTION)
+//        registerReceiver(broadcastReceiver, intentFilter)
 
 
         // Kiểm tra kết nối mạng

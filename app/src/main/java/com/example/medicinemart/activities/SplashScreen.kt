@@ -16,6 +16,8 @@ class SplashScreen : AppCompatActivity() {
         binding_splash_screen = SplashScreenBinding.inflate(layoutInflater)
         setContentView(binding_splash_screen.root)
 
+        getAccounts()
+
         Handler().postDelayed({
             // Chuyển sang màn hình chính của ứng dụng sau khi hiển thị logo trong 3 giây
             startActivity(Intent(this, DangNhapActivity::class.java))
