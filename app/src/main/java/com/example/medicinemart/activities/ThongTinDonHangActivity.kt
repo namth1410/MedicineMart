@@ -35,7 +35,7 @@ class ThongTinDonHangActivity : AppCompatActivity() {
         setContentView(binding_thong_tin_don_hang.root)
 
         val type_order = intent.getStringExtra("type_order") as String
-        if (type_order == "choxacnhan") {
+        if (type_order == "Chờ xác nhận") {
             binding_thong_tin_don_hang.btnCancel.visibility = View.VISIBLE
         } else {
             binding_thong_tin_don_hang.btnCancel.visibility = View.GONE

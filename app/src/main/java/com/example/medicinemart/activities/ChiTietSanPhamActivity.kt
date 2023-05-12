@@ -49,6 +49,7 @@ class ChiTietSanPhamActivity : AppCompatActivity() {
         binding_chi_tiet_san_pham.name.text = item.name
         val formatter: NumberFormat = DecimalFormat("#,###")
         binding_chi_tiet_san_pham.price.text = formatter.format(item.price) + "đ"
+        println(item.image + "  chitietsanpham")
         if (item.image.startsWith("\"") && item.image.endsWith("\"")) {
             item.image = item.image.substring(1, item.image.length - 1)
         }

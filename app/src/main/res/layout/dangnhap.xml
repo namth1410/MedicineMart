@@ -38,12 +38,12 @@
                 android:id="@+id/textView1"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="@dimen/_10sdp"
                 android:layout_marginTop="@dimen/_5sdp"
                 android:text="Đăng nhập"
                 android:textColor="@color/blue"
-                android:textSize="@dimen/_35sdp"
-                android:textStyle="bold" />
+                android:textSize="@dimen/_30sdp"
+                android:textStyle="bold"
+                android:layout_gravity="center"/>
 
             <RelativeLayout
                 android:layout_width="wrap_content"

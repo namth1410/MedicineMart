@@ -129,6 +129,7 @@ class ChiTietDiaChiActivity : AppCompatActivity(), OnMapReadyCallback {
         }
 
         binding_chi_tiet_dia_chi.btnXoadiachi.setOnClickListener() {
+
             val builder = android.app.AlertDialog.Builder(this)
             builder.setCancelable(false)
             val layoutInflater = LayoutInflater.from(this)
@@ -171,7 +172,6 @@ class ChiTietDiaChiActivity : AppCompatActivity(), OnMapReadyCallback {
                     }
                 })
             }
-
 
 
 /*

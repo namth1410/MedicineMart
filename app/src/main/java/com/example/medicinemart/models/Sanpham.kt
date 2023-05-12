@@ -8,8 +8,11 @@ data class Sanpham(
     var type: String,
     var price: Int,
     var describe: String,
-    var image: String
+    var ingredient: String,
+    var user_guide: String,
+    var image: String,
+    var barcode: String
 ) : Serializable {
-    constructor() : this(0,"", "", 0,"","")
+    constructor() : this(0,"", "", 0,"","", "", "", "")
 
 }

@@ -78,6 +78,7 @@ class DangNhapActivity : AppCompatActivity() {
 
         val username = sharedPref.getString("username", "")
         val password = sharedPref.getString("password", "")
+        val avatar = sharedPref.getString("image_path", "")
 
         if (username!!.isNotEmpty() && password!!.isNotEmpty()) {
             // Thực hiện đăng nhập tự động
@@ -87,7 +88,7 @@ class DangNhapActivity : AppCompatActivity() {
             val intent = Intent(this, PreLoadingActivity::class.java)
             intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
             startActivity(intent)
-            Animatoo.animateSlideRight(this)
+            Animatoo.animateSlideLeft(this)
             finish()
         }
 
@@ -219,7 +220,7 @@ class DangNhapActivity : AppCompatActivity() {
                 val intent = Intent(this, PreLoadingActivity::class.java)
                 intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
                 startActivity(intent)
-                Animatoo.animateSlideRight(this)
+                Animatoo.animateSlideLeft(this)
                 finish()
             }
         }

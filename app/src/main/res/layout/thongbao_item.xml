@@ -35,7 +35,8 @@
         android:ellipsize="end"
         android:singleLine="true"
         android:text="Giao kiện hàng thành công"
-        android:textColor="#000000"
+        android:textStyle="bold"
+        android:textColor="@color/black"
         android:textSize="@dimen/_13sdp" />
 
     <TextView

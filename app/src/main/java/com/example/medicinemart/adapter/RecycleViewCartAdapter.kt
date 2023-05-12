@@ -3,6 +3,7 @@ package com.example.medicinemart.adapter
 import android.annotation.SuppressLint
 import android.app.Activity
 import android.app.AlertDialog
+import android.app.ProgressDialog
 import android.content.Context
 import android.content.Intent
 import android.view.LayoutInflater
@@ -14,10 +15,7 @@ import androidx.core.view.ViewCompat
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.example.medicinemart.R
-import com.example.medicinemart.activities.ChiTietSanPhamActivity
-import com.example.medicinemart.activities.binding_gio_hang
-import com.example.medicinemart.activities.checkList
-import com.example.medicinemart.activities.total_price
+import com.example.medicinemart.activities.*
 import com.example.medicinemart.common.Info
 import com.example.medicinemart.common.Info.customer
 import com.example.medicinemart.common.Info.product_to_pay
@@ -26,6 +24,7 @@ import com.example.medicinemart.common.Info.quantity_product_in_cart
 import com.example.medicinemart.common.Info.quantity_product_to_pay
 import com.example.medicinemart.common.Info.total_products_checcked_in_cart
 import com.example.medicinemart.models.Sanpham
+import com.example.medicinemart.retrofit.RetrofitClient
 import com.example.medicinemart.retrofit.RetrofitClient.viewPagerApi
 import okhttp3.ResponseBody
 import retrofit2.Call
@@ -41,6 +40,7 @@ interface OnCheckedChangeListener {
 
 interface OnItemInteractionListener : OnItemClickListener, OnCheckedChangeListener
 
+private var progressDialog: ProgressDialog? = null
 
 class RecycleViewCartAdapter(
     private val mList: List<Sanpham>,
@@ -117,7 +117,6 @@ class RecycleViewCartAdapter(
                 product_to_pay.remove(ItemsViewModel)
                 total_products_checcked_in_cart--
             }
-            println(total_price)
             val formatter: NumberFormat = DecimalFormat("#,###")
             binding_gio_hang.totalPrice.text = formatter.format(total_price) + "đ"
         }

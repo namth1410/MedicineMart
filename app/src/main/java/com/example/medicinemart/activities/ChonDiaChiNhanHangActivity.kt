@@ -1,6 +1,8 @@
 package com.example.medicinemart.activities
 
+import android.content.Intent
 import android.graphics.Color
+import android.graphics.Paint
 import android.graphics.Typeface
 import android.os.Bundle
 import android.text.Spannable
@@ -10,6 +12,7 @@ import android.text.style.StyleSpan
 import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.blogspot.atifsoftwares.animatoolib.Animatoo
 import com.example.medicinemart.adapter.OnItemClickListener
 import com.example.medicinemart.adapter.RecycleViewAddressAdapter
 import com.example.medicinemart.common.Info.delivery_address
@@ -59,10 +62,19 @@ class ChonDiaChiNhanHangActivity : AppCompatActivity() {
             )
 
             binding_chon_dia_chi_nhan_hang.tvEmpty.text = spannable
+
+
         } else {
             binding_chon_dia_chi_nhan_hang.emptyAddress.visibility = View.GONE
         }
 
+        binding_chon_dia_chi_nhan_hang.tvThemdiachi.setPaintFlags(binding_chon_dia_chi_nhan_hang.tvThemdiachi.getPaintFlags() or Paint.UNDERLINE_TEXT_FLAG)
+        binding_chon_dia_chi_nhan_hang.tvThemdiachi.setOnClickListener() {
+            val intent = Intent(this, DiaChiMoiActivity::class.java)
+            intent.putExtra("goto", "chondiachinhanhang")
+            startActivity(intent)
+            Animatoo.animateSlideLeft(this)
+        }
 
         val adapterRecyclerAddressAdapter= RecycleViewAddressAdapter(list_address, this, object :
             OnItemClickListener {

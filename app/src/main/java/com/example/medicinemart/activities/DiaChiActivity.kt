@@ -120,6 +120,7 @@ class DiaChiActivity : AppCompatActivity() {
 
         binding_dia_chi.btnThemdiachi.setOnClickListener() {
             val intent = Intent(this, DiaChiMoiActivity::class.java)
+            intent.putExtra("goto", "diachi")
             startActivity(intent)
             Animatoo.animateSlideLeft(this)
         }

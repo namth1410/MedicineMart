@@ -17,7 +17,7 @@ interface API {
     suspend fun getBannerAds() : Response<ArrayList<BannerAds>>
 
     @GET("api/getAllProduct.php")
-    suspend fun getAllProduct() : Response<ArrayList<Sanpham>>
+    fun getAllProduct() : Call<ArrayList<JsonObject>>
 
     @GET("api/getCart.php")
 //    suspend fun getCart(@Query("id_customer") id_customer: Int) : Response<ArrayList<JsonObject>>

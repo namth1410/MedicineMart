@@ -54,7 +54,10 @@
         <activity android:name=".activities.DangKyActivity"/>
         <activity android:name=".activities.DangNhapActivity"/>
         <activity android:name=".activities.TrangChuActivity" android:windowSoftInputMode="adjustPan"/>
-        <activity android:name=".activities.ThongBaoActivity"/>
+        <activity android:name=".activities.CaptureAct"/>
+        <activity android:name=".activities.ThongBaoActivity"
+            android:screenOrientation="fullSensor"
+            tools:replace="screenOrientation"/>
         <activity android:name=".activities.SearchActivity" android:windowSoftInputMode="adjustNothing|stateHidden|adjustResize"/>
         <activity android:name=".activities.DonHangActivity"/>
         <activity android:name=".activities.HoSoActivity"

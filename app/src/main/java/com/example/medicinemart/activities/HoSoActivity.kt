@@ -3,7 +3,7 @@ package com.example.medicinemart.activities
 import android.Manifest.permission.CAMERA
 import android.content.Intent
 import android.content.pm.PackageManager
-import android.graphics.Bitmap
+import android.graphics.BitmapFactory
 import android.os.Bundle
 import android.provider.MediaStore
 import android.view.LayoutInflater
@@ -18,6 +18,7 @@ import com.example.medicinemart.common.Info.list_address
 import com.example.medicinemart.common.Info.sharedPref
 import com.example.medicinemart.databinding.HosoBinding
 import com.google.android.material.bottomnavigation.BottomNavigationView
+import java.io.File
 
 private lateinit var binding_ho_so: HosoBinding
 
@@ -32,6 +33,18 @@ class HoSoActivity : AppCompatActivity() {
         binding_ho_so = HosoBinding.inflate(layoutInflater)
         setContentView(binding_ho_so.root)
 
+        val imagePath = sharedPref.getString("image_path", "")
+        if (imagePath != "") {
+            // Tạo một đối tượng File từ đường dẫn đã lưu
+            val imageFile = File(imagePath)
+
+            // Đọc dữ liệu ảnh từ file và tạo ra một đối tượng Bitmap
+            val bitmap = BitmapFactory.decodeFile(imageFile.absolutePath)
+
+            // Sử dụng đối tượng Bitmap này trong ứng dụng của bạn
+            binding_ho_so.imageView2.setImageBitmap(bitmap)
+        }
+
         println(list_address)
 
         binding_ho_so.tvFullname.text = customer.full_name
@@ -41,10 +54,7 @@ class HoSoActivity : AppCompatActivity() {
                 R.id.thongbao -> {
                     // put your code here
                     val intent = Intent(this@HoSoActivity, ThongBaoActivity::class.java)
-//                    intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
-                    finishAffinity()
                     startActivity(intent)
-
                     overridePendingTransition(R.anim.no_animation,  R.anim.no_animation)
                     return@OnNavigationItemSelectedListener true
                 }
@@ -155,7 +165,6 @@ class HoSoActivity : AppCompatActivity() {
     override fun onResume() {
         super.onResume()
         binding_ho_so.tvFullname.text = customer.full_name
-        checkCameraPermission()
     }
 
     private fun checkCameraPermission() {
@@ -164,8 +173,6 @@ class HoSoActivity : AppCompatActivity() {
             ActivityCompat.requestPermissions(this,
                 arrayOf(CAMERA),
                 REQUEST_PERMISSION)
-
-            println("chap nhan")
         }
     }
 
@@ -190,17 +197,17 @@ class HoSoActivity : AppCompatActivity() {
             }
         }
     }
-    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
-        super.onActivityResult(requestCode, resultCode, data)
-        if (resultCode == RESULT_OK) {
-            if (requestCode == REQUEST_IMAGE_CAPTURE) {
-                val bitmap = data?.extras?.get("data") as Bitmap
-                binding_ho_so.imageView2.setImageBitmap(bitmap)
-            }
-            else if (requestCode == REQUEST_PICK_IMAGE) {
-                val uri = data?.getData()
-                binding_ho_so.imageView2.setImageURI(uri)
-            }
-        }
-    }
+//    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+//        super.onActivityResult(requestCode, resultCode, data)
+//        if (resultCode == RESULT_OK) {
+//            if (requestCode == REQUEST_IMAGE_CAPTURE) {
+//                val bitmap = data?.extras?.get("data") as Bitmap
+//                binding_ho_so.imageView2.setImageBitmap(bitmap)
+//            }
+//            else if (requestCode == REQUEST_PICK_IMAGE) {
+//                val uri = data?.getData()
+//                binding_ho_so.imageView2.setImageURI(uri)
+//            }
+//        }
+//    }
 }
