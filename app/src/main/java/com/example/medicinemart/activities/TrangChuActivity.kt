@@ -1,11 +1,14 @@
 package com.example.medicinemart.activities
 
+import android.app.AlertDialog
 import android.content.Intent
 import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
 import android.view.View
+import android.widget.Button
 import android.widget.SearchView
+import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.viewpager.widget.ViewPager
@@ -13,6 +16,7 @@ import com.example.medicinemart.R
 import com.example.medicinemart.adapter.OnItemClickListener
 import com.example.medicinemart.adapter.RecycleViewHomeAdapter
 import com.example.medicinemart.adapter.ViewPagerAdapter
+import com.example.medicinemart.common.Info
 import com.example.medicinemart.common.Info.all_product
 import com.example.medicinemart.common.Info.id_address_max_in_db
 import com.example.medicinemart.common.Info.products_in_cart
@@ -23,12 +27,16 @@ import com.example.medicinemart.models.BannerAds
 import com.example.medicinemart.models.Sanpham
 import com.example.medicinemart.retrofit.RetrofitClient.viewPagerApi
 import com.google.android.material.bottomnavigation.BottomNavigationView
+import com.journeyapps.barcodescanner.ScanContract
+import com.journeyapps.barcodescanner.ScanOptions
 import kotlinx.coroutines.*
 import java.util.*
+
 
 private lateinit var binding_trang_chu: TrangchuBinding
 private lateinit var viewPagerAdapter: ViewPagerAdapter
 private lateinit var viewPager: ViewPager
+
 
 private lateinit var handler: Handler
 private var page = 0
@@ -62,6 +70,56 @@ class TrangChuActivity : AppCompatActivity() {
             binding_trang_chu.quantityInCart.text = products_in_cart.size.toString()
         }
 
+        val barLauncher = registerForActivityResult(ScanContract()) { result ->
+            if (result.contents != null) {
+                // Xử lý kết quả quét mã vạch ở đây
+                var product = Sanpham()
+                var flag = false
+                for (i in Info.all_product) {
+                    val originalString = i.barcode
+                    val nonAccentString = originalString.removeAccent()
+                    if (nonAccentString.contains(result.contents.toString(), true)) {
+                        product = i
+                        productSearchList.add(product)
+                        flag = true
+                        break
+                    }
+                }
+                if (flag == true) {
+                    flag = false
+                    val intent = Intent(this, ChiTietSanPhamActivity::class.java)
+                    intent.putExtra("item", product as java.io.Serializable)
+                    intent.putExtra("goto", "trangchu")
+                    startActivity(intent)
+                    overridePendingTransition(R.anim.no_animation, R.anim.no_animation)
+                } else {
+                    val builder = AlertDialog.Builder(this)
+                    builder.setCancelable(false)
+
+                    val view = layoutInflater.inflate(R.layout.dialog_no_network, null)
+                    val closeButton = view.findViewById<Button>(R.id.dialog_close_button)
+                    var dialog_message = view.findViewById<TextView>(R.id.dialog_message)
+                    view.findViewById<TextView>(R.id.dialog_message).text = "Xin lỗi chúng tôi không tìm thấy sản phẩm nào!"
+
+                    builder.setView(view)
+                    val dialog = builder.create()
+                    dialog.show()
+
+                    closeButton.setOnClickListener {
+                        dialog.dismiss()
+                    }
+                }
+            }
+        }
+
+        binding_trang_chu.barCodeScanner.setOnClickListener() {
+            val options = ScanOptions()
+            options.setOrientationLocked(false)
+            options.setBeepEnabled(true)
+            options.setOrientationLocked(true)
+            options.setCaptureActivity(CaptureAct::class.java)
+            barLauncher.launch(options)
+        }
 
 //        val broadcastReceiver = NetworkChangeReceiver()
 //        val intentFilter = IntentFilter(ConnectivityManager.CONNECTIVITY_ACTION)
@@ -73,13 +131,13 @@ class TrangChuActivity : AppCompatActivity() {
 
         GlobalScope.launch(Dispatchers.IO) {
             val res_getBannerAds = async { viewPagerApi.getBannerAds() }
-            val res_getAllProduct = async { viewPagerApi.getAllProduct() }
+//            val res_getAllProduct = async { viewPagerApi.getAllProduct() }
 //            val res_getAddress = async { viewPagerApi.getAddress(_username) }
             val res_getIdAddressMax = async { viewPagerApi.getIdAddressMax() }
             id_address_max_in_db = res_getIdAddressMax.await().body()!!
             var list_banner_ads: ArrayList<BannerAds>
             list_banner_ads = res_getBannerAds.await().body()!!
-            all_product = res_getAllProduct.await().body()!!
+//            all_product = res_getAllProduct.await().body()!!
 //            list_address = res_getAddress.await().body()!!
             withContext(Dispatchers.Main) {
                 if (imageURLList.isEmpty()) {
@@ -128,6 +186,7 @@ class TrangChuActivity : AppCompatActivity() {
                 overridePendingTransition(R.anim.no_animation, R.anim.no_animation)
             }
         })
+
         val adapterRecyclerHome2 = RecycleViewHomeAdapter(xuongKhop, this, object :
             OnItemClickListener {
             override fun onItemClick(position: Int) {
@@ -236,8 +295,6 @@ class TrangChuActivity : AppCompatActivity() {
         // Xử lý sự kiện khi bấm vào giỏ hàng
         binding_trang_chu.btnCart.setOnClickListener() {
             val intent = Intent(this, CartActivity::class.java)
-//            loadDataCart()
-
             startActivity(intent)
             overridePendingTransition(R.anim.no_animation, R.anim.no_animation)
         }

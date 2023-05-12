@@ -10,6 +10,7 @@
         android:id="@+id/head"
         android:layout_width="match_parent"
         android:layout_height="@dimen/_42sdp"
+        android:layout_marginTop="@dimen/_6sdp"
         android:background="@color/white"
         android:weightSum="1">
 
@@ -18,7 +19,6 @@
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_marginStart="@dimen/_20sdp"
-            android:layout_marginTop="@dimen/_10sdp"
             android:gravity="center_vertical"
             android:text="Thông báo"
             android:textColor="@color/black"
@@ -30,23 +30,31 @@
             android:searchIcon="@drawable/baseline_search_24" />
 
 
-        <androidx.appcompat.widget.AppCompatButton
+        <RelativeLayout
             android:id="@+id/btn_cart"
-            android:paddingLeft="@dimen/_5sdp"
             android:layout_width="0dp"
             android:layout_height="match_parent"
-            android:layout_marginTop="@dimen/_10sdp"
-            android:layout_weight="0.13"
-            android:background="#00000000"
-            android:drawableStart="@drawable/baseline_shopping_cart_24" />
+            android:layout_marginRight="@dimen/_10sdp"
+            android:layout_weight="0.26"
+            android:gravity="center_vertical|right">
 
-        <androidx.appcompat.widget.AppCompatButton
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_marginTop="@dimen/_10sdp"
-            android:layout_weight="0.13"
-            android:background="#00000000"
-            android:drawableStart="@drawable/baseline_chat_24" />
+            <ImageView
+                android:layout_width="@dimen/_35sdp"
+                android:layout_height="@dimen/_35sdp"
+                android:src="@drawable/cart" />
+
+            <TextView
+                android:id="@+id/quantity_in_cart"
+                android:layout_width="@dimen/_15sdp"
+                android:layout_height="@dimen/_15sdp"
+                android:text="1"
+                android:textSize="@dimen/_10sdp"
+                android:textColor="@color/white"
+                android:layout_marginLeft="@dimen/_25sdp"
+                android:background="@drawable/circle_background"
+                android:gravity="center_vertical|center_horizontal" />
+
+        </RelativeLayout>
 
     </LinearLayout>
 
@@ -80,4 +88,34 @@
         android:minHeight="@dimen/_45sdp"
         app:labelVisibilityMode="labeled"
         app:menu="@menu/bottom_nav" />
+    
+    <LinearLayout
+        android:id="@+id/empty"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/head"
+        android:layout_marginTop="@dimen/_80sdp"
+        android:visibility="gone"
+        android:orientation="vertical">
+
+        <com.airbnb.lottie.LottieAnimationView
+            android:id="@+id/lottie"
+            android:layout_width="@dimen/_100sdp"
+            android:layout_height="@dimen/_100sdp"
+            android:layout_gravity="center"
+            app:lottie_autoPlay="true"
+            app:lottie_rawRes="@raw/smile"
+            app:lottie_loop="true"
+            />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:gravity="center"
+            android:text="Hiện tại không có thông báo nào!"
+            android:textSize="@dimen/_18sdp"
+            android:textColor="@color/black" />
+    </LinearLayout>
+
 </RelativeLayout>

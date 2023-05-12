@@ -21,6 +21,7 @@ import com.example.medicinemart.common.Info.products_in_cart
 import com.example.medicinemart.common.Info.quantity_product_to_pay
 import com.example.medicinemart.databinding.ThanhtoanBinding
 import com.example.medicinemart.models.Address
+import com.example.medicinemart.models.Notification
 import com.example.medicinemart.retrofit.RetrofitClient
 import okhttp3.ResponseBody
 import retrofit2.Call
@@ -149,6 +150,9 @@ class ThanhToanActivity : AppCompatActivity() {
                                                                 if (response.isSuccessful) {
                                                                     // Xóa thành công
                                                                     progressDialog.dismiss()
+                                                                    notification_list.add(
+                                                                        Notification()
+                                                                    )
                                                                     require_reload_data_thong_bao = true
                                                                     require_reload_data_cart = true
                                                                     Info.alertDialog(this@ThanhToanActivity)

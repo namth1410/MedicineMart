@@ -76,5 +76,32 @@
             android:textColor="@color/black"
             android:text="Bạn chưa thiết lập địa chỉ nào. Hãy quay lại Hồ Sơ và thiết lập địa chỉ. Xin lỗi vì sự bất tiện này!"/>
 
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <TextView
+                android:id="@+id/tv_themdiachi"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Thêm địa chỉ"
+                android:textSize="@dimen/_25sdp"
+                android:textColor="@color/blue"
+                android:gravity="center"
+                />
+
+            <com.airbnb.lottie.LottieAnimationView
+                android:id="@+id/lottie"
+                android:layout_width="@dimen/_80sdp"
+                android:layout_height="@dimen/_80sdp"
+                app:lottie_autoPlay="true"
+                app:lottie_rawRes="@raw/touch"
+                app:lottie_loop="true"
+                android:layout_centerHorizontal="true"
+                />
+
+
+        </RelativeLayout>
+
     </LinearLayout>
 </RelativeLayout>

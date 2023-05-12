@@ -23,6 +23,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import com.example.medicinemart.R
+import com.example.medicinemart.common.Info
 import com.example.medicinemart.common.Info._username
 import com.example.medicinemart.common.Info.customer
 import com.example.medicinemart.databinding.ThongTinTaiKhoanBinding
@@ -33,6 +34,8 @@ import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 import java.io.ByteArrayOutputStream
+import java.io.File
+import java.io.FileOutputStream
 
 
 private lateinit var binding_thong_tin_tai_khoan: ThongTinTaiKhoanBinding
@@ -219,25 +222,32 @@ class ThongTinTaiKhoanActivity : AppCompatActivity() {
 
         // Xử lý thay đổi avatar
         binding_thong_tin_tai_khoan.avat.setOnClickListener() {
-            val dialogBuilder = AlertDialog.Builder(this)
-                .setMessage("Bạn muốn lấy ảnh từ?")
-                .setPositiveButton("Thư viện ảnh") { _, _ ->
-                    // Xử lý khi người dùng chọn Yes
-                    openGallery()
-                }
-                .setNegativeButton("Camera") { _, _ ->
-                    // Xử lý khi người dùng chọn No
-                    openCamera()
-                }.create()
+            if (ContextCompat.checkSelfPermission(this, Manifest.permission.CAMERA)
+                != PackageManager.PERMISSION_GRANTED) {
+                println("chua cap quyen")
+                ActivityCompat.requestPermissions(this,
+                    arrayOf(Manifest.permission.CAMERA),
+                    REQUEST_PERMISSION)
+            } else {
+                val dialogBuilder = AlertDialog.Builder(this)
+                    .setMessage("Bạn muốn lấy ảnh từ?")
+                    .setPositiveButton("Thư viện ảnh") { _, _ ->
+                        // Xử lý khi người dùng chọn Yes
+                        openGallery()
+                    }
+                    .setNegativeButton("Camera") { _, _ ->
+                        // Xử lý khi người dùng chọn No
+                        openCamera()
+                    }.create()
 
-            dialogBuilder.show()
+                dialogBuilder.show()
+            }
         }
 
     }
 
     override fun onResume() {
         super.onResume()
-        checkCameraPermission()
     }
 
     private fun checkCameraPermission() {
@@ -246,8 +256,6 @@ class ThongTinTaiKhoanActivity : AppCompatActivity() {
             ActivityCompat.requestPermissions(this,
                 arrayOf(Manifest.permission.CAMERA),
                 REQUEST_PERMISSION)
-
-            println("chap nhan")
         }
     }
 
@@ -268,16 +276,31 @@ class ThongTinTaiKhoanActivity : AppCompatActivity() {
         super.onActivityResult(requestCode, resultCode, data)
         if (resultCode == RESULT_OK) {
             if (requestCode == REQUEST_IMAGE_CAPTURE) {
+                val directory = this.getDir("my_images", Context.MODE_PRIVATE)
+                val file = File(directory, "my_image.jpg")
+
+                val fileOutputStream = FileOutputStream(file)
+
                 val bitmap = data?.extras?.get("data") as Bitmap
                 val stream = ByteArrayOutputStream()
                 bitmap.compress(Bitmap.CompressFormat.PNG, 100, stream)
                 val byteArray = stream.toByteArray()
                 println(byteArray)
+
                 val bitmap1 = BitmapFactory.decodeByteArray(byteArray, 0, byteArray.size)
                 val matrix = Matrix()
                 matrix.postRotate(90f) // độ xoay (để xoay ngược chiều kim đồng hồ, hãy sử dụng số âm)
                 val rotatedBitmap = Bitmap.createBitmap(bitmap, 0, 0, bitmap.width, bitmap.height, matrix, true)
 
+                fileOutputStream.write(byteArray)
+                fileOutputStream.close()
+                val editor = Info.sharedPref.edit()
+                if (Info.sharedPref.contains("image_path")) {
+                    // Xóa key "image_path" nếu đã tồn tại
+                    Info.sharedPref.edit().remove("image_path").apply()
+                }
+                editor.putString("image_path", file.absolutePath)
+                editor.apply()
                 binding_thong_tin_tai_khoan.imageView2.setImageBitmap(rotatedBitmap)
             }
             else if (requestCode == REQUEST_PICK_IMAGE) {

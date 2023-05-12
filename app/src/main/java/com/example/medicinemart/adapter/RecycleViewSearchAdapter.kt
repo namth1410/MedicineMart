@@ -42,6 +42,10 @@ class RecycleViewSearchAdapter (private val mList: List<Sanpham>, private  val c
         holder.name.text = ItemsViewModel.name
         val formatter: NumberFormat = DecimalFormat("#,###")
         holder.price.text = formatter.format(ItemsViewModel.price) + "đ"
+        if (ItemsViewModel.image.startsWith("\"") && ItemsViewModel.image.endsWith("\"")) {
+            ItemsViewModel.image =
+                ItemsViewModel.image.substring(1, ItemsViewModel.image.length - 1)
+        }
         Glide
             .with(context)
             .load(ItemsViewModel.image)

@@ -94,6 +94,14 @@ fun loadDataDonhang() {
                     val price = i.getAsJsonPrimitive("price").asInt
                     val describe = i.getAsJsonPrimitive("describe").toString()
                     val image = i.getAsJsonPrimitive("image").toString()
+                    val ingredient = i.getAsJsonPrimitive("ingredient").toString()
+                    val user_guide = i.getAsJsonPrimitive("user_guide").toString()
+                    var barcode = ""
+                    if (!i.get("barcode").isJsonNull) {
+                        barcode = i.getAsJsonPrimitive("barcode").toString()
+                    } else {
+                        barcode = "1"
+                    }
 
                     val id_address = i.getAsJsonPrimitive("id_address").asInt
                     val full_name = i.getAsJsonPrimitive("full_name").asString
@@ -130,11 +138,11 @@ fun loadDataDonhang() {
                         _canceldate = time_defaul
                     }
 
-                    val sanpham = Sanpham(id, name, type, price, describe, image)
+                    val sanpham = Sanpham(id, name, type, price, describe, ingredient, user_guide, image, barcode)
                     val address = Address(id_address, phone, _username, full_name, td_x, td_y, location)
                     println(address)
                     val time = Time(_orderdate, _shipdate, _receiveddate, _canceldate)
-                    val tmp = Order(id_order, sanpham, quantity, address, time)
+                    val tmp = Order(id_order, status, sanpham, quantity, address, time)
 
                     if (status == "Chờ xác nhận") {
                         donHangChoXacNhanItemList.add(tmp)
@@ -446,6 +454,7 @@ class DonHangActivity : AppCompatActivity(), View.OnClickListener {
                         println("Mày vừa click vào item đúng không?")
                         val intent = Intent(this@DonHangActivity, ThongTinDonHangActivity::class.java)
                         order_detail = Order()
+                        order_detail.status = list.get(position).status
                         order_detail.sanpham = list.get(position).sanpham
                         order_detail.address = list.get(position).address
                         order_detail.time = list.get(position).time
@@ -454,7 +463,8 @@ class DonHangActivity : AppCompatActivity(), View.OnClickListener {
                         println("don hang vua click " + order_detail)
 //                        println(list)
 //                        intent.putExtra("item", list.get(position) as java.io.Serializable)
-//                        intent.putExtra("quantity", quantity_product_in_order.get(position) as java.io.Serializable)
+                        println(order_detail.status)
+                        intent.putExtra("type_order", order_detail.status)
                         startActivity(intent)
                         Animatoo.animateSlideLeft(this@DonHangActivity)
                     }

@@ -86,7 +86,16 @@ class PreLoadingActivity : AppCompatActivity() {
                                     val price = i.getAsJsonPrimitive("price").asInt
                                     val describe = i.getAsJsonPrimitive("describe").toString()
                                     val image = i.getAsJsonPrimitive("image").toString()
-                                    val tmp = Sanpham(id, name, type, price, describe, image)
+                                    val ingredient = i.getAsJsonPrimitive("ingredient").toString()
+                                    val user_guide = i.getAsJsonPrimitive("user_guide").toString()
+
+                                    var barcode = ""
+                                    if (!i.get("barcode").isJsonNull) {
+                                        barcode = i.getAsJsonPrimitive("barcode").toString()
+                                    } else {
+                                        barcode = "1"
+                                    }
+                                    val tmp = Sanpham(id, name, type, price, describe, ingredient, user_guide, image, barcode)
                                     products_in_cart.add(tmp)
                                     quantity_product_in_cart.add(i.getAsJsonPrimitive("quantity").asInt)
                                 }
@@ -115,6 +124,14 @@ class PreLoadingActivity : AppCompatActivity() {
                                                 val price = i.getAsJsonPrimitive("price").asInt
                                                 val describe = i.getAsJsonPrimitive("describe").toString()
                                                 val image = i.getAsJsonPrimitive("image").toString()
+                                                val ingredient = i.getAsJsonPrimitive("ingredient").toString()
+                                                val user_guide = i.getAsJsonPrimitive("user_guide").toString()
+                                                var barcode = ""
+                                                if (!i.get("barcode").isJsonNull) {
+                                                    barcode = i.getAsJsonPrimitive("barcode").toString()
+                                                } else {
+                                                    barcode = "1"
+                                                }
 
                                                 val id_address = i.getAsJsonPrimitive("id_address").asInt
                                                 val full_name = i.getAsJsonPrimitive("full_name").asString
@@ -151,10 +168,10 @@ class PreLoadingActivity : AppCompatActivity() {
                                                     _canceldate = Info.time_defaul
                                                 }
 
-                                                val sanpham = Sanpham(id, name, type, price, describe, image)
+                                                val sanpham = Sanpham(id, name, type, price, describe, ingredient, user_guide, image, barcode)
                                                 val address = Address(id_address, phone, Info._username, full_name, td_x, td_y, location)
                                                 val time = Time(_orderdate, _shipdate, _receiveddate, _canceldate)
-                                                val tmp = Order(id_order, sanpham, quantity, address, time)
+                                                val tmp = Order(id_order, status, sanpham, quantity, address, time)
 
                                                 if (status == "Chờ xác nhận") {
                                                     donHangChoXacNhanItemList.add(tmp)

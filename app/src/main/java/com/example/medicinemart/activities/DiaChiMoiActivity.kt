@@ -9,6 +9,7 @@ import android.text.Editable
 import android.view.inputmethod.InputMethodManager
 import androidx.appcompat.app.AppCompatActivity
 import com.blogspot.atifsoftwares.animatoolib.Animatoo
+import com.example.medicinemart.R
 import com.example.medicinemart.common.Info
 import com.example.medicinemart.common.Info._username
 import com.example.medicinemart.common.Info.id_address_max_in_db
@@ -45,6 +46,8 @@ class DiaChiMoiActivity : AppCompatActivity(), OnMapReadyCallback {
         super.onCreate(savedInstanceState)
         binding_dia_chi_moi = DiachimoiBinding.inflate(layoutInflater)
         setContentView(binding_dia_chi_moi.root)
+
+        val goto = intent.getSerializableExtra("goto") as String
 
 //        Info.address.td_x = Info.location_default.latitude.toBigDecimal()
 //        Info.address.td_y = Info.location_default.longitude.toBigDecimal()
@@ -159,14 +162,20 @@ class DiaChiMoiActivity : AppCompatActivity(), OnMapReadyCallback {
                     ) {
                         if (response.isSuccessful) {
                             // Xử lý kết quả trả về nếu thêm hàng mới thành công
-                            println("thêm thành công vị trí mới vào csdl")
                             require_reload_data_address = true
                             progressDialog?.dismiss()
-                            onBackPressed()
-
+                            if (goto == "diachi") {
+                                onBackPressed()
+                            } else {
+                                val intent = Intent(this@DiaChiMoiActivity, CartActivity::class.java)
+                                intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
+                                startActivity(intent)
+                                overridePendingTransition(R.anim.no_animation, R.anim.no_animation)
+                                finish()
+                            }
                         } else {
                             // Xử lý lỗi nếu thêm hàng mới thất bại
-                            println("fail")
+                            println("fail dia chi moi")
                         }
                     }
 
