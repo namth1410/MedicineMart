@@ -205,7 +205,7 @@
         android:layout_gravity="bottom"
         android:text="Thêm vào giỏ hàng"
         android:textSize="@dimen/_10sdp"
-        android:background="@color/red"
+        android:background="@color/blue"
         />
 
 </LinearLayout>
