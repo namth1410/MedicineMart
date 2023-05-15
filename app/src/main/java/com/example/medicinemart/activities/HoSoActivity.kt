@@ -3,7 +3,9 @@ package com.example.medicinemart.activities
 import android.Manifest.permission.CAMERA
 import android.content.Intent
 import android.content.pm.PackageManager
+import android.graphics.Bitmap
 import android.graphics.BitmapFactory
+import android.graphics.Matrix
 import android.os.Bundle
 import android.provider.MediaStore
 import android.view.LayoutInflater
@@ -15,6 +17,7 @@ import com.blogspot.atifsoftwares.animatoolib.Animatoo
 import com.example.medicinemart.R
 import com.example.medicinemart.common.Info.customer
 import com.example.medicinemart.common.Info.list_address
+import com.example.medicinemart.common.Info.path_avat
 import com.example.medicinemart.common.Info.sharedPref
 import com.example.medicinemart.databinding.HosoBinding
 import com.google.android.material.bottomnavigation.BottomNavigationView
@@ -33,7 +36,9 @@ class HoSoActivity : AppCompatActivity() {
         binding_ho_so = HosoBinding.inflate(layoutInflater)
         setContentView(binding_ho_so.root)
 
-        val imagePath = sharedPref.getString("image_path", "")
+        path_avat = "image_path" + customer.username
+
+        val imagePath = sharedPref.getString(path_avat, "")
         if (imagePath != "") {
             // Tạo một đối tượng File từ đường dẫn đã lưu
             val imageFile = File(imagePath)
@@ -106,6 +111,14 @@ class HoSoActivity : AppCompatActivity() {
 //            overridePendingTransition(R.anim.no_animation,  R.anim.no_animation)
         }
 
+        binding_ho_so.tvDoimatkhau.setOnClickListener() {
+            val intent = Intent(this@HoSoActivity, DoiMatKhauActivity::class.java)
+            startActivity(intent)
+            Animatoo.animateSlideLeft(this)
+
+//            overridePendingTransition(R.anim.no_animation,  R.anim.no_animation)
+        }
+
         // Xử lý sự kiện bấm Đăng xuất
         binding_ho_so.tvDangxuat.setOnClickListener() {
             val editor = sharedPref.edit()
@@ -125,9 +138,11 @@ class HoSoActivity : AppCompatActivity() {
             }
 
             okButton.setOnClickListener {
-                editor.remove("username")
-                editor.remove("password")
-                editor.apply()
+                if (sharedPref.contains("username")) {
+                    editor.remove("username")
+                    editor.remove("password")
+                    editor.apply()
+                }
 
                 val intent = Intent(this, DangNhapActivity::class.java)
                 intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
@@ -164,6 +179,19 @@ class HoSoActivity : AppCompatActivity() {
 
     override fun onResume() {
         super.onResume()
+        val imagePath = sharedPref.getString(path_avat, "")
+        if (imagePath != "") {
+            // Tạo một đối tượng File từ đường dẫn đã lưu
+            val imageFile = File(imagePath)
+
+            // Đọc dữ liệu ảnh từ file và tạo ra một đối tượng Bitmap
+            val bitmap = BitmapFactory.decodeFile(imageFile.absolutePath)
+            val matrix = Matrix()
+            matrix.postRotate(90f) // độ xoay (để xoay ngược chiều kim đồng hồ, hãy sử dụng số âm)
+            val rotatedBitmap = Bitmap.createBitmap(bitmap, 0, 0, bitmap.width, bitmap.height, matrix, true)
+            // Sử dụng đối tượng Bitmap này trong ứng dụng của bạn
+            binding_ho_so.imageView2.setImageBitmap(rotatedBitmap)
+        }
         binding_ho_so.tvFullname.text = customer.full_name
     }
 

@@ -52,6 +52,20 @@ class ThongTinTaiKhoanActivity : AppCompatActivity() {
         binding_thong_tin_tai_khoan = ThongTinTaiKhoanBinding.inflate(layoutInflater)
         setContentView(binding_thong_tin_tai_khoan.root)
 
+        val imagePath = Info.sharedPref.getString(Info.path_avat, "")
+        if (imagePath != "") {
+            // Tạo một đối tượng File từ đường dẫn đã lưu
+            val imageFile = File(imagePath)
+
+            // Đọc dữ liệu ảnh từ file và tạo ra một đối tượng Bitmap
+            val bitmap = BitmapFactory.decodeFile(imageFile.absolutePath)
+            val matrix = Matrix()
+            matrix.postRotate(90f) // độ xoay (để xoay ngược chiều kim đồng hồ, hãy sử dụng số âm)
+            val rotatedBitmap = Bitmap.createBitmap(bitmap, 0, 0, bitmap.width, bitmap.height, matrix, true)
+            // Sử dụng đối tượng Bitmap này trong ứng dụng của bạn
+            binding_thong_tin_tai_khoan.imageView2.setImageBitmap(rotatedBitmap)
+        }
+
         binding_thong_tin_tai_khoan.edtUsername.text =
             Editable.Factory.getInstance().newEditable(_username)
         binding_thong_tin_tai_khoan.edtHoten.text =
@@ -201,6 +215,16 @@ class ThongTinTaiKhoanActivity : AppCompatActivity() {
                                 binding_thong_tin_tai_khoan.btnSave.visibility = View.GONE
                                 customer.full_name = binding_thong_tin_tai_khoan.edtHoten.text.toString()
                                 customer.phone = binding_thong_tin_tai_khoan.edtSdt.text.toString()
+
+                                val directory = this@ThongTinTaiKhoanActivity.getDir("my_images", Context.MODE_PRIVATE)
+                                val file = File(directory, "my_image.jpg")
+                                val editor = Info.sharedPref.edit()
+                                if (Info.sharedPref.contains(Info.path_avat)) {
+                                    // Xóa key "image_path" nếu đã tồn tại
+                                    Info.sharedPref.edit().remove(Info.path_avat).apply()
+                                }
+                                editor.putString(Info.path_avat, file.absolutePath)
+                                editor.apply()
                             } else {
                                 // Xử lý lỗi nếu thêm hàng mới thất bại
                             }
@@ -285,7 +309,7 @@ class ThongTinTaiKhoanActivity : AppCompatActivity() {
                 val stream = ByteArrayOutputStream()
                 bitmap.compress(Bitmap.CompressFormat.PNG, 100, stream)
                 val byteArray = stream.toByteArray()
-                println(byteArray)
+                println(byteArray.contentToString())
 
                 val bitmap1 = BitmapFactory.decodeByteArray(byteArray, 0, byteArray.size)
                 val matrix = Matrix()
@@ -294,19 +318,31 @@ class ThongTinTaiKhoanActivity : AppCompatActivity() {
 
                 fileOutputStream.write(byteArray)
                 fileOutputStream.close()
-                val editor = Info.sharedPref.edit()
-                if (Info.sharedPref.contains("image_path")) {
-                    // Xóa key "image_path" nếu đã tồn tại
-                    Info.sharedPref.edit().remove("image_path").apply()
-                }
-                editor.putString("image_path", file.absolutePath)
-                editor.apply()
+                binding_thong_tin_tai_khoan.btnSave.visibility = View.VISIBLE
+//                val editor = Info.sharedPref.edit()
+//                if (Info.sharedPref.contains("image_path")) {
+//                    // Xóa key "image_path" nếu đã tồn tại
+//                    Info.sharedPref.edit().remove("image_path").apply()
+//                }
+//                editor.putString("image_path", file.absolutePath)
+//                editor.apply()
                 binding_thong_tin_tai_khoan.imageView2.setImageBitmap(rotatedBitmap)
+//                binding_thong_tin_tai_khoan.imageView2.setImageBitmap(bitmap)
             }
             else if (requestCode == REQUEST_PICK_IMAGE) {
                 val uri = data?.getData()
-                println(uri)
+                val directory = this.getDir("my_images", Context.MODE_PRIVATE)
+                val file = File(directory, "my_image.jpg")
+
+                val fileOutputStream = FileOutputStream(file)
+                val stream = ByteArrayOutputStream()
+                val bitmap = MediaStore.Images.Media.getBitmap(this.contentResolver, uri)
+                bitmap.compress(Bitmap.CompressFormat.PNG, 100, stream)
+                val byteArray = stream.toByteArray()
+                fileOutputStream.write(byteArray)
+                fileOutputStream.close()
                 binding_thong_tin_tai_khoan.imageView2.setImageURI(uri)
+                binding_thong_tin_tai_khoan.btnSave.visibility = View.VISIBLE
             }
         }
     }

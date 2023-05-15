@@ -36,6 +36,14 @@ class SearchActivity : AppCompatActivity(), AdapterView.OnItemSelectedListener {
         binding_search.searchView.setQuery(text_search, false)
         productSearchListCopy.addAll(productSearchList)
 //        productSearchList.clear()
+
+        if (Info.products_in_cart.isEmpty()) {
+            binding_search.quantityInCart.visibility = View.GONE
+        } else {
+            binding_search.quantityInCart.visibility = View.VISIBLE
+            binding_search.quantityInCart.text = Info.products_in_cart.size.toString()
+        }
+
         //xử lý nút quay lại
         binding_search.btnBack.setOnClickListener {
             onBackPressed()
@@ -144,6 +152,15 @@ class SearchActivity : AppCompatActivity(), AdapterView.OnItemSelectedListener {
         })
     }
 
+    override fun onResume() {
+        super.onResume()
+        if (Info.products_in_cart.isEmpty()) {
+            binding_search.quantityInCart.visibility = View.GONE
+        } else {
+            binding_search.quantityInCart.visibility = View.VISIBLE
+            binding_search.quantityInCart.text = Info.products_in_cart.size.toString()
+        }
+    }
 
 
     override fun onItemSelected(p0: AdapterView<*>?, p1: View?, p2: Int, p3: Long) {

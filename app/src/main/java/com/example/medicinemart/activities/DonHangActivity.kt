@@ -61,6 +61,7 @@ fun checkList(list: ArrayList<Order>) {
         binding_don_hang.layoutEmpty.visibility = View.INVISIBLE
         binding_don_hang.recyclerView.visibility = View.VISIBLE
     }
+    println("Check list da thuc hien")
 }
 
 
@@ -74,6 +75,8 @@ fun loadDataDonhang() {
         ) {
             if (response.isSuccessful) {
                 // Xử lý kết quả trả về nếu thêm hàng mới thành công
+                println("Da load lai don hang thanh cong")
+                println(response.body())
                 require_reload_data_order = false
                 if (progressDialog != null) {
                     progressDialog?.dismiss()
@@ -140,7 +143,6 @@ fun loadDataDonhang() {
 
                     val sanpham = Sanpham(id, name, type, price, describe, ingredient, user_guide, image, barcode)
                     val address = Address(id_address, phone, _username, full_name, td_x, td_y, location)
-                    println(address)
                     val time = Time(_orderdate, _shipdate, _receiveddate, _canceldate)
                     val tmp = Order(id_order, status, sanpham, quantity, address, time)
 
@@ -158,10 +160,13 @@ fun loadDataDonhang() {
 //                quantityDaHuy.add(i.getAsJsonPrimitive("quantity").asInt)
                     }
                 }
+                println("donHangChoXacNhanItemList.size " + donHangChoXacNhanItemList.size)
                 binding_don_hang.recyclerView.adapter?.notifyDataSetChanged()
+                checkList(donHangChoXacNhanItemList)
 
             } else {
                 println(response.errorBody())
+                println("Load don hang fail donhangactivity")
                 // Xử lý lỗi nếu thêm hàng mới thất bại
             }
         }
@@ -397,16 +402,16 @@ class DonHangActivity : AppCompatActivity(), View.OnClickListener {
         TODO("Not yet implemented")
     }
 
-    fun checkList(list: ArrayList<Order>) {
-        if (list.isEmpty()) {
-            binding_don_hang.layoutEmpty.visibility = View.VISIBLE
-            binding_don_hang.recyclerView.visibility = View.INVISIBLE
-
-        } else {
-            binding_don_hang.layoutEmpty.visibility = View.INVISIBLE
-            binding_don_hang.recyclerView.visibility = View.VISIBLE
-        }
-    }
+//    fun checkList(list: ArrayList<Order>) {
+//        if (list.isEmpty()) {
+//            binding_don_hang.layoutEmpty.visibility = View.VISIBLE
+//            binding_don_hang.recyclerView.visibility = View.INVISIBLE
+//
+//        } else {
+//            binding_don_hang.layoutEmpty.visibility = View.INVISIBLE
+//            binding_don_hang.recyclerView.visibility = View.VISIBLE
+//        }
+//    }
 
     fun handlerButton(p: AppCompatButton) {
         binding_don_hang.btnDangGiao.setActivated(false)
@@ -444,14 +449,12 @@ class DonHangActivity : AppCompatActivity(), View.OnClickListener {
 //                quantity_product_in_order = quantityDaHuy
             }
         }
-        println(list)
         checkList(list)
         if (!list.isEmpty()) {
             val adapterRecyclerOrder =
                 RecycleViewOrderAdapter(list, this, object :
                     OnItemClickListener {
                     override fun onItemClick(position: Int) {
-                        println("Mày vừa click vào item đúng không?")
                         val intent = Intent(this@DonHangActivity, ThongTinDonHangActivity::class.java)
                         order_detail = Order()
                         order_detail.status = list.get(position).status
@@ -460,10 +463,6 @@ class DonHangActivity : AppCompatActivity(), View.OnClickListener {
                         order_detail.time = list.get(position).time
                         order_detail.id = list.get(position).id
                         order_detail.quantity = list.get(position).quantity
-                        println("don hang vua click " + order_detail)
-//                        println(list)
-//                        intent.putExtra("item", list.get(position) as java.io.Serializable)
-                        println(order_detail.status)
                         intent.putExtra("type_order", order_detail.status)
                         startActivity(intent)
                         Animatoo.animateSlideLeft(this@DonHangActivity)
@@ -486,6 +485,7 @@ class DonHangActivity : AppCompatActivity(), View.OnClickListener {
     @RequiresApi(Build.VERSION_CODES.O)
     override fun onResume() {
         super.onResume()
+        loadDataDonhang()
         if (require_reload_data_order == true) {
             progressDialog = ProgressDialog(this)
             progressDialog?.setCancelable(false)
@@ -495,6 +495,7 @@ class DonHangActivity : AppCompatActivity(), View.OnClickListener {
             progressDialog?.show()
             loadDataDonhang()
         }
+
         order_detail = Order()
         binding_don_hang.recyclerView.adapter?.notifyDataSetChanged()
     }

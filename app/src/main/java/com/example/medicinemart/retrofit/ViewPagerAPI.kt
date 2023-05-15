@@ -60,6 +60,14 @@ interface API {
         @Field("salt") salt: String
     ): Call<ResponseBody>
 
+    @FormUrlEncoded
+    @POST("api/changePass.php")
+    fun changePass(
+        @Field("username") username: String,
+        @Field("password") password: String,
+        @Field("salt") salt: String
+    ): Call<ResponseBody>
+
     @GET("api/getAccount.php")
     suspend fun getAccounts() : Response<ArrayList<JsonObject>>
 
@@ -132,7 +140,8 @@ interface API {
         @Field("id_customer") id_customer: Int,
         @Field("title") title: String,
         @Field("content") content: String,
-        @Field("id_product") id_product: Int
+        @Field("id_product") id_product: Int,
+        @Field("id_order") id_order: Int
     ): Call<ResponseBody>
 
     @FormUrlEncoded

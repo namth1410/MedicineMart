@@ -8,11 +8,14 @@ import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import com.bumptech.glide.Glide
+import com.example.medicinemart.common.Info
 import com.example.medicinemart.common.Info.price_formatter
 import com.example.medicinemart.common.Info.time_formatter
 import com.example.medicinemart.databinding.ThongtindonhangBinding
+import com.example.medicinemart.models.Notification
 import com.example.medicinemart.models.Order
 import com.example.medicinemart.retrofit.RetrofitClient
+import okhttp3.ResponseBody
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -23,8 +26,6 @@ lateinit var order_detail: Order
 
 
 private var progressDialog: ProgressDialog? = null
-
-
 
 
 class ThongTinDonHangActivity : AppCompatActivity() {
@@ -42,11 +43,11 @@ class ThongTinDonHangActivity : AppCompatActivity() {
         }
 
         binding_thong_tin_don_hang.btnCancel.setOnClickListener() {
-            val dialogBuilder = AlertDialog.Builder(this)
-                .setMessage("Hủy đơn hàng?")
+            val dialogBuilder = AlertDialog.Builder(this).setMessage("Hủy đơn hàng?")
                 .setPositiveButton("Chắc chắn") { _, _ ->
-                    val call =
-                        RetrofitClient.viewPagerApi.deleteOrderdetail(order_detail.id, order_detail.sanpham.id)
+                    val call = RetrofitClient.viewPagerApi.deleteOrderdetail(
+                        order_detail.id, order_detail.sanpham.id
+                    )
                     progressDialog = ProgressDialog(this)
                     progressDialog?.setCancelable(false)
                     progressDialog?.setMessage("Đợi xíu...")
@@ -56,9 +57,37 @@ class ThongTinDonHangActivity : AppCompatActivity() {
                     call.enqueue(object : Callback<Void> {
                         override fun onResponse(call: Call<Void>, response: Response<Void>) {
                             if (response.isSuccessful) {
-                                progressDialog?.dismiss()
-                                require_reload_data_order = true
-                                onBackPressed()
+                                val call1 = RetrofitClient.viewPagerApi.addNotification(
+                                    Info.customer.id, Info.title_da_huy, "hih", order_detail.sanpham.id, order_detail.id
+                                )
+                                call1.enqueue(object : Callback<ResponseBody> {
+                                    override fun onResponse(
+                                        call: Call<ResponseBody>, response: Response<ResponseBody>
+                                    ) {
+                                        if (response.isSuccessful) {
+                                            // Xóa thành công
+                                            progressDialog?.dismiss()
+                                            notification_list.add(
+                                                Notification()
+                                            )
+                                            require_reload_data_order = true
+                                            require_reload_data_thong_bao = true
+                                            require_reload_data_cart = true
+                                            onBackPressed()
+                                        } else {
+                                            // Xóa không thành công
+                                        }
+                                    }
+
+                                    override fun onFailure(
+                                        call: Call<ResponseBody>, t: Throwable
+                                    ) {
+                                        // Xóa không thành công do lỗi mạng hoặc lỗi server
+                                    }
+                                })
+//                                progressDialog?.dismiss()
+//                                require_reload_data_order = true
+//                                onBackPressed()
                                 // Xóa thành công
                             } else {
                                 // Xóa không thành công
@@ -69,8 +98,7 @@ class ThongTinDonHangActivity : AppCompatActivity() {
                             // Xóa không thành công do lỗi mạng hoặc lỗi server
                         }
                     })
-                }
-                .setNegativeButton("Không") { _, _ ->
+                }.setNegativeButton("Không") { _, _ ->
                     // Xử lý khi người dùng chọn No
                 }.create()
 
@@ -80,7 +108,6 @@ class ThongTinDonHangActivity : AppCompatActivity() {
         val currentDateTime = LocalDateTime.now()
 //        val formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss")
         val formattedDateTime = currentDateTime.format(time_formatter)
-        println("formattedDateTime " + formattedDateTime)
 
 //        val quantity = intent.getSerializableExtra("quantity") as Int
         binding_thong_tin_don_hang.fullName.text = order_detail.address.full_name
@@ -100,18 +127,18 @@ class ThongTinDonHangActivity : AppCompatActivity() {
             order_detail.sanpham.image =
                 order_detail.sanpham.image.substring(1, order_detail.sanpham.image.length - 1)
         }
-        Glide
-            .with(this)
-            .load(order_detail.sanpham.image)
+        Glide.with(this).load(order_detail.sanpham.image)
             .into(binding_thong_tin_don_hang.imageviewOrder)
 
 //        val receivedDateFormatted = order_detail.time.receiveddate.format(time_formatter).toString()
-        binding_thong_tin_don_hang.tvThoigiandathang.text = order_detail.time.orderdate.format(time_formatter).toString()
-        binding_thong_tin_don_hang.tvThoigiangiaohang.text = order_detail.time.shipdate.format(time_formatter).toString()
-        binding_thong_tin_don_hang.tvThoigianhoanthanh.text = order_detail.time.receiveddate.format(time_formatter).toString()
+        binding_thong_tin_don_hang.tvThoigiandathang.text =
+            order_detail.time.orderdate.format(time_formatter).toString()
+        binding_thong_tin_don_hang.tvThoigiangiaohang.text =
+            order_detail.time.shipdate.format(time_formatter).toString()
+        binding_thong_tin_don_hang.tvThoigianhoanthanh.text =
+            order_detail.time.receiveddate.format(time_formatter).toString()
 
-        binding_thong_tin_don_hang.btnBack.setOnClickListener()
-        {
+        binding_thong_tin_don_hang.btnBack.setOnClickListener() {
             onBackPressed()
         }
 

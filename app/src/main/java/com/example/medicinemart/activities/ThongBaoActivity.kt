@@ -3,6 +3,9 @@ package com.example.medicinemart.activities
 import android.app.ProgressDialog
 import android.content.Intent
 import android.os.Bundle
+import android.speech.RecognitionListener
+import android.speech.RecognizerIntent
+import android.speech.SpeechRecognizer
 import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -122,6 +125,7 @@ class ThongBaoActivity : AppCompatActivity() {
             options.setCaptureActivity(CaptureAct::class.java)
             barLauncher.launch(options)
         }  */
+
 
 
 

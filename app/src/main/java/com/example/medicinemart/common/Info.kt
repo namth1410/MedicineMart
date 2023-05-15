@@ -34,6 +34,8 @@ object Info {
 
     var customer = Customer()
 
+    var path_avat = ""
+
     var all_product = ArrayList<Sanpham>()
 
 

@@ -118,6 +118,7 @@
                     android:textStyle="bold" />
 
                 <TextView
+                    android:id="@+id/tv_thanhphan"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:text="Mỗi 5 ml cao lỏng chứa các chất chiết được từ dược liệu tương đương: Hoạt chất: Húng chanh (Folium Plectranthi) ……… 2500 mg; Núc nac (Cortex Oroxyfum indicum) 625 mg; Cineol …… 4,415 mg\nTá dược: Vừa đủ. (Cremophor RH40, tween 80, đường trắng, natri benzoat, màu caramen, vanillin, nước tinh khiết)."
@@ -136,11 +137,12 @@
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="Liều dùng"
+                    android:text="Hướng dẫn sử dụng"
                     android:textSize="@dimen/_12sdp"
                     android:textStyle="bold" />
 
                 <TextView
+                    android:id="@+id/tv_huongdansudung"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:text="Trẻ sơ sinh đến dưới 2 tuổi: Uống mỗi lần 2 ml – 5 ml, ngày uống 3 lần.\nTrẻ từ 2 tuổi đến 6 tuổi: Uống mỗi lần 5 ml – 10 ml, ngày uống 3 lần.\nTrẻ trên 6 tuổi: Uống mỗi lần 15 ml, ngày uống 3 lần.\nThuốc ho Astemix có sẵn các quy cách đóng gói: Ông (hoặc gói) 5 ml, 10 ml. Chai 30 ml, 60 ml, 90 ml, 100 ml, 120 ml, dong thuốc bằng cốc đong kèm theo.\nTùy theo độ tuổi của người bệnh và liều chỉ định của bác sĩ để lựa chọn sử dụng quy cách đóng gói phù hợp."
@@ -159,37 +161,14 @@
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="Liều dùng"
+                    android:text="Cảnh báo tá dược"
                     android:textSize="@dimen/_12sdp"
                     android:textStyle="bold" />
 
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="Trẻ sơ sinh đến dưới 2 tuổi: Uống mỗi lần 2 ml – 5 ml, ngày uống 3 lần.\nTrẻ từ 2 tuổi đến 6 tuổi: Uống mỗi lần 5 ml – 10 ml, ngày uống 3 lần.\nTrẻ trên 6 tuổi: Uống mỗi lần 15 ml, ngày uống 3 lần.\nThuốc ho Astemix có sẵn các quy cách đóng gói: Ông (hoặc gói) 5 ml, 10 ml. Chai 30 ml, 60 ml, 90 ml, 100 ml, 120 ml, dong thuốc bằng cốc đong kèm theo.\nTùy theo độ tuổi của người bệnh và liều chỉ định của bác sĩ để lựa chọn sử dụng quy cách đóng gói phù hợp."
-                    android:textSize="@dimen/_10sdp" />
-
-            </LinearLayout>
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="vertical"
-                android:paddingLeft="@dimen/_10sdp"
-                android:paddingTop="@dimen/_10sdp"
-                android:paddingRight="@dimen/_10sdp">
-
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:text="Liều dùng"
-                    android:textSize="@dimen/_12sdp"
-                    android:textStyle="bold" />
-
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:text="Trẻ sơ sinh đến dưới 2 tuổi: Uống mỗi lần 2 ml – 5 ml, ngày uống 3 lần.\nTrẻ từ 2 tuổi đến 6 tuổi: Uống mỗi lần 5 ml – 10 ml, ngày uống 3 lần.\nTrẻ trên 6 tuổi: Uống mỗi lần 15 ml, ngày uống 3 lần.\nThuốc ho Astemix có sẵn các quy cách đóng gói: Ông (hoặc gói) 5 ml, 10 ml. Chai 30 ml, 60 ml, 90 ml, 100 ml, 120 ml, dong thuốc bằng cốc đong kèm theo.\nTùy theo độ tuổi của người bệnh và liều chỉ định của bác sĩ để lựa chọn sử dụng quy cách đóng gói phù hợp."
+                    android:text="Thành phần tá dược có chứa natri benzoat có thể làm tăng nguy cơ vàng da, vàng mắt ở trẻ sơ sinh (4 tuần tuổi trở xuống).\nThành phần tá dược có chứa đường trắng, bệnh nhân bị rối loạn di truyền hiếm gặp như không dung nạp fructose, kém hấp thu glucose-galactose hoặc thiếu hụt enzym sucrase-isomaltase không nên dùng thuốc này."
                     android:textSize="@dimen/_10sdp" />
 
             </LinearLayout>

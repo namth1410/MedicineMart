@@ -5,8 +5,6 @@ import android.content.Intent
 import android.net.ConnectivityManager
 import android.os.Build
 import android.os.Bundle
-import android.text.method.HideReturnsTransformationMethod
-import android.text.method.PasswordTransformationMethod
 import android.view.animation.AnimationUtils
 import android.view.inputmethod.InputMethodManager
 import androidx.annotation.RequiresApi
@@ -28,6 +26,8 @@ import retrofit2.Callback
 import retrofit2.Response
 
 private lateinit var binding_dang_nhap: DangnhapBinding
+
+var saveLogin = false
 
 //fun View.startAnimation(animation: Animation, onEnd: () -> Unit) {
 //    animation.setAnimationListener(object : Animation.AnimationListener {
@@ -130,37 +130,45 @@ class DangNhapActivity : AppCompatActivity() {
             Animatoo.animateSlideLeft(this)
         }
 
+        binding_dang_nhap.root.setOnFocusChangeListener { _, hasFocus ->
+            if (hasFocus) {
+                val imm = getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
+                imm.hideSoftInputFromWindow(binding_dang_nhap.root.windowToken, 0)
+            }
+        }
+
         // Xử lý khi ấn ra ngoài EditText thì ẩn bàn phím và bỏ focus
         binding_dang_nhap.edtUsername.setOnFocusChangeListener { _, hasFocus ->
             if (!hasFocus) {
-                val imm = getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
-                imm.hideSoftInputFromWindow(binding_dang_nhap.edtUsername.windowToken, 0)
-                binding_dang_nhap.edtUsername.clearFocus()
+//                val imm = getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
+//                imm.hideSoftInputFromWindow(binding_dang_nhap.edtUsername.windowToken, 0)
+//                binding_dang_nhap.edtUsername.clearFocus()
+                binding_dang_nhap.userLayout.setEndIconVisible(false)
+
             }  else {
-                binding_dang_nhap.errUsername.text = ""
+//                binding_dang_nhap.errUsername.text = ""
+                binding_dang_nhap.userLayout.error = ""
+                binding_dang_nhap.userLayout.setEndIconVisible(true)
             }
         }
         // Xử lý khi ấn ra ngoài EditText thì ẩn bàn phím và bỏ focus
         binding_dang_nhap.edtPassword.setOnFocusChangeListener { _, hasFocus ->
             if (!hasFocus) {
-                val imm = getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
-                imm.hideSoftInputFromWindow(binding_dang_nhap.edtPassword.windowToken, 0)
-                binding_dang_nhap.edtPassword.clearFocus()
+//                val imm = getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
+//                imm.hideSoftInputFromWindow(binding_dang_nhap.edtPassword.windowToken, 0)
+//                binding_dang_nhap.edtPassword.clearFocus()
             }  else {
-                binding_dang_nhap.errPassword.text = ""
+//                binding_dang_nhap.errPassword.text = ""
+                binding_dang_nhap.passLayout.error = ""
             }
         }
 
-        // Xử lý ấn vào nút hiện mật khẩu
-        binding_dang_nhap.showPasswordCheckBox.setOnCheckedChangeListener { _, isChecked ->
-            var cursorPosition: Int = 0
-            cursorPosition = binding_dang_nhap.edtPassword.selectionEnd
+        // Xử lý ấn vào nút lưu đăng nhập
+        binding_dang_nhap.luudangnhap.setOnCheckedChangeListener { _, isChecked ->
             if (isChecked) {
-                binding_dang_nhap.edtPassword.transformationMethod = HideReturnsTransformationMethod.getInstance()
-                binding_dang_nhap.edtPassword.setSelection(cursorPosition)
+                saveLogin = true
             } else {
-                binding_dang_nhap.edtPassword.transformationMethod = PasswordTransformationMethod.getInstance()
-                binding_dang_nhap.edtPassword.setSelection(cursorPosition)
+                saveLogin = false
             }
         }
 
@@ -189,31 +197,37 @@ class DangNhapActivity : AppCompatActivity() {
             binding_dang_nhap.root.clearFocus()
 
             if (username.isNullOrEmpty()) {
-                binding_dang_nhap.errUsername.text = "Bạn chưa nhập tài khoản !"
+//                binding_dang_nhap.errUsername.text = "Bạn chưa nhập tài khoản !"
+                binding_dang_nhap.userLayout.error = "Bạn chưa nhập tài khoản!"
             }
             if (password.isNullOrEmpty()) {
-                binding_dang_nhap.errPassword.text = "Bạn chưa nhập mật khẩu !"
+//                binding_dang_nhap.errPassword.text = "Bạn chưa nhập mật khẩu !"
+                binding_dang_nhap.passLayout.error = "Bạn chưa nhập mật khẩu!"
                 return@setOnClickListener
             }
 
             if (!username_list.contains(username)) {
-                binding_dang_nhap.errUsername.text = "Tài khoản không tồn tại !"
+//                binding_dang_nhap.errUsername.text = "Tài khoản không tồn tại !"
+                binding_dang_nhap.userLayout.error = "Tài khoản không tồn tại!"
                 return@setOnClickListener
             }
 
             var salt_csdl = salt_list.get(username_list.indexOf(username))
             val hashpassword = sha256(password, salt_csdl)
             if (!(password_list.indexOf(hashpassword) == username_list.indexOf(username))) {
-                binding_dang_nhap.errPassword.text = "Mật khẩu không đúng !"
+//                binding_dang_nhap.errPassword.text = "Mật khẩu không đúng !"
+                binding_dang_nhap.passLayout.error = "Mật khẩu không đúng!"
                 return@setOnClickListener
             }
 
             if (isUsernamePasswordValid(username, password)) {
                 // Lưu trữ thông tin đăng nhập của người dùng
-                val editor = sharedPref.edit()
-                editor.putString("username", username)
-                editor.putString("password", password)
-                editor.apply()
+                if (saveLogin == true) {
+                    val editor = sharedPref.edit()
+                    editor.putString("username", username)
+                    editor.putString("password", password)
+                    editor.apply()
+                }
 
                 _username = username
                 getInfoCustomer()

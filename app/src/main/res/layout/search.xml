@@ -15,41 +15,80 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@color/white"
+        android:orientation="horizontal"
         android:weightSum="1">
 
-        <androidx.appcompat.widget.AppCompatButton
+        <ImageView
             android:id="@+id/btn_back"
+            android:layout_weight="0.17"
+            android:layout_width="0dp"
+            android:layout_height="@dimen/_35sdp"
+            android:layout_marginStart="@dimen/_10sdp"
+            android:layout_marginTop="@dimen/_10sdp"
+            android:src="@drawable/back_arrow"
+            />
+
+        <LinearLayout
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/_10sdp"
-            android:layout_weight="0.1"
-            android:background="#00000000"
-            android:drawableEnd="@drawable/baseline_arrow_back_ios_24" />
+            android:layout_weight="0.66">
 
-        <SearchView
-            android:id="@+id/search_view"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/_10sdp"
-            android:background="@drawable/shapebgsearch"
-            android:layout_weight="0.8"
-            android:iconifiedByDefault="false"
-            android:inputType="textVisiblePassword"
-            android:queryBackground="@null"
-            android:searchIcon="@drawable/baseline_search_24" />
+            <SearchView
+                android:id="@+id/search_view"
+                android:layout_width="wrap_content"
+                android:layout_height="@dimen/_35sdp"
+                android:background="@drawable/shapebgsearch"
+                android:iconifiedByDefault="false"
+                android:inputType="textVisiblePassword"
+                android:queryBackground="@null"
+                android:queryHint="Tìm kiếm"
+                android:searchIcon="@drawable/baseline_search_24" />
+        </LinearLayout>
 
-
-        <androidx.appcompat.widget.AppCompatButton
+        <RelativeLayout
             android:id="@+id/btn_cart"
-            android:paddingLeft="@dimen/_5sdp"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/_10sdp"
-            android:layout_weight="0.1"
-            android:background="#00000000"
-            android:drawableStart="@drawable/baseline_shopping_cart_24" />
+            android:layout_marginRight="@dimen/_10sdp"
+            android:layout_weight="0.17"
+            android:gravity="right">
+
+            <ImageView
+                android:layout_width="@dimen/_35sdp"
+                android:layout_height="@dimen/_35sdp"
+                android:src="@drawable/cart" />
+
+            <TextView
+                android:id="@+id/quantity_in_cart"
+                android:layout_width="@dimen/_15sdp"
+                android:layout_height="@dimen/_15sdp"
+                android:text="1"
+                android:textSize="@dimen/_10sdp"
+                android:textColor="@color/white"
+                android:layout_marginLeft="@dimen/_25sdp"
+                android:background="@drawable/circle_background"
+                android:gravity="center_vertical|center_horizontal" />
+
+        </RelativeLayout>
+
+        <!--        <LinearLayout-->
+        <!--            android:layout_width="0dp"-->
+        <!--            android:layout_height="wrap_content"-->
+        <!--            android:layout_marginTop="@dimen/_10sdp"-->
+        <!--            android:layout_marginRight="@dimen/_15sdp"-->
+        <!--            android:gravity="right"-->
+        <!--            android:layout_weight="0.15">-->
+        <!--            <ImageView-->
+        <!--                android:id="@+id/btn_cart"-->
+        <!--                android:layout_width="@dimen/_35sdp"-->
+        <!--                android:layout_height="@dimen/_35sdp"-->
+        <!--                android:src="@drawable/cart" />-->
+        <!--        </LinearLayout>-->
 
     </LinearLayout>
+
 
     <ScrollView
         android:id="@+id/scrollView1"

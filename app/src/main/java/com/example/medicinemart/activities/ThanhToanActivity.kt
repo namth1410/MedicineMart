@@ -84,7 +84,6 @@ class ThanhToanActivity : AppCompatActivity() {
         binding_thanh_toan.tvTongthanhtoan.text = formatter.format(tongTienHang) + "đ"
         binding_thanh_toan.totalPrice.text = formatter.format(tongTienHang) + "đ"
 
-
         binding_thanh_toan.tvDiachi.setOnClickListener() {
             val intent = Intent(this, ChonDiaChiNhanHangActivity::class.java)
             startActivity(intent)
@@ -108,6 +107,7 @@ class ThanhToanActivity : AppCompatActivity() {
                         if (response.isSuccessful) {
                             // Xử lý kết quả trả về nếu thêm hàng mới thành công
                             require_reload_data_order = true
+                            loadDataDonhang()
                             for (i in product_to_pay) {
                                 val call = RetrofitClient.viewPagerApi.addOrderDetail(
                                     i.id, quantity_product_to_pay.get(
@@ -139,7 +139,7 @@ class ThanhToanActivity : AppCompatActivity() {
                                                                 customer.id,
                                                                 Info.title_cho_xac_nhan,
                                                                 "hih",
-                                                                i.id
+                                                                i.id, 1
                                                             )
                                                         call1.enqueue(object :
                                                             Callback<ResponseBody> {
@@ -291,6 +291,17 @@ class ThanhToanActivity : AppCompatActivity() {
 
     override fun onResume() {
         super.onResume()
+
+        if (list_address.isEmpty()) {
+            delivery_address = Address(
+                0, "Chưa có số điện thoại!", "", "Chưa có tên!", BigDecimal(
+                    Info.location_default.latitude
+                ), BigDecimal(Info.location_default.longitude), "Chưa có địa chỉ!"
+            )
+        } else {
+
+        }
+
         binding_thanh_toan.fullName.text = delivery_address!!.full_name
         binding_thanh_toan.phone.text = delivery_address!!.phone
         binding_thanh_toan.location.text = delivery_address!!.location

@@ -111,7 +111,6 @@ fun hexStringToByteArray(hexString: String): ByteArray {
 // Hàm xử lý đăng ký
 fun register(username: String, password: String) {
     var salt = generateSalt() // tạo salt
-    println(password)
     val hashedPassword = sha256(password, salt) // tạo hash SHA-256
     // Lưu salt và hashedPassword vào cơ sở dữ liệu
     val call = RetrofitClient.viewPagerApi.signUp(username, hashedPassword, salt)
@@ -131,7 +130,6 @@ fun register(username: String, password: String) {
             // Xử lý lỗi nếu không thể kết nối tới server
         }
     })
-
 }
 
 class DangKyActivity : AppCompatActivity() {
@@ -149,36 +147,53 @@ class DangKyActivity : AppCompatActivity() {
             finish()
         }
 
+        binding_dang_ky.root.setOnFocusChangeListener { _, hasFocus ->
+            if (hasFocus) {
+                val imm = getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
+                imm.hideSoftInputFromWindow(binding_dang_ky.root.windowToken, 0)
+            }
+        }
+
+
         // Xử lý khi ấn ra ngoài EditText thì ẩn bàn phím và bỏ focus
         binding_dang_ky.edtUsername.setOnFocusChangeListener { _, hasFocus ->
             if (!hasFocus) {
-                val imm = getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
-                imm.hideSoftInputFromWindow(binding_dang_ky.edtUsername.windowToken, 0)
-                binding_dang_ky.edtUsername.clearFocus()
+//                val imm = getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
+//                imm.hideSoftInputFromWindow(binding_dang_ky.edtUsername.windowToken, 0)
+//                binding_dang_ky.edtUsername.clearFocus()
+                binding_dang_ky.userLayout.setEndIconVisible(false)
             } else {
-                binding_dang_ky.errUsername.text = ""
+//                binding_dang_ky.errUsername.text = ""
+                binding_dang_ky.userLayout.error = ""
+                binding_dang_ky.userLayout.setEndIconVisible(true)
             }
         }
 
         // Xử lý khi ấn ra ngoài EditText thì ẩn bàn phím và bỏ focus
         binding_dang_ky.edtPassword.setOnFocusChangeListener { _, hasFocus ->
             if (!hasFocus) {
-                val imm = getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
-                imm.hideSoftInputFromWindow(binding_dang_ky.edtPassword.windowToken, 0)
-                binding_dang_ky.edtPassword.clearFocus()
+//                val imm = getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
+//                imm.hideSoftInputFromWindow(binding_dang_ky.edtPassword.windowToken, 0)
+//                binding_dang_ky.edtPassword.clearFocus()
+                binding_dang_ky.passLayout.setEndIconVisible(false)
             } else {
-                binding_dang_ky.errPassword.text = ""
+//                binding_dang_ky.errPassword.text = ""
+                binding_dang_ky.passLayout.error = ""
+                binding_dang_ky.passLayout.setEndIconVisible(true)
             }
         }
 
         // Xử lý khi ấn ra ngoài EditText thì ẩn bàn phím và bỏ focus
         binding_dang_ky.edtRepassword.setOnFocusChangeListener { _, hasFocus ->
             if (!hasFocus) {
-                val imm = getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
-                imm.hideSoftInputFromWindow(binding_dang_ky.edtRepassword.windowToken, 0)
-                binding_dang_ky.edtRepassword.clearFocus()
+//                val imm = getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
+//                imm.hideSoftInputFromWindow(binding_dang_ky.edtRepassword.windowToken, 0)
+//                binding_dang_ky.edtRepassword.clearFocus()
+                binding_dang_ky.repassLayout.setEndIconVisible(false)
             } else {
-                binding_dang_ky.errRepassword.text = ""
+//                binding_dang_ky.errRepassword.text = ""
+                binding_dang_ky.repassLayout.error = ""
+                binding_dang_ky.repassLayout.setEndIconVisible(true)
             }
         }
 
@@ -197,7 +212,8 @@ class DangKyActivity : AppCompatActivity() {
             binding_dang_ky.root.clearFocus()
 
             if (username_list.contains(username)) {
-                binding_dang_ky.errUsername.text = "Tài khoản đã tồn tại !"
+//                binding_dang_ky.errUsername.text = "Tài khoản đã tồn tại !"
+                binding_dang_ky.userLayout.error = "Tài khoản đã tồn tại!"
                 return@setOnClickListener
             }
 
@@ -210,36 +226,43 @@ class DangKyActivity : AppCompatActivity() {
                 Animatoo.animateSlideRight(this)
                 finish()
             } else {
-                println("Loi roi con oi")
                 if (username.isNullOrEmpty()) {
-                    binding_dang_ky.errUsername.text = "Bạn chưa nhập tài khoản !"
+//                    binding_dang_ky.errUsername.text = "Bạn chưa nhập tài khoản !"
+                    binding_dang_ky.userLayout.error = "Bạn chưa nhập tài khoản!"
                 } else {
-                    println(username.length)
                     if (username.length < 6) {
-                        binding_dang_ky.errUsername.text = "Ít nhất 6 ký tự !"
+//                        binding_dang_ky.errUsername.text = "Ít nhất 6 ký tự !"
+                        binding_dang_ky.userLayout.error = "Ít nhất 6 ký tự!"
                     } else if (username.length > 30) {
-                        binding_dang_ky.errUsername.text = "Không quá 30 ký tự !"
+//                        binding_dang_ky.errUsername.text = "Không quá 30 ký tự !"
                     }
 
                     if (hasSpecialChar(username) || username.contains(" ")) {
-                        binding_dang_ky.errUsername.text = "Không được chứa ký tự đặc biệt !"
+//                        binding_dang_ky.errUsername.text = "Không được chứa ký tự đặc biệt !"
+                        binding_dang_ky.userLayout.error = "Không được chứa ký tự đặc biệt!"
                     }
                 }
                 if (password.isNullOrEmpty()) {
-                    binding_dang_ky.errPassword.text = "Bạn chưa nhập mật khẩu !"
+//                    binding_dang_ky.errPassword.text = "Bạn chưa nhập mật khẩu !"
+                    binding_dang_ky.passLayout.error = "Bạn chưa nhập mật khẩu!"
                 } else {
                     if (password.length < 6) {
-                        binding_dang_ky.errPassword.text = "Ít nhất 6 ký tự !"
+//                        binding_dang_ky.errPassword.text = "Ít nhất 6 ký tự !"
+                        binding_dang_ky.passLayout.error = "Ít nhất 6 ký tự!"
                     } else if (password.length > 15) {
-                        binding_dang_ky.errPassword.text = "Không quá 15 ký tự !"
+//                        binding_dang_ky.errPassword.text = "Không quá 15 ký tự !"
+                        binding_dang_ky.passLayout.error = "Không quá 15 ký tự !"
                     }
 
                     if (password.contains(" ")) {
-                        binding_dang_ky.errRepassword.text = "Không được chứa dấu cách !"
+//                        binding_dang_ky.errRepassword.text = "Không được chứa dấu cách !"
+                        binding_dang_ky.passLayout.error = "Không được chứa dấu cách!"
+
                     }
                 }
                 if (repassword.isNullOrEmpty() || !checkRePassword(password, repassword)) {
-                    binding_dang_ky.errRepassword.text = "Mật khẩu không trùng khớp !"
+//                    binding_dang_ky.errRepassword.text = "Mật khẩu không trùng khớp !"
+                    binding_dang_ky.repassLayout.error = "Mật khẩu không trùng khớp!"
                 }
             }
         }

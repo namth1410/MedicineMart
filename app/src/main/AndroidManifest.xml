@@ -71,6 +71,7 @@
         </activity>
         <activity android:name=".activities.CartActivity"/>
         <activity android:name=".activities.HoTroActivity"/>
+        <activity android:name=".activities.DoiMatKhauActivity"/>
         <activity android:name=".activities.ChiTietSanPhamActivity"/>
         <activity android:name=".activities.ThongTinTaiKhoanActivity"/>
         <activity android:name=".activities.DiaChiActivity"/>

@@ -18,16 +18,14 @@
         android:orientation="horizontal"
         android:weightSum="1">
 
-        <com.airbnb.lottie.LottieAnimationView
+        <ImageView
             android:id="@+id/bar_code_scanner"
             android:layout_weight="0.17"
             android:layout_width="0dp"
             android:layout_height="@dimen/_35sdp"
             android:layout_marginStart="@dimen/_10sdp"
             android:layout_marginTop="@dimen/_10sdp"
-            app:lottie_autoPlay="true"
-            app:lottie_rawRes="@raw/bar_code_scanner"
-            app:lottie_loop="true"
+            android:src="@drawable/barcode"
             />
 
         <LinearLayout

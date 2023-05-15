@@ -207,7 +207,7 @@ class CartActivity : AppCompatActivity() {
             if (quantity_product_to_pay.isEmpty()) {
                 val toasty = Toasty.warning(
                     applicationContext,
-                    "Hello,aldlashldihjalshdlhasldhlakshdlkhaslkdasd Toasty!",
+                    "Bạn chưa chọn sản phẩm nào!",
                     Toast.LENGTH_SHORT,
                     true
                 )

@@ -1,5 +1,6 @@
 package com.example.medicinemart.activities
 
+import android.app.AlertDialog
 import android.app.ProgressDialog
 import android.content.Context
 import android.content.Intent
@@ -7,6 +8,8 @@ import android.graphics.Color
 import android.os.Bundle
 import android.text.Editable
 import android.view.inputmethod.InputMethodManager
+import android.widget.Button
+import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import com.blogspot.atifsoftwares.animatoolib.Animatoo
 import com.example.medicinemart.R
@@ -162,17 +165,63 @@ class DiaChiMoiActivity : AppCompatActivity(), OnMapReadyCallback {
                     ) {
                         if (response.isSuccessful) {
                             // Xử lý kết quả trả về nếu thêm hàng mới thành công
+
+                            val call = RetrofitClient.viewPagerApi.getAddress(Info._username)
+                            call.enqueue(object : Callback<java.util.ArrayList<Address>> {
+                                override fun onResponse(call: Call<java.util.ArrayList<Address>>, response: Response<java.util.ArrayList<Address>>) {
+                                    if (response.isSuccessful) {
+                                        // Xử lý kết quả trả về nếu thêm hàng mới thành công
+                                        Info.list_address.clear()
+                                        for (i in response.body()!!) {
+                                            val id = i.id
+                                            val username = i.username
+                                            val fullname = i.full_name
+                                            val phone = i.phone
+                                            val td_x = i.td_x
+                                            val td_y = i.td_y
+                                            val location = i.location
+                                            val tmp = Address(id, phone, username, fullname, td_x, td_y, location)
+                                            Info.list_address.add(tmp)
+                                        }
+
+                                    } else {
+                                        println(response.errorBody())
+                                        // Xử lý lỗi nếu thêm hàng mới thất bại
+                                    }
+                                }
+
+                                override fun onFailure(call: Call<java.util.ArrayList<Address>>, t: Throwable) {
+                                    // Xử lý lỗi nếu không thể kết nối tới server
+                                }
+                            })
+
                             require_reload_data_address = true
                             progressDialog?.dismiss()
-                            if (goto == "diachi") {
-                                onBackPressed()
-                            } else {
-                                val intent = Intent(this@DiaChiMoiActivity, CartActivity::class.java)
-                                intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
-                                startActivity(intent)
-                                overridePendingTransition(R.anim.no_animation, R.anim.no_animation)
-                                finish()
+                            val builder = AlertDialog.Builder(this@DiaChiMoiActivity)
+                            builder.setCancelable(false)
+
+                            val view = layoutInflater.inflate(R.layout.dialog_success, null)
+                            val closeButton = view.findViewById<Button>(R.id.btn_ok)
+                            view.findViewById<TextView>(R.id.message).text = "Đã thêm địa chỉ mới."
+
+
+                            builder.setView(view)
+                            val dialog = builder.create()
+                            dialog.show()
+
+                            closeButton.setOnClickListener {
+                                dialog.dismiss()
+                                if (goto == "diachi") {
+                                    onBackPressed()
+                                } else {
+                                    val intent = Intent(this@DiaChiMoiActivity, CartActivity::class.java)
+                                    intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
+                                    startActivity(intent)
+                                    overridePendingTransition(R.anim.no_animation, R.anim.no_animation)
+                                    finish()
+                                }
                             }
+
                         } else {
                             // Xử lý lỗi nếu thêm hàng mới thất bại
                             println("fail dia chi moi")
