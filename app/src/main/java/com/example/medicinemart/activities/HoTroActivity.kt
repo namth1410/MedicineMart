@@ -40,6 +40,8 @@ class HoTroActivity : AppCompatActivity() {
         }
 
         binding_ho_tro.btnBack.setOnClickListener() {
+            val anim = AnimationUtils.loadAnimation(this, R.anim.btn_back)
+            binding_ho_tro.btnBack.startAnimation(anim)
             onBackPressed()
         }
     }

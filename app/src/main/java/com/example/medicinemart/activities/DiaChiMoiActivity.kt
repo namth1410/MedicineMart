@@ -7,6 +7,7 @@ import android.content.Intent
 import android.graphics.Color
 import android.os.Bundle
 import android.text.Editable
+import android.view.animation.AnimationUtils
 import android.view.inputmethod.InputMethodManager
 import android.widget.Button
 import android.widget.TextView
@@ -242,9 +243,11 @@ class DiaChiMoiActivity : AppCompatActivity(), OnMapReadyCallback {
 
 
         binding_dia_chi_moi.btnBack.setOnClickListener {
-            Info.position = -1
-            Info.td_x = BigDecimal(0.00)
-            Info.td_y = BigDecimal(0.00)
+//            Info.position = -1
+//            Info.td_x = BigDecimal(0.00)
+//            Info.td_y = BigDecimal(0.00)
+            val anim = AnimationUtils.loadAnimation(this, R.anim.btn_back)
+            binding_dia_chi_moi.btnBack.startAnimation(anim)
             onBackPressed()
         }
     }

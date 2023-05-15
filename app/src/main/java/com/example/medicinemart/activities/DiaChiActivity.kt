@@ -4,9 +4,11 @@ import android.app.ProgressDialog
 import android.content.Intent
 import android.os.Bundle
 import android.view.View
+import android.view.animation.AnimationUtils
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.blogspot.atifsoftwares.animatoolib.Animatoo
+import com.example.medicinemart.R
 import com.example.medicinemart.adapter.OnItemClickListener
 import com.example.medicinemart.adapter.RecycleViewAddressAdapter
 import com.example.medicinemart.common.Info
@@ -126,6 +128,8 @@ class DiaChiActivity : AppCompatActivity() {
         }
 
         binding_dia_chi.btnBack.setOnClickListener {
+            val anim = AnimationUtils.loadAnimation(this, R.anim.btn_back)
+            binding_dia_chi.btnBack.startAnimation(anim)
             onBackPressed()
         }
     }

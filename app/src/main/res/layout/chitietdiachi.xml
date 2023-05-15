@@ -10,9 +10,9 @@
         android:id="@+id/head"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginLeft="@dimen/_20sdp"
         android:layout_marginTop="@dimen/_20sdp"
         android:layout_marginRight="@dimen/_20sdp"
+
         android:focusableInTouchMode="true"
         android:clickable="true"
         android:focusable="true">
@@ -31,6 +31,7 @@
             android:id="@+id/btn_back"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/_15sdp"
             android:background="#00000000"
             android:drawableStart="@drawable/baseline_arrow_back_ios_24" />
 

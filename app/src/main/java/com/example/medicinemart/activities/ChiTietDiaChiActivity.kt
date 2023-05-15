@@ -6,6 +6,7 @@ import android.content.Intent
 import android.os.Bundle
 import android.text.Editable
 import android.view.LayoutInflater
+import android.view.animation.AnimationUtils
 import android.view.inputmethod.InputMethodManager
 import android.widget.Button
 import androidx.appcompat.app.AppCompatActivity
@@ -244,6 +245,8 @@ class ChiTietDiaChiActivity : AppCompatActivity(), OnMapReadyCallback {
 //            Info.position = -1
 //            Info.td_x = BigDecimal(0.00)
 //            Info.td_y = BigDecimal(0.00)
+            val anim = AnimationUtils.loadAnimation(this, R.anim.btn_back)
+            binding_chi_tiet_dia_chi.btnBack.startAnimation(anim)
             onBackPressed()
         }
     }

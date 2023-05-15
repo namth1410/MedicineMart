@@ -10,15 +10,14 @@
         android:id="@+id/head"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginLeft="@dimen/_20sdp"
         android:layout_marginTop="@dimen/_10sdp"
-        android:layout_marginRight="@dimen/_20sdp">
+        android:layout_marginRight="@dimen/_20sdp"
+        android:layout_marginBottom="@dimen/_10sdp">
 
         <TextView
             android:id="@+id/tv_diachi"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_centerVertical="true"
             android:text="Địa chỉ"
             android:textAlignment="center"
             android:textColor="@color/black"
@@ -28,6 +27,7 @@
             android:id="@+id/btn_back"
             android:layout_width="@dimen/_25sdp"
             android:layout_height="@dimen/_25sdp"
+            android:layout_marginLeft="@dimen/_15sdp"
             android:src="@drawable/back_arrow" />
 
     </RelativeLayout>

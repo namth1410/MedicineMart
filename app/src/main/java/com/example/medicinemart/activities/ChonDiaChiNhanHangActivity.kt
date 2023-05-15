@@ -10,9 +10,11 @@ import android.text.SpannableString
 import android.text.style.ForegroundColorSpan
 import android.text.style.StyleSpan
 import android.view.View
+import android.view.animation.AnimationUtils
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.blogspot.atifsoftwares.animatoolib.Animatoo
+import com.example.medicinemart.R
 import com.example.medicinemart.adapter.OnItemClickListener
 import com.example.medicinemart.adapter.RecycleViewAddressAdapter
 import com.example.medicinemart.common.Info.delivery_address
@@ -98,6 +100,8 @@ class ChonDiaChiNhanHangActivity : AppCompatActivity() {
 
 
         binding_chon_dia_chi_nhan_hang.btnBack.setOnClickListener() {
+            val anim = AnimationUtils.loadAnimation(this, R.anim.btn_back)
+            binding_chon_dia_chi_nhan_hang.btnBack.startAnimation(anim)
             onBackPressed()
         }
     }

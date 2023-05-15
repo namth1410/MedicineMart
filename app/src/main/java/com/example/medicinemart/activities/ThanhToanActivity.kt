@@ -5,6 +5,7 @@ import android.app.ProgressDialog
 import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
+import android.view.animation.AnimationUtils
 import android.widget.Button
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -277,6 +278,8 @@ class ThanhToanActivity : AppCompatActivity() {
                 val dialog = builder.create()
                 dialog.show()
                 closeButton.setOnClickListener {
+                    val anim = AnimationUtils.loadAnimation(this, R.anim.btn_anim)
+                    closeButton.startAnimation(anim)
                     dialog.dismiss()
                 }
             }

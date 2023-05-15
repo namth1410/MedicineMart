@@ -17,7 +17,7 @@
         android:layout_marginRight="@dimen/_20sdp">
 
         <TextView
-            android:id="@+id/tv_doimatkhau"
+            android:id="@id/tv_doimatkhau"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_centerVertical="true"

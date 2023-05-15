@@ -9,6 +9,7 @@ import android.graphics.Matrix
 import android.os.Bundle
 import android.provider.MediaStore
 import android.view.LayoutInflater
+import android.view.animation.AnimationUtils
 import android.widget.Button
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
@@ -88,6 +89,8 @@ class HoSoActivity : AppCompatActivity() {
         binding_ho_so.tvTaikhoan.setOnClickListener() {
             val intent = Intent(this@HoSoActivity, ThongTinTaiKhoanActivity::class.java)
             startActivity(intent)
+            val anim = AnimationUtils.loadAnimation(this, R.anim.btn_go)
+            binding_ho_so.arrow1.startAnimation(anim)
             Animatoo.animateSlideLeft(this)
 
 //            overridePendingTransition(R.anim.no_animation,  R.anim.no_animation)
@@ -97,8 +100,9 @@ class HoSoActivity : AppCompatActivity() {
         binding_ho_so.tvDiachi.setOnClickListener() {
             val intent = Intent(this@HoSoActivity, DiaChiActivity::class.java)
             startActivity(intent)
+            val anim = AnimationUtils.loadAnimation(this, R.anim.btn_go)
+            binding_ho_so.arrow2.startAnimation(anim)
             Animatoo.animateSlideLeft(this)
-
 //            overridePendingTransition(R.anim.no_animation,  R.anim.no_animation)
         }
 
@@ -106,6 +110,8 @@ class HoSoActivity : AppCompatActivity() {
         binding_ho_so.tvHotro.setOnClickListener() {
             val intent = Intent(this@HoSoActivity, HoTroActivity::class.java)
             startActivity(intent)
+            val anim = AnimationUtils.loadAnimation(this, R.anim.btn_go)
+            binding_ho_so.arrow3.startAnimation(anim)
             Animatoo.animateSlideLeft(this)
 
 //            overridePendingTransition(R.anim.no_animation,  R.anim.no_animation)

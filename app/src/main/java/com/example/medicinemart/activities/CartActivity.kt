@@ -7,6 +7,7 @@ import android.os.Bundle
 import android.os.Handler
 import android.view.Gravity
 import android.view.View
+import android.view.animation.AnimationUtils
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -221,6 +222,8 @@ class CartActivity : AppCompatActivity() {
         }
 
         binding_gio_hang.btnBack.setOnClickListener {
+            val anim = AnimationUtils.loadAnimation(this, R.anim.btn_back)
+            binding_gio_hang.btnBack.startAnimation(anim)
             onBackPressed()
         }
     }

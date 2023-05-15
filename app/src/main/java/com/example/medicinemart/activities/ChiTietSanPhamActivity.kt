@@ -60,6 +60,8 @@ class ChiTietSanPhamActivity : AppCompatActivity() {
 
 
         binding_chi_tiet_san_pham.btnBack.setOnClickListener {
+            val anim = AnimationUtils.loadAnimation(this, R.anim.btn_back)
+            binding_chi_tiet_san_pham.btnBack.startAnimation(anim)
             onBackPressed()
         }
 
