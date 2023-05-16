@@ -15,6 +15,7 @@ import com.blogspot.atifsoftwares.animatoolib.Animatoo
 import com.example.medicinemart.R
 import com.example.medicinemart.adapter.OnItemClickListener
 import com.example.medicinemart.adapter.RecycleViewOrderAdapter
+import com.example.medicinemart.common.Info
 import com.example.medicinemart.common.Info._username
 import com.example.medicinemart.common.Info.customer
 import com.example.medicinemart.common.Info.time_defaul
@@ -160,7 +161,6 @@ fun loadDataDonhang() {
 //                quantityDaHuy.add(i.getAsJsonPrimitive("quantity").asInt)
                     }
                 }
-                println("donHangChoXacNhanItemList.size " + donHangChoXacNhanItemList.size)
                 binding_don_hang.recyclerView.adapter?.notifyDataSetChanged()
                 checkList(donHangChoXacNhanItemList)
 
@@ -338,6 +338,13 @@ class DonHangActivity : AppCompatActivity(), View.OnClickListener {
         binding_don_hang = DonhangBinding.inflate(layoutInflater)
         setContentView(binding_don_hang.root)
 
+        var badge = binding_don_hang.bottomNavigationView.getOrCreateBadge(R.id.thongbao)
+        if (Info.so_thong_bao_chua_doc == 0) {
+            badge.isVisible = false
+        } else {
+            badge.isVisible = true
+            badge.number = Info.so_thong_bao_chua_doc
+        }
 //        handlerButton(binding_don_hang.btnChoXacNhan)
         handlerData(binding_don_hang.btnChoXacNhan)
 
@@ -485,6 +492,8 @@ class DonHangActivity : AppCompatActivity(), View.OnClickListener {
     @RequiresApi(Build.VERSION_CODES.O)
     override fun onResume() {
         super.onResume()
+        binding_don_hang.bottomNavigationView.setSelectedItemId(R.id.donhang)
+
         loadDataDonhang()
         if (require_reload_data_order == true) {
             progressDialog = ProgressDialog(this)
@@ -498,6 +507,15 @@ class DonHangActivity : AppCompatActivity(), View.OnClickListener {
 
         order_detail = Order()
         binding_don_hang.recyclerView.adapter?.notifyDataSetChanged()
+
+        var badge = binding_don_hang.bottomNavigationView.getOrCreateBadge(R.id.thongbao)
+        if (Info.so_thong_bao_chua_doc == 0) {
+            badge.isVisible = false
+        } else {
+            badge.isVisible = true
+            badge.number = Info.so_thong_bao_chua_doc
+        }
+
     }
 
 }

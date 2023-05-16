@@ -38,7 +38,15 @@ class ThongTinDonHangActivity : AppCompatActivity() {
         val type_order = intent.getStringExtra("type_order") as String
         if (type_order == "Chờ xác nhận") {
             binding_thong_tin_don_hang.btnCancel.visibility = View.VISIBLE
-        } else {
+            binding_thong_tin_don_hang.llThoigiangiaohang.visibility = View.GONE
+            binding_thong_tin_don_hang.llThoigianhoanthanh.visibility = View.GONE
+        } else if (type_order == "Đang giao") {
+            binding_thong_tin_don_hang.btnCancel.visibility = View.GONE
+        } else if (type_order == "Đã giao") {
+            binding_thong_tin_don_hang.llThoigiangiaohang.visibility = View.VISIBLE
+            binding_thong_tin_don_hang.llThoigianhoanthanh.visibility = View.VISIBLE
+            binding_thong_tin_don_hang.btnCancel.visibility = View.GONE
+        } else if (type_order == "Đã hủy") {
             binding_thong_tin_don_hang.btnCancel.visibility = View.GONE
         }
 
@@ -66,6 +74,9 @@ class ThongTinDonHangActivity : AppCompatActivity() {
                                     ) {
                                         if (response.isSuccessful) {
                                             // Xóa thành công
+                                            Info.so_thong_bao_chua_doc++
+                                            val editor = Info.sharedPref.edit()
+                                            editor.putString("soLuongThongBaoChuaBao", Info.so_thong_bao_chua_doc.toString()).apply()
                                             progressDialog?.dismiss()
                                             notification_list.add(
                                                 Notification()

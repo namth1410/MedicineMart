@@ -34,7 +34,6 @@ var require_reload_data_thong_bao = false
 
 var notification_list = ArrayList<Notification>()
 
-
 fun getNotification() {
     val call = RetrofitClient.viewPagerApi.getNotification(customer.id)
     call.enqueue(object : Callback<java.util.ArrayList<JsonObject>> {
@@ -93,6 +92,14 @@ class ThongBaoActivity : AppCompatActivity() {
         binding_thong_bao = ThongbaoBinding.inflate(layoutInflater)
         setContentView(binding_thong_bao.root)
 
+        var badge = binding_thong_bao.bottomNavigationView.getOrCreateBadge(R.id.thongbao)
+        if (Info.so_thong_bao_chua_doc == 0) {
+            badge.isVisible = false
+        } else {
+            badge.isVisible = true
+            badge.number = Info.so_thong_bao_chua_doc
+        }
+
         /*
 
         val barLauncher = registerForActivityResult(ScanContract()) { result ->
@@ -125,9 +132,6 @@ class ThongBaoActivity : AppCompatActivity() {
             options.setCaptureActivity(CaptureAct::class.java)
             barLauncher.launch(options)
         }  */
-
-
-
 
 
         if (notification_list.isEmpty()) {
@@ -205,6 +209,8 @@ class ThongBaoActivity : AppCompatActivity() {
 
     override fun onResume() {
         super.onResume()
+        binding_thong_bao.bottomNavigationView.setSelectedItemId(R.id.thongbao)
+
         if (require_reload_data_thong_bao) {
             progressDialog = ProgressDialog(this)
             progressDialog?.setCancelable(false)
@@ -228,6 +234,11 @@ class ThongBaoActivity : AppCompatActivity() {
             binding_thong_bao.quantityInCart.visibility = View.VISIBLE
             binding_thong_bao.quantityInCart.text = Info.products_in_cart.size.toString()
         }
+
+        Info.so_thong_bao_chua_doc = 0
+        var badge = binding_thong_bao.bottomNavigationView.getOrCreateBadge(R.id.thongbao)
+        badge.isVisible = false
+
     }
 
 }

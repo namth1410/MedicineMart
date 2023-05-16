@@ -38,6 +38,7 @@ object Info {
 
     var all_product = ArrayList<Sanpham>()
 
+    var so_thong_bao_chua_doc = 0
 
     var products_in_cart = ArrayList<Sanpham>()
     var quantity_product_in_cart = ArrayList<Int>()

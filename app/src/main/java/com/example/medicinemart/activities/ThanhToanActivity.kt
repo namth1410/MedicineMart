@@ -20,6 +20,7 @@ import com.example.medicinemart.common.Info.list_address
 import com.example.medicinemart.common.Info.product_to_pay
 import com.example.medicinemart.common.Info.products_in_cart
 import com.example.medicinemart.common.Info.quantity_product_to_pay
+import com.example.medicinemart.common.Info.so_thong_bao_chua_doc
 import com.example.medicinemart.databinding.ThanhtoanBinding
 import com.example.medicinemart.models.Address
 import com.example.medicinemart.models.Notification
@@ -150,6 +151,9 @@ class ThanhToanActivity : AppCompatActivity() {
                                                             ) {
                                                                 if (response.isSuccessful) {
                                                                     // Xóa thành công
+                                                                    so_thong_bao_chua_doc++
+                                                                    val editor = Info.sharedPref.edit()
+                                                                    editor.putString("soLuongThongBaoChuaBao", so_thong_bao_chua_doc.toString()).apply()
                                                                     progressDialog.dismiss()
                                                                     notification_list.add(
                                                                         Notification()
