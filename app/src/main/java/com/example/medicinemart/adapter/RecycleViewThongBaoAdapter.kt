@@ -41,6 +41,7 @@ class RecycleViewThongBaoAdapter (private val mList: List<Notification>, private
         }
 
         holder.title.text = ItemsViewModel.title
+
         val builder = SpannableStringBuilder(ItemsViewModel.content)
         val regex = Regex("\\d+")
         val matches = regex.findAll(ItemsViewModel.content)

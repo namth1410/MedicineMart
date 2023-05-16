@@ -75,7 +75,7 @@ object Info {
     const val title_cho_xac_nhan = "Đơn hàng chờ xác nhận"
     const val title_da_huy = "Đơn hàng đã hủy"
     const val title_dang_giao = "Đơn hàng đang giao"
-    const val title_đã_giao = "Đơn hàng giao thành công"
+    const val title_da_giao = "Đơn hàng giao thành công"
 
     fun switchActivity(context: Context, targetActivity: Class<*>) {
         val intent = Intent(context, targetActivity)

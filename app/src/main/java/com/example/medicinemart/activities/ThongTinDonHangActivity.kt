@@ -42,16 +42,142 @@ class ThongTinDonHangActivity : AppCompatActivity() {
             binding_thong_tin_don_hang.btnCancel.visibility = View.VISIBLE
             binding_thong_tin_don_hang.llThoigiangiaohang.visibility = View.GONE
             binding_thong_tin_don_hang.llThoigianhoanthanh.visibility = View.GONE
+            binding_thong_tin_don_hang.btnDaNhanHang.visibility = View.GONE
         } else if (type_order == "Đang giao") {
             binding_thong_tin_don_hang.btnCancel.visibility = View.GONE
+            binding_thong_tin_don_hang.btnDaNhanHang.visibility = View.VISIBLE
         } else if (type_order == "Đã giao") {
             binding_thong_tin_don_hang.llThoigiangiaohang.visibility = View.VISIBLE
             binding_thong_tin_don_hang.llThoigianhoanthanh.visibility = View.VISIBLE
             binding_thong_tin_don_hang.btnCancel.visibility = View.GONE
+            binding_thong_tin_don_hang.btnDaNhanHang.visibility = View.GONE
         } else if (type_order == "Đã hủy") {
             binding_thong_tin_don_hang.btnCancel.visibility = View.GONE
+            binding_thong_tin_don_hang.btnDaNhanHang.visibility = View.GONE
         }
 
+        binding_thong_tin_don_hang.btnDaNhanHang.setOnClickListener() {
+            val dialogBuilder = AlertDialog.Builder(this).setMessage("Bạn đã nhận được hàng?")
+                .setPositiveButton("Đã nhận") { _, _ ->
+                    val call = RetrofitClient.viewPagerApi.updateOrder(order_detail.id, "Đã giao")
+                    progressDialog = ProgressDialog(this)
+                    progressDialog?.setCancelable(false)
+                    progressDialog?.setMessage("Đợi xíu...")
+                    progressDialog?.setProgressStyle(ProgressDialog.STYLE_SPINNER)
+                    progressDialog?.setProgress(0)
+                    progressDialog?.show()
+                    call.enqueue(object : Callback<Void> {
+                        override fun onResponse(call: Call<Void>, response: Response<Void>) {
+                            if (response.isSuccessful) {
+                                val call1 = RetrofitClient.viewPagerApi.addNotification(
+                                    Info.customer.id, Info.title_da_giao, "hih", order_detail.sanpham.id, order_detail.id
+                                )
+                                call1.enqueue(object : Callback<ResponseBody> {
+                                    override fun onResponse(
+                                        call: Call<ResponseBody>, response: Response<ResponseBody>
+                                    ) {
+                                        if (response.isSuccessful) {
+                                            // Xóa thành công
+                                            Info.so_thong_bao_chua_doc++
+                                            val editor = Info.sharedPref.edit()
+                                            editor.putString("soLuongThongBaoChuaBao", Info.so_thong_bao_chua_doc.toString()).apply()
+                                            progressDialog?.dismiss()
+                                            notification_list.add(
+                                                Notification()
+                                            )
+                                            require_reload_data_order = true
+                                            require_reload_data_thong_bao = true
+                                            require_reload_data_cart = true
+                                            onBackPressed()
+                                        } else {
+                                            // Xóa không thành công
+                                        }
+                                    }
+
+                                    override fun onFailure(
+                                        call: Call<ResponseBody>, t: Throwable
+                                    ) {
+                                        // Xóa không thành công do lỗi mạng hoặc lỗi server
+                                    }
+                                })
+                                // Xóa thành công
+                            } else {
+                                // Xóa không thành công
+                            }
+                        }
+
+                        override fun onFailure(call: Call<Void>, t: Throwable) {
+                            // Xóa không thành công do lỗi mạng hoặc lỗi server
+                        }
+                    })
+                }.setNegativeButton("Không") { _, _ ->
+                    // Xử lý khi người dùng chọn No
+                }.create()
+
+            dialogBuilder.show()
+        }
+
+        binding_thong_tin_don_hang.btnCancel.setOnClickListener() {
+            val dialogBuilder = AlertDialog.Builder(this).setMessage("Hủy đơn hàng?")
+                .setPositiveButton("Chắc chắn") { _, _ ->
+                    val call = RetrofitClient.viewPagerApi.updateOrder(order_detail.id, "Đã hủy")
+                    progressDialog = ProgressDialog(this)
+                    progressDialog?.setCancelable(false)
+                    progressDialog?.setMessage("Đợi xíu...")
+                    progressDialog?.setProgressStyle(ProgressDialog.STYLE_SPINNER)
+                    progressDialog?.setProgress(0)
+                    progressDialog?.show()
+                    call.enqueue(object : Callback<Void> {
+                        override fun onResponse(call: Call<Void>, response: Response<Void>) {
+                            if (response.isSuccessful) {
+                                val call1 = RetrofitClient.viewPagerApi.addNotification(
+                                    Info.customer.id, Info.title_da_huy, "hih", order_detail.sanpham.id, order_detail.id
+                                )
+                                call1.enqueue(object : Callback<ResponseBody> {
+                                    override fun onResponse(
+                                        call: Call<ResponseBody>, response: Response<ResponseBody>
+                                    ) {
+                                        if (response.isSuccessful) {
+                                            // Xóa thành công
+                                            Info.so_thong_bao_chua_doc++
+                                            val editor = Info.sharedPref.edit()
+                                            editor.putString("soLuongThongBaoChuaBao", Info.so_thong_bao_chua_doc.toString()).apply()
+                                            progressDialog?.dismiss()
+                                            notification_list.add(
+                                                Notification()
+                                            )
+                                            require_reload_data_order = true
+                                            require_reload_data_thong_bao = true
+                                            require_reload_data_cart = true
+                                            onBackPressed()
+                                        } else {
+                                            // Xóa không thành công
+                                        }
+                                    }
+
+                                    override fun onFailure(
+                                        call: Call<ResponseBody>, t: Throwable
+                                    ) {
+                                        // Xóa không thành công do lỗi mạng hoặc lỗi server
+                                    }
+                                })
+                                // Xóa thành công
+                            } else {
+                                // Xóa không thành công
+                            }
+                        }
+
+                        override fun onFailure(call: Call<Void>, t: Throwable) {
+                            // Xóa không thành công do lỗi mạng hoặc lỗi server
+                        }
+                    })
+                }.setNegativeButton("Không") { _, _ ->
+                    // Xử lý khi người dùng chọn No
+                }.create()
+
+            dialogBuilder.show()
+        }
+/*
         binding_thong_tin_don_hang.btnCancel.setOnClickListener() {
             val dialogBuilder = AlertDialog.Builder(this).setMessage("Hủy đơn hàng?")
                 .setPositiveButton("Chắc chắn") { _, _ ->
@@ -116,7 +242,7 @@ class ThongTinDonHangActivity : AppCompatActivity() {
                 }.create()
 
             dialogBuilder.show()
-        }
+        }  */
 
         val currentDateTime = LocalDateTime.now()
 //        val formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss")

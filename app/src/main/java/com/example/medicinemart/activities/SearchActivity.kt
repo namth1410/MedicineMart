@@ -48,6 +48,13 @@ class SearchActivity : AppCompatActivity(), AdapterView.OnItemSelectedListener {
             binding_search.quantityInCart.text = Info.products_in_cart.size.toString()
         }
 
+        if (productSearchList.isEmpty()) {
+            binding_search.layoutEmpty.visibility = View.VISIBLE
+        } else {
+            binding_search.quantityInCart.visibility = View.VISIBLE
+            binding_search.quantityInCart.text = Info.products_in_cart.size.toString()
+        }
+
         binding_search.root.setOnFocusChangeListener { _, hasFocus ->
             if (hasFocus) {
                 val imm = getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager

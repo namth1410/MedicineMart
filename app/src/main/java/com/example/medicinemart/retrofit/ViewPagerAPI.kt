@@ -150,4 +150,11 @@ interface API {
         @Field("id_order") id_order: Int,
         @Field("id_product") id_product: Int
     ): Call<Void>
+
+    @FormUrlEncoded
+    @POST("api/updateOrder.php")
+    fun updateOrder(
+        @Field("id_order") id_order: Int,
+        @Field("status") status: String
+    ): Call<Void>
 }

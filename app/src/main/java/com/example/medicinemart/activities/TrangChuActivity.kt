@@ -12,6 +12,7 @@ import android.view.animation.AnimationUtils
 import android.view.inputmethod.EditorInfo
 import android.view.inputmethod.InputMethodManager
 import android.widget.Button
+import android.widget.ImageView
 import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
@@ -126,10 +127,11 @@ class TrangChuActivity : AppCompatActivity() {
                     val builder = AlertDialog.Builder(this)
                     builder.setCancelable(false)
 
-                    val view = layoutInflater.inflate(R.layout.dialog_no_network, null)
+                    val view = layoutInflater.inflate(R.layout.dialog_no_address, null)
                     val closeButton = view.findViewById<Button>(R.id.dialog_close_button)
                     var dialog_message = view.findViewById<TextView>(R.id.dialog_message)
                     view.findViewById<TextView>(R.id.dialog_message).text = "Xin lỗi chúng tôi không tìm thấy sản phẩm nào!"
+                    view.findViewById<ImageView>(R.id.image).setImageResource(R.drawable.sad)
 
                     builder.setView(view)
                     val dialog = builder.create()
@@ -385,7 +387,7 @@ class TrangChuActivity : AppCompatActivity() {
             binding_trang_chu.tvXemthem1.setTextColor(ContextCompat.getColor(this, R.color.grey))
             val query = "siro ho thao duoc"
             val intent = Intent(this@TrangChuActivity, SearchActivity::class.java).apply {
-                putExtra("text_search", query)
+                putExtra("text_search", "Siro ho thảo dược")
             }
             for (product in all_product) {
                 val originalString = product.type
@@ -401,7 +403,7 @@ class TrangChuActivity : AppCompatActivity() {
             binding_trang_chu.tvXemthem2.setTextColor(ContextCompat.getColor(this, R.color.grey))
             val query = "xuong khop"
             val intent = Intent(this@TrangChuActivity, SearchActivity::class.java).apply {
-                putExtra("text_search", query)
+                putExtra("text_search", "Xương khớp")
             }
             for (product in all_product) {
                 val originalString = product.type
@@ -417,7 +419,7 @@ class TrangChuActivity : AppCompatActivity() {
             binding_trang_chu.tvXemthem3.setTextColor(ContextCompat.getColor(this, R.color.grey))
             val query = "dau ngai cuu"
             val intent = Intent(this@TrangChuActivity, SearchActivity::class.java).apply {
-                putExtra("text_search", query)
+                putExtra("text_search", "Dầu ngải cứu")
             }
             for (product in all_product) {
                 val originalString = product.type
@@ -433,7 +435,7 @@ class TrangChuActivity : AppCompatActivity() {
             binding_trang_chu.tvXemthem4.setTextColor(ContextCompat.getColor(this, R.color.grey))
             val query = "dai trang"
             val intent = Intent(this@TrangChuActivity, SearchActivity::class.java).apply {
-                putExtra("text_search", query)
+                putExtra("text_search", "Đại tràng")
             }
             for (product in all_product) {
                 val originalString = product.type

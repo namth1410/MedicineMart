@@ -28,6 +28,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="16dp"
                 android:gravity="center"
+                android:textSize="@dimen/_15sdp"
                 android:text="Quý khách chưa có địa chỉ nào! Đến phần Hồ Sơ và thêm địa chỉ của mình!"
                 android:textColor="@color/black" />
 
