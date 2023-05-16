@@ -8,11 +8,13 @@ import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
 import android.view.View
+import android.view.animation.AnimationUtils
 import android.widget.Button
 import android.widget.SearchView
 import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.viewpager.widget.ViewPager
 import com.example.medicinemart.R
@@ -131,6 +133,8 @@ class TrangChuActivity : AppCompatActivity() {
         }
 
         binding_trang_chu.barCodeScanner.setOnClickListener() {
+            val animation = AnimationUtils.loadAnimation(this, R.anim.btn_anim)
+            binding_trang_chu.barCodeScanner.startAnimation(animation)
             val options = ScanOptions()
             options.setOrientationLocked(false)
             options.setBeepEnabled(true)
@@ -312,6 +316,8 @@ class TrangChuActivity : AppCompatActivity() {
 
         // Xử lý sự kiện khi bấm vào giỏ hàng
         binding_trang_chu.btnCart.setOnClickListener() {
+            val animation = AnimationUtils.loadAnimation(this, R.anim.btn_anim)
+            binding_trang_chu.btnCart.startAnimation(animation)
             val intent = Intent(this, CartActivity::class.java)
             startActivity(intent)
             overridePendingTransition(R.anim.no_animation, R.anim.no_animation)
@@ -345,6 +351,7 @@ class TrangChuActivity : AppCompatActivity() {
         })
 
         binding_trang_chu.tvXemthem1.setOnClickListener() {
+            binding_trang_chu.tvXemthem1.setTextColor(ContextCompat.getColor(this, R.color.grey))
             val query = "siro ho thao duoc"
             val intent = Intent(this@TrangChuActivity, SearchActivity::class.java).apply {
                 putExtra("text_search", query)
@@ -360,6 +367,7 @@ class TrangChuActivity : AppCompatActivity() {
             overridePendingTransition(R.anim.no_animation, R.anim.no_animation)
         }
         binding_trang_chu.tvXemthem2.setOnClickListener() {
+            binding_trang_chu.tvXemthem2.setTextColor(ContextCompat.getColor(this, R.color.grey))
             val query = "xuong khop"
             val intent = Intent(this@TrangChuActivity, SearchActivity::class.java).apply {
                 putExtra("text_search", query)
@@ -375,6 +383,7 @@ class TrangChuActivity : AppCompatActivity() {
             overridePendingTransition(R.anim.no_animation, R.anim.no_animation)
         }
         binding_trang_chu.tvXemthem3.setOnClickListener() {
+            binding_trang_chu.tvXemthem3.setTextColor(ContextCompat.getColor(this, R.color.grey))
             val query = "dau ngai cuu"
             val intent = Intent(this@TrangChuActivity, SearchActivity::class.java).apply {
                 putExtra("text_search", query)
@@ -390,6 +399,7 @@ class TrangChuActivity : AppCompatActivity() {
             overridePendingTransition(R.anim.no_animation, R.anim.no_animation)
         }
         binding_trang_chu.tvXemthem4.setOnClickListener() {
+            binding_trang_chu.tvXemthem4.setTextColor(ContextCompat.getColor(this, R.color.grey))
             val query = "dai trang"
             val intent = Intent(this@TrangChuActivity, SearchActivity::class.java).apply {
                 putExtra("text_search", query)
@@ -449,7 +459,10 @@ class TrangChuActivity : AppCompatActivity() {
     override fun onResume() {
         super.onResume()
         binding_trang_chu.bottomNavigationView.setSelectedItemId(R.id.home)
-
+        binding_trang_chu.tvXemthem1.setTextColor(ContextCompat.getColor(this, R.color.blue))
+        binding_trang_chu.tvXemthem2.setTextColor(ContextCompat.getColor(this, R.color.blue))
+        binding_trang_chu.tvXemthem3.setTextColor(ContextCompat.getColor(this, R.color.blue))
+        binding_trang_chu.tvXemthem4.setTextColor(ContextCompat.getColor(this, R.color.blue))
         if (products_in_cart.isEmpty()) {
             binding_trang_chu.quantityInCart.visibility = View.GONE
         } else {

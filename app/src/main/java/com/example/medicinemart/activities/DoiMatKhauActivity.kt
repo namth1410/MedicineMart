@@ -2,10 +2,12 @@ package com.example.medicinemart.activities
 
 import android.content.Context
 import android.os.Bundle
+import android.view.animation.AnimationUtils
 import android.view.inputmethod.InputMethodManager
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.widget.addTextChangedListener
+import com.example.medicinemart.R
 import com.example.medicinemart.common.Info
 import com.example.medicinemart.common.Info.password_list
 import com.example.medicinemart.common.Info.salt_list
@@ -182,6 +184,8 @@ class DoiMatKhauActivity : AppCompatActivity() {
 
 
         binding_doi_mat_khau.btnBack.setOnClickListener() {
+            val animation = AnimationUtils.loadAnimation(this, R.anim.btn_back)
+            binding_doi_mat_khau.btnBack.startAnimation(animation)
             onBackPressed()
         }
     }

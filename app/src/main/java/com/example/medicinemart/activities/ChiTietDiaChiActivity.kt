@@ -142,10 +142,14 @@ class ChiTietDiaChiActivity : AppCompatActivity(), OnMapReadyCallback {
             val dialog = builder.create()
             dialog.show()
             closeButton.setOnClickListener {
+                val animation = AnimationUtils.loadAnimation(this, R.anim.btn_anim)
+                closeButton.startAnimation(animation)
                 dialog.dismiss()
             }
 
             okButton.setOnClickListener {
+                val animation = AnimationUtils.loadAnimation(this, R.anim.btn_anim)
+                okButton.startAnimation(animation)
                 dialog.dismiss()
                 val call =
                     RetrofitClient.viewPagerApi.deleteAddress(list_address.get(Info.position).id)

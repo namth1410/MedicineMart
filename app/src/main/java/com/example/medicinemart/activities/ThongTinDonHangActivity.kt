@@ -4,10 +4,12 @@ import android.app.ProgressDialog
 import android.os.Build
 import android.os.Bundle
 import android.view.View
+import android.view.animation.AnimationUtils
 import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import com.bumptech.glide.Glide
+import com.example.medicinemart.R
 import com.example.medicinemart.common.Info
 import com.example.medicinemart.common.Info.price_formatter
 import com.example.medicinemart.common.Info.time_formatter
@@ -150,6 +152,8 @@ class ThongTinDonHangActivity : AppCompatActivity() {
             order_detail.time.receiveddate.format(time_formatter).toString()
 
         binding_thong_tin_don_hang.btnBack.setOnClickListener() {
+            val animation = AnimationUtils.loadAnimation(this, R.anim.btn_back)
+            binding_thong_tin_don_hang.btnBack.startAnimation(animation)
             onBackPressed()
         }
 

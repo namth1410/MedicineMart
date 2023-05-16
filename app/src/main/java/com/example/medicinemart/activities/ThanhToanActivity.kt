@@ -289,6 +289,8 @@ class ThanhToanActivity : AppCompatActivity() {
             }
 
             binding_thanh_toan.btnBack.setOnClickListener() {
+                val animation = AnimationUtils.loadAnimation(this, R.anim.btn_back)
+                binding_thanh_toan.btnBack.startAnimation(animation)
                 onBackPressed()
                 product_to_pay.clear()
                 quantity_product_to_pay.clear()

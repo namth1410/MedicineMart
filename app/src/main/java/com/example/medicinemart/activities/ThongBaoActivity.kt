@@ -7,6 +7,7 @@ import android.speech.RecognitionListener
 import android.speech.RecognizerIntent
 import android.speech.SpeechRecognizer
 import android.view.View
+import android.view.animation.AnimationUtils
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.medicinemart.R
@@ -149,6 +150,8 @@ class ThongBaoActivity : AppCompatActivity() {
         }
 
         binding_thong_bao.btnCart.setOnClickListener() {
+            val animation = AnimationUtils.loadAnimation(this, R.anim.btn_anim)
+            binding_thong_bao.btnCart.startAnimation(animation)
             val intent = Intent(this, CartActivity::class.java)
             startActivity(intent)
             overridePendingTransition(R.anim.no_animation, R.anim.no_animation)

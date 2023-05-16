@@ -127,6 +127,8 @@ class HoSoActivity : AppCompatActivity() {
         }
 
         binding_ho_so.tvDoimatkhau.setOnClickListener() {
+            val animation = AnimationUtils.loadAnimation(this, R.anim.btn_anim)
+            binding_ho_so.tvDoimatkhau.startAnimation(animation)
             val intent = Intent(this@HoSoActivity, DoiMatKhauActivity::class.java)
             startActivity(intent)
             Animatoo.animateSlideLeft(this)
@@ -149,10 +151,14 @@ class HoSoActivity : AppCompatActivity() {
             val dialog = builder.create()
             dialog.show()
             closeButton.setOnClickListener {
+                val animation = AnimationUtils.loadAnimation(this, R.anim.btn_anim)
+                closeButton.startAnimation(animation)
                 dialog.dismiss()
             }
 
             okButton.setOnClickListener {
+                val animation = AnimationUtils.loadAnimation(this, R.anim.btn_anim)
+                okButton.startAnimation(animation)
                 if (sharedPref.contains("username")) {
                     editor.remove("username")
                     editor.remove("password")

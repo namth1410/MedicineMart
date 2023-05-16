@@ -2,7 +2,9 @@ package com.example.medicinemart.activities
 
 import android.location.Geocoder
 import android.os.Bundle
+import android.view.animation.AnimationUtils
 import androidx.appcompat.app.AppCompatActivity
+import com.example.medicinemart.R
 import com.example.medicinemart.common.Info
 import com.example.medicinemart.common.Info.list_address
 import com.example.medicinemart.common.Info.position
@@ -71,6 +73,8 @@ class MapActivity : AppCompatActivity(), OnMapReadyCallback {
         }
 
         binding_map.btnBack.setOnClickListener {
+            val animation = AnimationUtils.loadAnimation(this, R.anim.btn_back)
+            binding_map.btnBack.startAnimation(animation)
             onBackPressed()
         }
     }
