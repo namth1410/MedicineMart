@@ -1,6 +1,8 @@
 package com.example.medicinemart.activities
 
+import android.app.ActivityManager
 import android.app.AlertDialog
+import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import android.os.Handler
@@ -9,6 +11,7 @@ import android.view.View
 import android.widget.Button
 import android.widget.SearchView
 import android.widget.TextView
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.viewpager.widget.ViewPager
@@ -38,6 +41,10 @@ private lateinit var viewPagerAdapter: ViewPagerAdapter
 private lateinit var viewPager: ViewPager
 
 
+private var doubleBackPressed = false
+private val doubleBackToExitHandler = Handler(Looper.getMainLooper())
+private val doubleBackDelay: Long = 1500
+
 private lateinit var handler: Handler
 private var page = 0
 private var delay: Long = 3000
@@ -63,6 +70,16 @@ class TrangChuActivity : AppCompatActivity() {
         binding_don_hang = DonhangBinding.inflate(layoutInflater)
         setContentView(binding_trang_chu.root)
 
+        // Hiện số lượng thông báo chưa đọc ở logo thôgn báo trong menu
+        var badge = binding_trang_chu.bottomNavigationView.getOrCreateBadge(R.id.thongbao)
+        if (Info.so_thong_bao_chua_doc == 0) {
+            badge.isVisible = false
+        } else {
+            badge.isVisible = true
+            badge.number = Info.so_thong_bao_chua_doc
+        }
+
+        // Hiện số lượng sản phẩm đang có trong giỏ hàng
         if (products_in_cart.isEmpty()) {
             binding_trang_chu.quantityInCart.visibility = View.GONE
         } else {
@@ -70,6 +87,7 @@ class TrangChuActivity : AppCompatActivity() {
             binding_trang_chu.quantityInCart.text = products_in_cart.size.toString()
         }
 
+        // Xử lý quét mã vạch
         val barLauncher = registerForActivityResult(ScanContract()) { result ->
             if (result.contents != null) {
                 // Xử lý kết quả quét mã vạch ở đây
@@ -430,6 +448,8 @@ class TrangChuActivity : AppCompatActivity() {
 
     override fun onResume() {
         super.onResume()
+        binding_trang_chu.bottomNavigationView.setSelectedItemId(R.id.home)
+
         if (products_in_cart.isEmpty()) {
             binding_trang_chu.quantityInCart.visibility = View.GONE
         } else {
@@ -441,5 +461,35 @@ class TrangChuActivity : AppCompatActivity() {
         productSearchListCopy.clear()
         binding_trang_chu.searchView.setQuery("", false)
         binding_trang_chu.searchView.clearFocus()
+
+        var badge = binding_trang_chu.bottomNavigationView.getOrCreateBadge(R.id.thongbao)
+        if (Info.so_thong_bao_chua_doc == 0) {
+            badge.isVisible = false
+        } else {
+            badge.isVisible = true
+            badge.number = Info.so_thong_bao_chua_doc
+        }
+    }
+
+    override fun onBackPressed() {
+        if (doubleBackPressed) {
+            super.onBackPressed()
+            return
+        }
+
+        val activityManager = getSystemService(Context.ACTIVITY_SERVICE) as ActivityManager
+        val tasks = activityManager.getRunningTasks(1) // Lấy danh sách task chạy hiện tại
+
+        if (tasks.isNotEmpty() && tasks[0].numActivities == 1) {
+            // Chỉ có một activity duy nhất trong stack
+            doubleBackPressed = true
+            Toast.makeText(this, "Vuốt 1 lần nữa để thoát khỏi ứng dụng", Toast.LENGTH_SHORT).show()
+        } else {
+            super.onBackPressed()
+        }
+
+        doubleBackToExitHandler.postDelayed({
+            doubleBackPressed = false
+        }, doubleBackDelay)
     }
 }

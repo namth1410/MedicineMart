@@ -15,6 +15,7 @@ import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import com.blogspot.atifsoftwares.animatoolib.Animatoo
 import com.example.medicinemart.R
+import com.example.medicinemart.common.Info
 import com.example.medicinemart.common.Info.customer
 import com.example.medicinemart.common.Info.list_address
 import com.example.medicinemart.common.Info.path_avat
@@ -35,6 +36,14 @@ class HoSoActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         binding_ho_so = HosoBinding.inflate(layoutInflater)
         setContentView(binding_ho_so.root)
+
+        var badge = binding_ho_so.bottomNavigationView.getOrCreateBadge(R.id.thongbao)
+        if (Info.so_thong_bao_chua_doc == 0) {
+            badge.isVisible = false
+        } else {
+            badge.isVisible = true
+            badge.number = Info.so_thong_bao_chua_doc
+        }
 
         path_avat = "image_path" + customer.username
 
@@ -179,6 +188,8 @@ class HoSoActivity : AppCompatActivity() {
 
     override fun onResume() {
         super.onResume()
+        binding_ho_so.bottomNavigationView.setSelectedItemId(R.id.hoso)
+
         val imagePath = sharedPref.getString(path_avat, "")
         if (imagePath != "") {
             // Tạo một đối tượng File từ đường dẫn đã lưu
@@ -193,6 +204,14 @@ class HoSoActivity : AppCompatActivity() {
             binding_ho_so.imageView2.setImageBitmap(rotatedBitmap)
         }
         binding_ho_so.tvFullname.text = customer.full_name
+
+        var badge = binding_ho_so.bottomNavigationView.getOrCreateBadge(R.id.thongbao)
+        if (Info.so_thong_bao_chua_doc == 0) {
+            badge.isVisible = false
+        } else {
+            badge.isVisible = true
+            badge.number = Info.so_thong_bao_chua_doc
+        }
     }
 
     private fun checkCameraPermission() {

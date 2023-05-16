@@ -27,6 +27,13 @@ class PreLoadingActivity : AppCompatActivity() {
         binding_preloading = PreLoadingBinding.inflate(layoutInflater)
         setContentView(binding_preloading.root)
 
+        if (Info.sharedPref.contains("soLuongThongBaoChuaBao")) {
+            // Xóa key "image_path" nếu đã tồn tại
+            Info.so_thong_bao_chua_doc = Info.sharedPref.getString("soLuongThongBaoChuaBao", "")!!.toInt()
+        } else {
+            Info.so_thong_bao_chua_doc = 0
+        }
+
 //        val intentFilter = IntentFilter(ConnectivityManager.CONNECTIVITY_ACTION)
 //        registerReceiver(broadcastReceiver, intentFilter)
 
@@ -236,7 +243,7 @@ class PreLoadingActivity : AppCompatActivity() {
                                                                         )
 //                                                                        Animatoo.animateZoom(this@PreLoadingActivity)
                                                                         finish()
-                                                                    }, 1000)
+                                                                    }, 200)
 
                                                                 } else {
                                                                     println(response.errorBody())
