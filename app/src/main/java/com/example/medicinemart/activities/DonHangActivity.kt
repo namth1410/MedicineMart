@@ -488,8 +488,6 @@ class DonHangActivity : AppCompatActivity(), View.OnClickListener {
             binding_don_hang.recyclerView.setLayoutManager(VerticalLayout)
             binding_don_hang.recyclerView.adapter = adapterRecyclerOrder
         }
-
-
     }
 
     @RequiresApi(Build.VERSION_CODES.O)
