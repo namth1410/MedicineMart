@@ -1,10 +1,14 @@
 package com.example.medicinemart.activities
 
 import android.annotation.SuppressLint
+import android.content.Context
 import android.content.Intent
 import android.os.Bundle
-import android.view.MotionEvent
+import android.text.Editable
+import android.text.TextWatcher
 import android.view.View
+import android.view.inputmethod.EditorInfo
+import android.view.inputmethod.InputMethodManager
 import android.widget.*
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.GridLayoutManager
@@ -33,15 +37,22 @@ class SearchActivity : AppCompatActivity(), AdapterView.OnItemSelectedListener {
         binding_search = SearchBinding.inflate(layoutInflater)
         setContentView(binding_search.root)
         val text_search = intent.getStringExtra("text_search")
-        binding_search.searchView.setQuery(text_search, false)
+//        binding_search.searchView.setQuery(text_search, false)
+        binding_search.editTextSearch.setText(text_search)
         productSearchListCopy.addAll(productSearchList)
-//        productSearchList.clear()
 
         if (Info.products_in_cart.isEmpty()) {
             binding_search.quantityInCart.visibility = View.GONE
         } else {
             binding_search.quantityInCart.visibility = View.VISIBLE
             binding_search.quantityInCart.text = Info.products_in_cart.size.toString()
+        }
+
+        binding_search.root.setOnFocusChangeListener { _, hasFocus ->
+            if (hasFocus) {
+                val imm = getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
+                imm.hideSoftInputFromWindow(binding_search.root.windowToken, 0)
+            }
         }
 
         //xử lý nút quay lại
@@ -57,6 +68,8 @@ class SearchActivity : AppCompatActivity(), AdapterView.OnItemSelectedListener {
 
         binding_search.spinner.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
             override fun onItemSelected(parent: AdapterView<*>, view: View?, position: Int, id: Long) {
+                val imm = getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
+                imm.hideSoftInputFromWindow(binding_search.root.windowToken, 0)
                 val selectedItem = parent.getItemAtPosition(position).toString()
                 // Xử lý khi người dùng chọn tùy chọn
                 if (selectedItem == "Thấp đến cao") {
@@ -71,13 +84,12 @@ class SearchActivity : AppCompatActivity(), AdapterView.OnItemSelectedListener {
                     productSearchList.addAll(productSearchListCopy)
                     binding_search.recyclerView.adapter?.notifyDataSetChanged()
                 }
-
-
             }
 
             override fun onNothingSelected(parent: AdapterView<*>) {
                 // Xử lý khi không có tùy chọn nào được chọn
             }
+
         }
 
 
@@ -102,7 +114,7 @@ class SearchActivity : AppCompatActivity(), AdapterView.OnItemSelectedListener {
         // --
 
         for (product in Info.all_product) {
-            if (product.name.contains(text_search.toString(), true)) {
+            if (product.name.contains(text_search.toString().removeAccent(), true)) {
                 productSearchList.add(product)
                 println(product.name)
                 binding_search.recyclerView.adapter?.notifyDataSetChanged()
@@ -116,40 +128,86 @@ class SearchActivity : AppCompatActivity(), AdapterView.OnItemSelectedListener {
             overridePendingTransition(R.anim.no_animation, R.anim.no_animation)
         }
 
-        // Xử lý người dùng tìm kiếm
-        binding_search.searchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
-            override fun onQueryTextSubmit(query: String?): Boolean {
-                // Xử lý khi người dùng nhấn nút tìm kiếm
+        binding_search.editTextSearch.addTextChangedListener(object : TextWatcher {
+            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
+                // Do something before the text changed
 
-                productSearchList.clear()
-                for (product in Info.all_product) {
-                    val originalString = product.name
-                    val nonAccentString = originalString.removeAccent()
-                    if (nonAccentString.contains(query.toString(), true)) {
-                        productSearchList.add(product)
-                        println(product.name)
-                    }
-                }
-                binding_search.recyclerView.adapter?.notifyDataSetChanged()
-                return false
             }
 
-            override fun onQueryTextChange(newText: String?): Boolean {
-                // Xử lý khi người dùng thay đổi nội dung tìm kiếm
-                println(newText)
+            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
+                // Do something when the text changed
+            }
+
+            override fun afterTextChanged(s: Editable?) {
+                // Do something after the text changed
                 productSearchList.clear()
                 for (product in Info.all_product) {
                     val originalString = product.name
                     val nonAccentString = originalString.removeAccent()
-                    if (nonAccentString.contains(newText.toString(), true)) {
+                    if (nonAccentString.contains(s.toString().removeAccent(), true)) {
                         productSearchList.add(product)
-                        println(product.name)
                     }
                 }
                 binding_search.recyclerView.adapter?.notifyDataSetChanged()
-                return false
             }
         })
+
+        binding_search.editTextSearch.setOnEditorActionListener { _, actionId, _ ->
+            if (actionId == EditorInfo.IME_ACTION_SEARCH) {
+                // Xử lý khi người dùng nhấn nút tìm kiếm trên bàn phím
+                productSearchList.clear()
+                for (product in Info.all_product) {
+                    val originalString = product.name
+                    val nonAccentString = originalString.removeAccent()
+                    if (nonAccentString.contains(binding_search.editTextSearch.text.toString().removeAccent(), true)) {
+                        productSearchList.add(product)
+                    }
+                }
+                binding_search.recyclerView.adapter?.notifyDataSetChanged()
+                binding_search.editTextSearch.clearFocus()
+                val imm = getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
+                imm.hideSoftInputFromWindow(binding_search.root.windowToken, 0)
+                return@setOnEditorActionListener true
+            }
+            false
+        }
+
+
+                /*
+                // Xử lý người dùng tìm kiếm
+                binding_search.searchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
+                    override fun onQueryTextSubmit(query: String?): Boolean {
+                        // Xử lý khi người dùng nhấn nút tìm kiếm
+
+                        productSearchList.clear()
+                        for (product in Info.all_product) {
+                            val originalString = product.name
+                            val nonAccentString = originalString.removeAccent()
+                            if (nonAccentString.contains(query.toString(), true)) {
+                                productSearchList.add(product)
+                                println(product.name)
+                            }
+                        }
+                        binding_search.recyclerView.adapter?.notifyDataSetChanged()
+                        return false
+                    }
+
+                    override fun onQueryTextChange(newText: String?): Boolean {
+                        // Xử lý khi người dùng thay đổi nội dung tìm kiếm
+                        println(newText)
+                        productSearchList.clear()
+                        for (product in Info.all_product) {
+                            val originalString = product.name
+                            val nonAccentString = originalString.removeAccent()
+                            if (nonAccentString.contains(newText.toString(), true)) {
+                                productSearchList.add(product)
+                                println(product.name)
+                            }
+                        }
+                        binding_search.recyclerView.adapter?.notifyDataSetChanged()
+                        return false
+                    }
+                }) */
     }
 
     override fun onResume() {
@@ -171,6 +229,7 @@ class SearchActivity : AppCompatActivity(), AdapterView.OnItemSelectedListener {
         TODO("Not yet implemented")
     }
 
+    /*
     private fun isTouchInsideSearchView(ev: MotionEvent): Boolean {
         if (binding_search.searchView != null) {
             val location = IntArray(2)
@@ -191,6 +250,6 @@ class SearchActivity : AppCompatActivity(), AdapterView.OnItemSelectedListener {
 //            imm.hideSoftInputFromWindow(window.currentFocus!!.windowToken, 0)
         }
         return super.dispatchTouchEvent(ev)
-    }
+    }  */
 
 }

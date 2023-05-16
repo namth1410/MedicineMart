@@ -3,6 +3,8 @@ package com.example.medicinemart.common
 import android.content.Context
 import android.content.Intent
 import android.content.SharedPreferences
+import android.os.Handler
+import android.os.Looper
 import android.view.LayoutInflater
 import android.widget.Button
 import androidx.appcompat.app.AlertDialog
@@ -25,6 +27,9 @@ object Info {
 
     val USERNAME_PATTERN = "^[a-zA-Z0-9]{6,30}\$".toRegex()
     val PASSWORD_PATTERN = "^\\S{6,15}\$".toRegex()
+
+    var doubleBackPressed = false
+    val doubleBackDelay: Long = 1500
 
     var username_list = ArrayList<String>()
     var password_list = ArrayList<String>()

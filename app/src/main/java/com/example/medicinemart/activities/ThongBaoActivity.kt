@@ -1,6 +1,8 @@
 package com.example.medicinemart.activities
 
+import android.app.ActivityManager
 import android.app.ProgressDialog
+import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import android.speech.RecognitionListener
@@ -8,6 +10,7 @@ import android.speech.RecognizerIntent
 import android.speech.SpeechRecognizer
 import android.view.View
 import android.view.animation.AnimationUtils
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.medicinemart.R
@@ -212,6 +215,8 @@ class ThongBaoActivity : AppCompatActivity() {
 
     override fun onResume() {
         super.onResume()
+
+        Info.doubleBackPressed = false
         binding_thong_bao.bottomNavigationView.setSelectedItemId(R.id.thongbao)
 
         if (require_reload_data_thong_bao) {
@@ -243,5 +248,29 @@ class ThongBaoActivity : AppCompatActivity() {
         badge.isVisible = false
 
     }
+    override fun onBackPressed() {
+        if (Info.doubleBackPressed) {
+            super.onBackPressed()
+            finishAffinity()
+            return
+        }
+
+        val activityManager = getSystemService(Context.ACTIVITY_SERVICE) as ActivityManager
+        val tasks = activityManager.getRunningTasks(1) // Lấy danh sách task chạy hiện tại
+
+//        if (tasks.isNotEmpty() && tasks[0].numActivities == 1) {
+        // Chỉ có một activity duy nhất trong stack
+        Info.doubleBackPressed = true
+        Toast.makeText(this, "Chạm lần nữa để thoát", Toast.LENGTH_SHORT).show()
+//        } else {
+//            super.onBackPressed()
+//        }
+
+        doubleBackToExitHandler.postDelayed({
+            Info.doubleBackPressed = false
+        }, Info.doubleBackDelay)
+    }
+
+
 
 }

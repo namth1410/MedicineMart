@@ -1,6 +1,8 @@
 package com.example.medicinemart.activities
 
 import android.Manifest.permission.CAMERA
+import android.app.ActivityManager
+import android.content.Context
 import android.content.Intent
 import android.content.pm.PackageManager
 import android.graphics.Bitmap
@@ -11,6 +13,7 @@ import android.provider.MediaStore
 import android.view.LayoutInflater
 import android.view.animation.AnimationUtils
 import android.widget.Button
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
@@ -98,8 +101,8 @@ class HoSoActivity : AppCompatActivity() {
         binding_ho_so.tvTaikhoan.setOnClickListener() {
             val intent = Intent(this@HoSoActivity, ThongTinTaiKhoanActivity::class.java)
             startActivity(intent)
-            val anim = AnimationUtils.loadAnimation(this, R.anim.btn_go)
-            binding_ho_so.arrow1.startAnimation(anim)
+            val anim = AnimationUtils.loadAnimation(this, R.anim.btn_anim)
+            binding_ho_so.tvTaikhoan.startAnimation(anim)
             Animatoo.animateSlideLeft(this)
 
 //            overridePendingTransition(R.anim.no_animation,  R.anim.no_animation)
@@ -109,8 +112,8 @@ class HoSoActivity : AppCompatActivity() {
         binding_ho_so.tvDiachi.setOnClickListener() {
             val intent = Intent(this@HoSoActivity, DiaChiActivity::class.java)
             startActivity(intent)
-            val anim = AnimationUtils.loadAnimation(this, R.anim.btn_go)
-            binding_ho_so.arrow2.startAnimation(anim)
+            val anim = AnimationUtils.loadAnimation(this, R.anim.btn_anim)
+            binding_ho_so.tvDiachi.startAnimation(anim)
             Animatoo.animateSlideLeft(this)
 //            overridePendingTransition(R.anim.no_animation,  R.anim.no_animation)
         }
@@ -119,8 +122,8 @@ class HoSoActivity : AppCompatActivity() {
         binding_ho_so.tvHotro.setOnClickListener() {
             val intent = Intent(this@HoSoActivity, HoTroActivity::class.java)
             startActivity(intent)
-            val anim = AnimationUtils.loadAnimation(this, R.anim.btn_go)
-            binding_ho_so.arrow3.startAnimation(anim)
+            val anim = AnimationUtils.loadAnimation(this, R.anim.btn_anim)
+            binding_ho_so.tvHotro.startAnimation(anim)
             Animatoo.animateSlideLeft(this)
 
 //            overridePendingTransition(R.anim.no_animation,  R.anim.no_animation)
@@ -200,6 +203,8 @@ class HoSoActivity : AppCompatActivity() {
 
     override fun onResume() {
         super.onResume()
+
+        Info.doubleBackPressed = false
         binding_ho_so.bottomNavigationView.setSelectedItemId(R.id.hoso)
 
         val imagePath = sharedPref.getString(path_avat, "")
@@ -225,6 +230,30 @@ class HoSoActivity : AppCompatActivity() {
             badge.number = Info.so_thong_bao_chua_doc
         }
     }
+
+    override fun onBackPressed() {
+        if (Info.doubleBackPressed) {
+            super.onBackPressed()
+            finishAffinity()
+            return
+        }
+
+        val activityManager = getSystemService(Context.ACTIVITY_SERVICE) as ActivityManager
+        val tasks = activityManager.getRunningTasks(1) // Lấy danh sách task chạy hiện tại
+
+//        if (tasks.isNotEmpty() && tasks[0].numActivities == 1) {
+        // Chỉ có một activity duy nhất trong stack
+        Info.doubleBackPressed = true
+        Toast.makeText(this, "Chạm lần nữa để thoát", Toast.LENGTH_SHORT).show()
+//        } else {
+//            super.onBackPressed()
+//        }
+
+        doubleBackToExitHandler.postDelayed({
+            Info.doubleBackPressed = false
+        }, Info.doubleBackDelay)
+    }
+
 
     private fun checkCameraPermission() {
         if (ContextCompat.checkSelfPermission(this, CAMERA)

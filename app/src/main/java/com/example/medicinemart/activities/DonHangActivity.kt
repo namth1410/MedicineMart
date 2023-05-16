@@ -1,12 +1,15 @@
 package com.example.medicinemart.activities
 
 import android.annotation.SuppressLint
+import android.app.ActivityManager
 import android.app.ProgressDialog
+import android.content.Context
 import android.content.Intent
 import android.graphics.Color
 import android.os.Build
 import android.os.Bundle
 import android.view.View
+import android.widget.Toast
 import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.AppCompatButton
@@ -492,6 +495,8 @@ class DonHangActivity : AppCompatActivity(), View.OnClickListener {
     @RequiresApi(Build.VERSION_CODES.O)
     override fun onResume() {
         super.onResume()
+
+        Info.doubleBackPressed = false
         binding_don_hang.bottomNavigationView.setSelectedItemId(R.id.donhang)
 
         loadDataDonhang()
@@ -515,7 +520,30 @@ class DonHangActivity : AppCompatActivity(), View.OnClickListener {
             badge.isVisible = true
             badge.number = Info.so_thong_bao_chua_doc
         }
-
     }
+
+    override fun onBackPressed() {
+        if (Info.doubleBackPressed) {
+            super.onBackPressed()
+            finishAffinity()
+            return
+        }
+
+        val activityManager = getSystemService(Context.ACTIVITY_SERVICE) as ActivityManager
+        val tasks = activityManager.getRunningTasks(1) // Lấy danh sách task chạy hiện tại
+
+//        if (tasks.isNotEmpty() && tasks[0].numActivities == 1) {
+        // Chỉ có một activity duy nhất trong stack
+        Info.doubleBackPressed = true
+        Toast.makeText(this, "Chạm lần nữa để thoát", Toast.LENGTH_SHORT).show()
+//        } else {
+//            super.onBackPressed()
+//        }
+
+        doubleBackToExitHandler.postDelayed({
+            Info.doubleBackPressed = false
+        }, Info.doubleBackDelay)
+    }
+
 
 }

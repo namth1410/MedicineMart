@@ -9,8 +9,9 @@ import android.os.Handler
 import android.os.Looper
 import android.view.View
 import android.view.animation.AnimationUtils
+import android.view.inputmethod.EditorInfo
+import android.view.inputmethod.InputMethodManager
 import android.widget.Button
-import android.widget.SearchView
 import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
@@ -23,6 +24,8 @@ import com.example.medicinemart.adapter.RecycleViewHomeAdapter
 import com.example.medicinemart.adapter.ViewPagerAdapter
 import com.example.medicinemart.common.Info
 import com.example.medicinemart.common.Info.all_product
+import com.example.medicinemart.common.Info.doubleBackDelay
+import com.example.medicinemart.common.Info.doubleBackPressed
 import com.example.medicinemart.common.Info.id_address_max_in_db
 import com.example.medicinemart.common.Info.products_in_cart
 import com.example.medicinemart.databinding.CartBinding
@@ -43,9 +46,9 @@ private lateinit var viewPagerAdapter: ViewPagerAdapter
 private lateinit var viewPager: ViewPager
 
 
-private var doubleBackPressed = false
-private val doubleBackToExitHandler = Handler(Looper.getMainLooper())
-private val doubleBackDelay: Long = 1500
+//private var doubleBackPressed = false
+public val doubleBackToExitHandler = Handler(Looper.getMainLooper())
+//private val doubleBackDelay: Long = 1500
 
 private lateinit var handler: Handler
 private var page = 0
@@ -71,6 +74,13 @@ class TrangChuActivity : AppCompatActivity() {
         binding_gio_hang = CartBinding.inflate(layoutInflater)
         binding_don_hang = DonhangBinding.inflate(layoutInflater)
         setContentView(binding_trang_chu.root)
+
+        binding_trang_chu.root.setOnFocusChangeListener { _, hasFocus ->
+            if (hasFocus) {
+                val imm = getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
+                imm.hideSoftInputFromWindow(binding_trang_chu.root.windowToken, 0)
+            }
+        }
 
         // Hiện số lượng thông báo chưa đọc ở logo thôgn báo trong menu
         var badge = binding_trang_chu.bottomNavigationView.getOrCreateBadge(R.id.thongbao)
@@ -323,6 +333,27 @@ class TrangChuActivity : AppCompatActivity() {
             overridePendingTransition(R.anim.no_animation, R.anim.no_animation)
         }
 
+        binding_trang_chu.editTextSearch.setOnEditorActionListener { _, actionId, _ ->
+            if (actionId == EditorInfo.IME_ACTION_SEARCH) {
+                // Xử lý khi người dùng nhấn nút tìm kiếm trên bàn phím
+                val intent = Intent(this@TrangChuActivity, SearchActivity::class.java).apply {
+                    putExtra("text_search", binding_trang_chu.editTextSearch.text.toString())
+                }
+                for (product in all_product) {
+                    val originalString = product.name
+                    val nonAccentString = originalString.removeAccent()
+                    if (nonAccentString.contains(binding_trang_chu.editTextSearch.text.toString().removeAccent(), true)) {
+                        productSearchList.add(product)
+                    }
+                }
+                startActivity(intent)
+                overridePendingTransition(R.anim.no_animation, R.anim.no_animation)
+                return@setOnEditorActionListener true
+            }
+            false
+        }
+
+        /*
         // Xử lý người dùng tìm kiếm
         binding_trang_chu.searchView.setOnQueryTextListener(object :
             SearchView.OnQueryTextListener {
@@ -348,7 +379,7 @@ class TrangChuActivity : AppCompatActivity() {
                 println(newText)
                 return false
             }
-        })
+        })  */
 
         binding_trang_chu.tvXemthem1.setOnClickListener() {
             binding_trang_chu.tvXemthem1.setTextColor(ContextCompat.getColor(this, R.color.grey))
@@ -463,6 +494,10 @@ class TrangChuActivity : AppCompatActivity() {
         binding_trang_chu.tvXemthem2.setTextColor(ContextCompat.getColor(this, R.color.blue))
         binding_trang_chu.tvXemthem3.setTextColor(ContextCompat.getColor(this, R.color.blue))
         binding_trang_chu.tvXemthem4.setTextColor(ContextCompat.getColor(this, R.color.blue))
+
+        binding_trang_chu.editTextSearch.clearFocus()
+        binding_trang_chu.editTextSearch.setText("")
+
         if (products_in_cart.isEmpty()) {
             binding_trang_chu.quantityInCart.visibility = View.GONE
         } else {
@@ -472,8 +507,8 @@ class TrangChuActivity : AppCompatActivity() {
 
         productSearchList.clear()
         productSearchListCopy.clear()
-        binding_trang_chu.searchView.setQuery("", false)
-        binding_trang_chu.searchView.clearFocus()
+//        binding_trang_chu.searchView.setQuery("", false)
+//        binding_trang_chu.searchView.clearFocus()
 
         var badge = binding_trang_chu.bottomNavigationView.getOrCreateBadge(R.id.thongbao)
         if (Info.so_thong_bao_chua_doc == 0) {
@@ -487,19 +522,20 @@ class TrangChuActivity : AppCompatActivity() {
     override fun onBackPressed() {
         if (doubleBackPressed) {
             super.onBackPressed()
+            finishAffinity()
             return
         }
 
         val activityManager = getSystemService(Context.ACTIVITY_SERVICE) as ActivityManager
         val tasks = activityManager.getRunningTasks(1) // Lấy danh sách task chạy hiện tại
 
-        if (tasks.isNotEmpty() && tasks[0].numActivities == 1) {
+//        if (tasks.isNotEmpty() && tasks[0].numActivities == 1) {
             // Chỉ có một activity duy nhất trong stack
             doubleBackPressed = true
-            Toast.makeText(this, "Vuốt 1 lần nữa để thoát khỏi ứng dụng", Toast.LENGTH_SHORT).show()
-        } else {
-            super.onBackPressed()
-        }
+            Toast.makeText(this, "Chạm lần nữa để thoát", Toast.LENGTH_SHORT).show()
+//        } else {
+//            super.onBackPressed()
+//        }
 
         doubleBackToExitHandler.postDelayed({
             doubleBackPressed = false

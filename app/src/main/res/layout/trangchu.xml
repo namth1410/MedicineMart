@@ -33,17 +33,17 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/_10sdp"
             android:layout_weight="0.66">
-
-            <SearchView
-                android:id="@+id/search_view"
-                android:layout_width="wrap_content"
+            <EditText
+                android:id="@+id/editTextSearch"
+                android:layout_width="match_parent"
                 android:layout_height="@dimen/_35sdp"
-                android:background="@drawable/shapebgsearch"
-                android:iconifiedByDefault="false"
-                android:inputType="textVisiblePassword"
-                android:queryBackground="@null"
-                android:queryHint="Tìm kiếm"
-                android:searchIcon="@drawable/baseline_search_24" />
+                android:drawableLeft="@drawable/baseline_search_24"
+                android:drawablePadding="8dp"
+                android:hint="Tìm kiếm"
+                android:textSize="@dimen/_13sdp"
+                android:imeOptions="actionSearch"
+                android:inputType="text|textFilter" />
+
         </LinearLayout>
 
         <RelativeLayout
@@ -152,11 +152,11 @@
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_weight="0.3"
-                        android:paddingRight="@dimen/_10sdp"
                         android:text="Xem thêm"
                         android:textAlignment="textEnd"
                         android:textColor="@color/blue"
-                        android:textSize="@dimen/_12sdp" />
+                        android:textStyle="bold"
+                        android:textSize="@dimen/_14sdp" />
 
                 </LinearLayout>
 
@@ -197,11 +197,11 @@
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_weight="0.3"
-                        android:paddingRight="@dimen/_10sdp"
                         android:text="Xem thêm"
                         android:textAlignment="textEnd"
                         android:textColor="@color/blue"
-                        android:textSize="@dimen/_12sdp" />
+                        android:textStyle="bold"
+                        android:textSize="@dimen/_14sdp" />
 
                 </LinearLayout>
 
@@ -242,11 +242,11 @@
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_weight="0.3"
-                        android:paddingRight="@dimen/_10sdp"
                         android:text="Xem thêm"
                         android:textAlignment="textEnd"
                         android:textColor="@color/blue"
-                        android:textSize="@dimen/_12sdp" />
+                        android:textStyle="bold"
+                        android:textSize="@dimen/_14sdp" />
 
                 </LinearLayout>
 
@@ -287,11 +287,11 @@
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_weight="0.3"
-                        android:paddingRight="@dimen/_10sdp"
                         android:text="Xem thêm"
                         android:textAlignment="textEnd"
                         android:textColor="@color/blue"
-                        android:textSize="@dimen/_12sdp" />
+                        android:textStyle="bold"
+                        android:textSize="@dimen/_14sdp" />
 
                 </LinearLayout>
 
