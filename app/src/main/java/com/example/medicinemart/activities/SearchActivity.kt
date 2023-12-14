@@ -51,8 +51,7 @@ class SearchActivity : AppCompatActivity(), AdapterView.OnItemSelectedListener {
         if (productSearchList.isEmpty()) {
             binding_search.layoutEmpty.visibility = View.VISIBLE
         } else {
-            binding_search.quantityInCart.visibility = View.VISIBLE
-            binding_search.quantityInCart.text = Info.products_in_cart.size.toString()
+            binding_search.layoutEmpty.visibility = View.GONE
         }
 
         binding_search.root.setOnFocusChangeListener { _, hasFocus ->
@@ -154,6 +153,12 @@ class SearchActivity : AppCompatActivity(), AdapterView.OnItemSelectedListener {
                     if (nonAccentString.contains(s.toString().removeAccent(), true)) {
                         productSearchList.add(product)
                     }
+                }
+
+                if (productSearchList.isEmpty()) {
+                    binding_search.layoutEmpty.visibility = View.VISIBLE
+                } else {
+                    binding_search.layoutEmpty.visibility = View.GONE
                 }
                 binding_search.recyclerView.adapter?.notifyDataSetChanged()
             }

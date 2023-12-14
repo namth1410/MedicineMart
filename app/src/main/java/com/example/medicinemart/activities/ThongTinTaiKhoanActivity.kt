@@ -22,6 +22,7 @@ import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
+import androidx.core.view.isVisible
 import com.example.medicinemart.R
 import com.example.medicinemart.common.Info
 import com.example.medicinemart.common.Info._username
@@ -79,7 +80,8 @@ class ThongTinTaiKhoanActivity : AppCompatActivity() {
                 val imm = getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
                 imm.hideSoftInputFromWindow(binding_thong_tin_tai_khoan.edtHoten.windowToken, 0)
                 binding_thong_tin_tai_khoan.edtHoten.clearFocus()
-                binding_thong_tin_tai_khoan.edtHoten.isEnabled = false
+                binding_thong_tin_tai_khoan.tilHoten.setEndIconVisible(false)
+//                binding_thong_tin_tai_khoan.edtHoten.isEnabled = false
 
             } else {
 
@@ -87,17 +89,17 @@ class ThongTinTaiKhoanActivity : AppCompatActivity() {
         }
 
         // Xử lý khi nhấn vào nút cho phép chỉnh sửa Họ tên
-        binding_thong_tin_tai_khoan.btnEdithoten.setOnClickListener() {
-            binding_thong_tin_tai_khoan.edtHoten.isEnabled = true
-            binding_thong_tin_tai_khoan.edtHoten.setTextColor(Color.BLACK)
-            binding_thong_tin_tai_khoan.edtHoten.requestFocus()
-            val imm = getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
-            imm.showSoftInput(
-                binding_thong_tin_tai_khoan.edtHoten,
-                InputMethodManager.SHOW_IMPLICIT
-            )
-            binding_thong_tin_tai_khoan.edtHoten.setSelection(binding_thong_tin_tai_khoan.edtHoten.text!!.length)
-        }
+//        binding_thong_tin_tai_khoan.btnEdithoten.setOnClickListener() {
+//            binding_thong_tin_tai_khoan.edtHoten.isEnabled = true
+//            binding_thong_tin_tai_khoan.edtHoten.setTextColor(Color.BLACK)
+//            binding_thong_tin_tai_khoan.edtHoten.requestFocus()
+//            val imm = getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
+//            imm.showSoftInput(
+//                binding_thong_tin_tai_khoan.edtHoten,
+//                InputMethodManager.SHOW_IMPLICIT
+//            )
+//            binding_thong_tin_tai_khoan.edtHoten.setSelection(binding_thong_tin_tai_khoan.edtHoten.text!!.length)
+//        }
 
         // Xử lý khi ô Họ tên thay đổi nội dung
         binding_thong_tin_tai_khoan.edtHoten.addTextChangedListener(object : TextWatcher {
@@ -113,7 +115,11 @@ class ThongTinTaiKhoanActivity : AppCompatActivity() {
                 // Do something after the text changed
                 if (s.toString() != customer.full_name) {
                     binding_thong_tin_tai_khoan.edtHoten.setTextColor(Color.BLACK)
-                    binding_thong_tin_tai_khoan.btnSave.visibility = View.VISIBLE
+                    if (!binding_thong_tin_tai_khoan.btnSave.isVisible) {
+                        binding_thong_tin_tai_khoan.btnSave.visibility = View.VISIBLE
+                        val animation = AnimationUtils.loadAnimation(this@ThongTinTaiKhoanActivity, R.anim.slide_in_right)
+                        binding_thong_tin_tai_khoan.btnSave.startAnimation(animation)
+                    }
                 } else {
                     binding_thong_tin_tai_khoan.edtHoten.setTextColor(Color.GRAY)
                     if (binding_thong_tin_tai_khoan.edtSdt.text.toString() == customer.phone) {
@@ -130,19 +136,21 @@ class ThongTinTaiKhoanActivity : AppCompatActivity() {
                 val imm = getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
                 imm.hideSoftInputFromWindow(binding_thong_tin_tai_khoan.edtSdt.windowToken, 0)
                 binding_thong_tin_tai_khoan.edtSdt.clearFocus()
-                binding_thong_tin_tai_khoan.edtSdt.isEnabled = false
+                binding_thong_tin_tai_khoan.tilSdt.setEndIconVisible(false)
+
+//                binding_thong_tin_tai_khoan.edtSdt.isEnabled = false
             }
         }
 
         // Xử lý khi nhấn vào nút cho phép chỉnh sửa Số ĐT
-        binding_thong_tin_tai_khoan.btnEditsdt.setOnClickListener() {
-            binding_thong_tin_tai_khoan.edtSdt.isEnabled = true
-            binding_thong_tin_tai_khoan.edtSdt.setTextColor(Color.BLACK)
-            binding_thong_tin_tai_khoan.edtSdt.requestFocus()
-            val imm = getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
-            imm.showSoftInput(binding_thong_tin_tai_khoan.edtSdt, InputMethodManager.SHOW_IMPLICIT)
-            binding_thong_tin_tai_khoan.edtSdt.setSelection(binding_thong_tin_tai_khoan.edtSdt.text!!.length)
-        }
+//        binding_thong_tin_tai_khoan.btnEditsdt.setOnClickListener() {
+//            binding_thong_tin_tai_khoan.edtSdt.isEnabled = true
+//            binding_thong_tin_tai_khoan.edtSdt.setTextColor(Color.BLACK)
+//            binding_thong_tin_tai_khoan.edtSdt.requestFocus()
+//            val imm = getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
+//            imm.showSoftInput(binding_thong_tin_tai_khoan.edtSdt, InputMethodManager.SHOW_IMPLICIT)
+//            binding_thong_tin_tai_khoan.edtSdt.setSelection(binding_thong_tin_tai_khoan.edtSdt.text!!.length)
+//        }
 
         // Xử lý khi ô SĐT thay đổi nội dung
         binding_thong_tin_tai_khoan.edtSdt.addTextChangedListener(object : TextWatcher {
@@ -158,7 +166,11 @@ class ThongTinTaiKhoanActivity : AppCompatActivity() {
                 // Do something after the text changed
                 if (s.toString() != customer.phone) {
                     binding_thong_tin_tai_khoan.edtSdt.setTextColor(Color.BLACK)
-                    binding_thong_tin_tai_khoan.btnSave.visibility = View.VISIBLE
+                    if (!binding_thong_tin_tai_khoan.btnSave.isVisible) {
+                        binding_thong_tin_tai_khoan.btnSave.visibility = View.VISIBLE
+                        val animation = AnimationUtils.loadAnimation(this@ThongTinTaiKhoanActivity, R.anim.slide_in_right)
+                        binding_thong_tin_tai_khoan.btnSave.startAnimation(animation)
+                    }
                 } else {
                     binding_thong_tin_tai_khoan.edtSdt.setTextColor(Color.GRAY)
                     if (binding_thong_tin_tai_khoan.edtHoten.text.toString() == customer.full_name) {
@@ -318,7 +330,11 @@ class ThongTinTaiKhoanActivity : AppCompatActivity() {
 
                 fileOutputStream.write(byteArray)
                 fileOutputStream.close()
-                binding_thong_tin_tai_khoan.btnSave.visibility = View.VISIBLE
+                if (!binding_thong_tin_tai_khoan.btnSave.isVisible) {
+                    binding_thong_tin_tai_khoan.btnSave.visibility = View.VISIBLE
+                    val animation = AnimationUtils.loadAnimation(this@ThongTinTaiKhoanActivity, R.anim.slide_in_right)
+                    binding_thong_tin_tai_khoan.btnSave.startAnimation(animation)
+                }
 //                val editor = Info.sharedPref.edit()
 //                if (Info.sharedPref.contains("image_path")) {
 //                    // Xóa key "image_path" nếu đã tồn tại
@@ -342,7 +358,11 @@ class ThongTinTaiKhoanActivity : AppCompatActivity() {
                 fileOutputStream.write(byteArray)
                 fileOutputStream.close()
                 binding_thong_tin_tai_khoan.imageView2.setImageURI(uri)
-                binding_thong_tin_tai_khoan.btnSave.visibility = View.VISIBLE
+                if (!binding_thong_tin_tai_khoan.btnSave.isVisible) {
+                    binding_thong_tin_tai_khoan.btnSave.visibility = View.VISIBLE
+                    val animation = AnimationUtils.loadAnimation(this@ThongTinTaiKhoanActivity, R.anim.slide_in_right)
+                    binding_thong_tin_tai_khoan.btnSave.startAnimation(animation)
+                }
             }
         }
     }

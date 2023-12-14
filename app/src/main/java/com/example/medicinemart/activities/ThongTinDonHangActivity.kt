@@ -80,7 +80,8 @@ class ThongTinDonHangActivity : AppCompatActivity() {
                                             // Xóa thành công
                                             Info.so_thong_bao_chua_doc++
                                             val editor = Info.sharedPref.edit()
-                                            editor.putString("soLuongThongBaoChuaBao", Info.so_thong_bao_chua_doc.toString()).apply()
+                                            var key = "soLuongThongBaoChuaBao" + Info.customer.username
+                                            editor.putString(key, Info.so_thong_bao_chua_doc.toString()).apply()
                                             progressDialog?.dismiss()
                                             notification_list.add(
                                                 Notification()
@@ -141,7 +142,8 @@ class ThongTinDonHangActivity : AppCompatActivity() {
                                             // Xóa thành công
                                             Info.so_thong_bao_chua_doc++
                                             val editor = Info.sharedPref.edit()
-                                            editor.putString("soLuongThongBaoChuaBao", Info.so_thong_bao_chua_doc.toString()).apply()
+                                            var key = "soLuongThongBaoChuaBao" + Info.customer.username
+                                            editor.putString(key, Info.so_thong_bao_chua_doc.toString()).apply()
                                             progressDialog?.dismiss()
                                             notification_list.add(
                                                 Notification()

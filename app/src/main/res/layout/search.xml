@@ -149,13 +149,14 @@
 
         <ImageView
             android:layout_width="match_parent"
-            android:layout_height="@dimen/_200sdp"
-            android:src="@drawable/cart_empty" />
+            android:layout_height="@dimen/_150sdp"
+            android:src="@drawable/empty" />
 
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:gravity="center_horizontal"
+            android:layout_marginTop="@dimen/_25sdp"
             android:text="Không tìm thấy sản phẩm nào."
             android:textColor="@color/black"
             android:textSize="@dimen/_20sdp" />

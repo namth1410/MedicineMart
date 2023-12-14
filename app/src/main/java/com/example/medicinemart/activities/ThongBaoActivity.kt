@@ -247,6 +247,14 @@ class ThongBaoActivity : AppCompatActivity() {
         var badge = binding_thong_bao.bottomNavigationView.getOrCreateBadge(R.id.thongbao)
         badge.isVisible = false
 
+        val editor = Info.sharedPref.edit()
+        var key = "soLuongThongBaoChuaBao" + Info.customer.username
+        if (Info.sharedPref.contains(key)) {
+            editor.remove(key)
+            editor.putString(key, "0")
+            editor.apply()
+        }
+
     }
     override fun onBackPressed() {
         if (Info.doubleBackPressed) {

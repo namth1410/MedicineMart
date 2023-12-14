@@ -27,6 +27,7 @@ class DoiMatKhauActivity : AppCompatActivity() {
         binding_doi_mat_khau = DoimatkhauBinding.inflate(layoutInflater)
         setContentView(binding_doi_mat_khau.root)
 
+
         var salt_csdl = Info.salt_list.get(Info.username_list.indexOf(Info.customer.username))
 
         binding_doi_mat_khau.oldPassLayout.setEndIconVisible(false)
@@ -89,6 +90,8 @@ class DoiMatKhauActivity : AppCompatActivity() {
         }
 
         binding_doi_mat_khau.btnSave.setOnClickListener() {
+            val animation = AnimationUtils.loadAnimation(this, R.anim.btn_anim)
+            binding_doi_mat_khau.btnSave.startAnimation(animation)
             val old_pass = binding_doi_mat_khau.edtOldpassword.text.toString()
             val new_pass = binding_doi_mat_khau.edtNewpassword.text.toString()
             val renew_pass = binding_doi_mat_khau.edtRenewpassword.text.toString()

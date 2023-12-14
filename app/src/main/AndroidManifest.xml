@@ -73,7 +73,7 @@
         <activity android:name=".activities.HoTroActivity"/>
         <activity android:name=".activities.DoiMatKhauActivity"/>
         <activity android:name=".activities.ChiTietSanPhamActivity"/>
-        <activity android:name=".activities.ThongTinTaiKhoanActivity"/>
+        <activity android:name=".activities.ThongTinTaiKhoanActivity" android:windowSoftInputMode="adjustNothing|stateHidden|adjustResize"/>
         <activity android:name=".activities.DiaChiActivity"/>
         <activity android:name=".activities.DiaChiMoiActivity"/>
         <activity android:name=".activities.ChiTietDiaChiActivity"/>

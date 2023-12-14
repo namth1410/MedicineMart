@@ -1,11 +1,16 @@
 package com.example.medicinemart.activities
 
+import android.app.AlertDialog
+import android.content.Context
 import android.content.Intent
+import android.net.ConnectivityManager
 import android.os.Build
 import android.os.Bundle
 import android.os.Handler
+import android.widget.Button
 import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
+import com.example.medicinemart.R
 import com.example.medicinemart.common.Info
 import com.example.medicinemart.common.Info.products_in_cart
 import com.example.medicinemart.common.Info.quantity_product_in_cart
@@ -27,9 +32,10 @@ class PreLoadingActivity : AppCompatActivity() {
         binding_preloading = PreLoadingBinding.inflate(layoutInflater)
         setContentView(binding_preloading.root)
 
-        if (Info.sharedPref.contains("soLuongThongBaoChuaBao")) {
-            // Xóa key "image_path" nếu đã tồn tại
-            Info.so_thong_bao_chua_doc = Info.sharedPref.getString("soLuongThongBaoChuaBao", "")!!.toInt()
+
+        var key = "soLuongThongBaoChuaBao" + Info.customer.username
+        if (Info.sharedPref.contains(key)) {
+            Info.so_thong_bao_chua_doc = Info.sharedPref.getString(key, "")!!.toInt()
         } else {
             Info.so_thong_bao_chua_doc = 0
         }
@@ -37,29 +43,28 @@ class PreLoadingActivity : AppCompatActivity() {
 //        val intentFilter = IntentFilter(ConnectivityManager.CONNECTIVITY_ACTION)
 //        registerReceiver(broadcastReceiver, intentFilter)
 
-//        val connectivityManager = getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
-//        val networkInfo = connectivityManager.activeNetworkInfo
-//
-//        if (networkInfo != null && networkInfo.isConnected) {
-//            // Có kết nối mạng, thực hiện các thao tác yêu cầu mạng ở đây
-//            getAccounts()
-//        } else {
-//            // Không có kết nối mạng, hiển thị thông báo hoặc thông báo cho người dùng biết
-//            val builder = AlertDialog.Builder(this)
-//            builder.setCancelable(false)
-//
-//            val view = layoutInflater.inflate(R.layout.dialog_no_network, null)
-//            val closeButton = view.findViewById<Button>(R.id.dialog_close_button)
-//
-//            builder.setView(view)
-//            val dialog = builder.create()
-//            dialog.show()
-//
-//            closeButton.setOnClickListener {
-//                dialog.dismiss()
-//            }
-//
-//        }
+        val connectivityManager = getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
+        val networkInfo = connectivityManager.activeNetworkInfo
+
+        if (networkInfo != null && networkInfo.isConnected) {
+            // Có kết nối mạng, thực hiện các thao tác yêu cầu mạng ở đây
+            getAccounts()
+        } else {
+            // Không có kết nối mạng, hiển thị thông báo hoặc thông báo cho người dùng biết
+            val builder = AlertDialog.Builder(this)
+            builder.setCancelable(false)
+
+            val view = layoutInflater.inflate(R.layout.dialog_no_network, null)
+            val closeButton = view.findViewById<Button>(R.id.dialog_close_button)
+
+            builder.setView(view)
+            val dialog = builder.create()
+            dialog.show()
+
+            closeButton.setOnClickListener {
+                dialog.dismiss()
+            }
+        }
 
         binding_preloading.lottie.playAnimation()
 

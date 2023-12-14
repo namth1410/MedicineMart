@@ -5,8 +5,10 @@ import android.app.ProgressDialog
 import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
+import android.view.View
 import android.view.animation.AnimationUtils
 import android.widget.Button
+import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.blogspot.atifsoftwares.animatoolib.Animatoo
@@ -153,7 +155,8 @@ class ThanhToanActivity : AppCompatActivity() {
                                                                     // Xóa thành công
                                                                     so_thong_bao_chua_doc++
                                                                     val editor = Info.sharedPref.edit()
-                                                                    editor.putString("soLuongThongBaoChuaBao", so_thong_bao_chua_doc.toString()).apply()
+                                                                    var key = "soLuongThongBaoChuaBao" + customer.username
+                                                                    editor.putString(key, so_thong_bao_chua_doc.toString()).apply()
                                                                     progressDialog.dismiss()
                                                                     notification_list.add(
                                                                         Notification()
@@ -228,6 +231,23 @@ class ThanhToanActivity : AppCompatActivity() {
 
                     override fun onFailure(call: Call<ResponseBody>, t: Throwable) {
                         // Xử lý lỗi nếu không thể kết nối tới server
+                        val builder = AlertDialog.Builder(this@ThanhToanActivity)
+                        builder.setCancelable(false)
+
+                        val view = layoutInflater.inflate(R.layout.dialog_no_network, null)
+                        val closeButton = view.findViewById<Button>(R.id.dialog_close_button)
+                        view.findViewById<TextView>(R.id.dialog_message).text = "Vui lòng kiểm tra lại kết nối của bạn!"
+                        view.findViewById<TextView>(R.id.dialog_title).visibility = View.VISIBLE
+                        view.findViewById<TextView>(R.id.dialog_title).text = "Lỗi kết nối mạng!"
+
+                        builder.setView(view)
+                        val dialog = builder.create()
+                        dialog.show()
+
+                        closeButton.setOnClickListener {
+                            dialog.dismiss()
+                            finish()
+                        }
                     }
                 })
 //            progressDialog = ProgressDialog(this)
